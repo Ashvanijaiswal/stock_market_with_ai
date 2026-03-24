@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+yfinance
+pandas
+numpy
+matplotlib
+python-dotenv
+crewai
+langchain
+langchain-openai
