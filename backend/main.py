@@ -10,11 +10,17 @@ from tracker import track, list_events
 from yf_client import YahooFinanceClient
 
 app = FastAPI(title="Stock Screener MVP")
-
+# https://stock-market-with-ai.onrender.com/
 # Allow all origins for MVP (adjust in production)
+
+origins = [
+    "http://localhost:3000",
+    "https://stock-market-with-ai.vercel.app", # Your new Vercel URL
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

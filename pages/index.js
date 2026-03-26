@@ -155,7 +155,7 @@ export default function Home() {
         setChatResponse(data.response);
       } catch (err) {
         console.error(err);
-        setChatResponse('Error: Could not connect to the AI Agent.');
+        setChatResponse('The AI is a bit busy (Rate Limit). Please wait 60 seconds and try again!');
       } finally {
         setIsChatting(false);
       }
