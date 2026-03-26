@@ -151,9 +151,9 @@ def insider_trading_tool(ticker: str) -> str:
 # THE BRAIN & AGENT
 # ==========================================
 llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
+    model="gemini-2.0-flash", # Change from 1.5 to 2.0
     google_api_key=os.getenv("GEMINI_API_KEY"),
-    convert_system_message_to_human=True, # Add this for better CrewAI compatibility
+    convert_system_message_to_human=True,
     allow_reuse=True
 )
 
