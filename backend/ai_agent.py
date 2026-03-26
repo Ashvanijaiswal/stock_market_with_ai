@@ -151,21 +151,26 @@ def insider_trading_tool(ticker: str) -> str:
 # THE BRAIN & AGENT
 # ==========================================
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash",
-    google_api_key=os.getenv("GEMINI_API_KEY")
+    model="gemini-1.5-flash",
+    google_api_key=os.getenv("GEMINI_API_KEY"),
+    convert_system_message_to_human=True, # Add this for better CrewAI compatibility
+    allow_reuse=True
 )
 
+# 2. Pass it to the Agent
 financial_analyst = Agent(
-    role='Senior Investment Analyst',
-    goal='Provide clear, actionable stock analysis combining technicals, fundamentals, news sentiment, and insider trading activity.',
-    backstory='You are an expert quantitative trader and fundamental value investor. '
-              'You NEVER invent data. You use your tools to check the math, the business health, the real-world news, '
-              'and the actions of the company executives before making any recommendations.',
-    verbose=True,
+    role='Financial Analyst',
+    goal='Analyze stock market data and provide investment recommendations',
+    backstory='You are a senior investment strategist with 20 years of experience on Wall Street.',
+    llm=llm,
+    tools=[
+        sma_strategy_tool,
+        news_sentiment_tool,
+        fundamental_health_tool,
+        insider_trading_tool
+    ],  # <--- YOU MUST ADD THIS LINE
     allow_delegation=False,
-    # ADD THE NEW TOOL HERE:
-    tools=[sma_strategy_tool, news_sentiment_tool, fundamental_health_tool, insider_trading_tool],
-    llm=llm
+    verbose=True
 )
 
 def run_ai_analysis(user_query: str) -> str:
