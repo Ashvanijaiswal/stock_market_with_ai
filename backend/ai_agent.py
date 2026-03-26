@@ -169,8 +169,11 @@ financial_analyst = Agent(
         fundamental_health_tool,
         insider_trading_tool
     ],  # <--- YOU MUST ADD THIS LINE
-    allow_delegation=False,
-    verbose=True
+        max_rpm=1,      # <--- LIMITS to 1 request per minute (Prevents 429)
+        max_iter=5,      # <--- LIMITS how many times it can loop
+        cache=True,      # <--- USES cache to avoid re-asking Gemini same things
+        allow_delegation=False,
+        verbose=True
 )
 
 def run_ai_analysis(user_query: str) -> str:
