@@ -3,7 +3,7 @@ import yfinance as yf
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, Process
 # CHANGE THIS LINE:
-from crewai.project import tool
+from crewai.tools import tool
 from langchain_google_genai import ChatGoogleGenerativeAI
 import requests
 import xml.etree.ElementTree as ET
