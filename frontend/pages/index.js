@@ -26,6 +26,8 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStockDetails, setSelectedStockDetails] = useState(null);
   const [marketIndex, setMarketIndex] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
   const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
 
   const defaults = {
@@ -194,22 +196,66 @@ async function askRecommend(ticker) {
     } catch (err) { console.error(err); }
   }
 
-  if (!market) {
+if (!market) {
     return (
-      <div className="container">
-        <header><h1>Stock Screener MVP</h1></header>
-        <section className="card">
-          <h2>Select Market</h2>
-          <div style={{ display: 'flex', gap: 12 }}>
-            <button onClick={() => chooseMarket('US')}>US Market</button>
-            <button onClick={() => chooseMarket('IN')}>India Market</button>
-          </div>
-        </section>
-        <style jsx>{`
-          .container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
-          .card { background: #fff; padding: 20px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-          button { padding: 10px 20px; border-radius: 6px; border: none; background: #0b5fff; color: #fff; cursor: pointer; font-weight: bold; }
-        `}</style>
+      <div style={{
+        backgroundColor: isDarkMode ? '#0f172a' : '#f1f5f9',
+        minHeight: '100vh',
+        display: 'flex',           // Use Flexbox
+        flexDirection: 'column',   // Stack elements vertically
+        justifyContent: 'center',  // Center vertically
+        alignItems: 'center',      // Center horizontally
+        transition: 'all 0.3s ease',
+        textAlign: 'center'
+      }}>
+        <div className="container" style={{ width: '100%', maxWidth: '500px' }}>
+          <header style={{ marginBottom: '30px' }}>
+            <h1 style={{ color: isDarkMode ? '#f8fafc' : '#0f172a', fontSize: '2.5rem' }}>
+              Stock Screener MVP
+            </h1>
+          </header>
+
+          <section className="card" style={{ padding: '40px' }}>
+            <h2 style={{ color: isDarkMode ? '#f8fafc' : '#0f172a', marginBottom: '25px' }}>
+              Select Market
+            </h2>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              {/* Blue Primary Buttons */}
+              <button
+                onClick={() => chooseMarket('US')}
+                style={{ background: '#0b5fff', fontSize: '1.1rem', padding: '12px' }}
+              >
+                🇺🇸 US Market
+              </button>
+
+              <button
+                onClick={() => chooseMarket('IN')}
+                style={{ background: '#0b5fff', fontSize: '1.1rem', padding: '12px' }}
+              >
+                🇮🇳 India Market
+              </button>
+
+              <hr style={{ border: '0', borderTop: `1px solid ${isDarkMode ? '#334155' : '#eee'}`, margin: '10px 0' }} />
+
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleDarkMode}
+                style={{
+                  background: isDarkMode ? '#334155' : '#e2e8f0',
+                  color: isDarkMode ? '#fde047' : '#475569',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '10px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold'
+                }}
+              >
+                {isDarkMode ? '☀️ Switch to Light Mode' : '🌙 Switch to Dark Mode'}
+              </button>
+            </div>
+          </section>
+        </div>
       </div>
     );
   }
@@ -255,8 +301,17 @@ async function askRecommend(ticker) {
 
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h1 style={{ margin: 0 }}>Stock Screener ({market})</h1>
-        <button onClick={backToMarket} style={{ background: '#e2e8f0', color: '#475569' }}>Change Market</button>
-      </header>
+        <div style={{ display: 'flex', gap: '10px' }}>
+            {/* DARK MODE TOGGLE */}
+            <button
+              onClick={toggleDarkMode}
+              style={{ background: isDarkMode ? '#fde047' : '#1e293b', color: isDarkMode ? '#000' : '#fff', padding: '6px 12px' }}
+            >
+              {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+            </button>
+            <button onClick={backToMarket} style={{ background: '#e2e8f0', color: '#475569' }}>Change Market</button>
+          </div>
+        </header>
 
       {/* TRENDING */}
       <section className="card" style={{ border: '2px solid #0b5fff' }}>
@@ -327,11 +382,20 @@ async function askRecommend(ticker) {
             <div style={{ width: '100%', height: 350 }}>
                 <ResponsiveContainer>
                     <LineChart data={selectedChart.data}>
-                        <Line type="monotone" dataKey="price" stroke="#0b5fff" strokeWidth={2} dot={false} />
-                        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" opacity={0.5} />
-                        <XAxis dataKey="date" hide />
-                        <YAxis domain={['auto', 'auto']} />
-                        <Tooltip />
+                      <Line type="monotone" dataKey="price" stroke="#3b82f6" strokeWidth={2} dot={false} />
+                      <CartesianGrid stroke={isDarkMode ? "#334155" : "#ccc"} strokeDasharray="5 5" opacity={0.5} />
+                      <XAxis dataKey="date" hide />
+                      <YAxis
+                        domain={['auto', 'auto']}
+                        tick={{ fill: isDarkMode ? '#94a3b8' : '#64748b' }}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: isDarkMode ? '#1e293b' : '#fff',
+                          borderColor: isDarkMode ? '#334155' : '#ddd',
+                          color: isDarkMode ? '#fff' : '#000'
+                        }}
+                      />
                     </LineChart>
                 </ResponsiveContainer>
             </div>
@@ -460,44 +524,137 @@ async function askRecommend(ticker) {
       )}
 
       <style jsx>{`
-        .container { max-width: 900px; margin: 24px auto; padding: 0 16px; font-family: sans-serif; }
-        .card { background: #fff; padding: 16px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        form { display: grid; gap: 8px; }
-        input { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
-        button { padding: 10px 16px; border-radius: 6px; border: none; background: #0b5fff; color: #fff; cursor: pointer; font-weight: bold; }
-        .grid-list { display: flex; flex-wrap: wrap; gap: 8px; }
-        .stock-pill { background: #0b5fff; color: white; border-radius: 20px; padding: 6px 14px; font-size: 13px; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 400px; position: relative; }
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; border: none; background: none; cursor: pointer; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .stat-item { background: #f8fafc; padding: 10px; border-radius: 6px; }
-        .stat-item span { display: block; font-size: 11px; color: #64748b; text-transform: uppercase; }
-        .result { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; align-items: center; }
-        .chat-box { background: #f8fafc; padding: 12px; margin-top: 10px; border-radius: 6px; border: 1px solid #e2e8f0; white-space: pre-wrap; font-size: 14px; }
-        .log-list { maxHeight: 150px; overflow-y: auto; font-size: 11px; padding: 0; list-style: none; }
-        .market-ticker {
-          background: #020617; /* Very dark blue/black for contrast */
-          color: white;
-          padding: 10px 20px;
-          border-radius: 12px;
-          margin-bottom: 25px;
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
+              /* GLOBAL BODY STYLE */
+              :global(body) {
+                background-color: ${isDarkMode ? '#0f172a' : '#f1f5f9'};
+                margin: 0;
+                transition: background-color 0.3s ease;
+              }
 
-        .live-dot {
-          animation: pulse 2s infinite;
-        }
+              .container {
+                max-width: 900px;
+                margin: 24px auto;
+                padding: 0 16px;
+                font-family: sans-serif;
+              }
 
-        @keyframes pulse {
-          0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-          70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-          100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-      `}</style>
+              .card {
+                background: ${isDarkMode ? '#1e293b' : '#fff'};
+                color: ${isDarkMode ? '#f1f5f9' : '#1e293b'};
+                padding: 16px;
+                margin-bottom: 12px;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                border: 1px solid ${isDarkMode ? '#334155' : 'transparent'};
+              }
+
+              h1, h2 { color: ${isDarkMode ? '#f8fafc' : '#0f172a'}; }
+
+              label { color: ${isDarkMode ? '#94a3b8' : '#666'}; }
+
+              form { display: grid; gap: 8px; }
+
+              input {
+                padding: 10px;
+                border: 1px solid ${isDarkMode ? '#475569' : '#ddd'};
+                border-radius: 4px;
+                background: ${isDarkMode ? '#0f172a' : '#fff'};
+                color: ${isDarkMode ? '#fff' : '#000'};
+              }
+
+              button {
+                padding: 10px 16px;
+                border-radius: 6px;
+                border: none;
+                background: #0b5fff;
+                color: #fff;
+                cursor: pointer;
+                font-weight: bold;
+              }
+
+              .grid-list { display: flex; flex-wrap: wrap; gap: 8px; }
+
+              .stock-pill {
+                background: #0b5fff;
+                color: white;
+                border-radius: 20px;
+                padding: 6px 14px;
+                font-size: 13px;
+              }
+
+              .modal-overlay {
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex; justify-content: center; align-items: center;
+                z-index: 1000;
+              }
+
+              .modal-content {
+                background: ${isDarkMode ? '#1e293b' : 'white'};
+                color: ${isDarkMode ? '#f1f5f9' : '#1e293b'};
+                padding: 25px;
+                border-radius: 12px;
+                width: 90%; max-width: 400px;
+                position: relative;
+                border: 1px solid ${isDarkMode ? '#334155' : 'transparent'};
+              }
+
+              .close-btn {
+                position: absolute; top: 10px; right: 15px;
+                font-size: 24px; border: none; background: none;
+                cursor: pointer; color: ${isDarkMode ? '#94a3b8' : '#666'};
+              }
+
+              .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+
+              .stat-item {
+                background: ${isDarkMode ? '#0f172a' : '#f8fafc'};
+                padding: 10px;
+                border-radius: 6px;
+              }
+
+              .stat-item span { display: block; font-size: 11px; color: ${isDarkMode ? '#64748b' : '#64748b'}; text-transform: uppercase; }
+
+              .result {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+                border-bottom: 1px solid ${isDarkMode ? '#334155' : '#eee'};
+                align-items: center;
+              }
+
+              .chat-box {
+                background: ${isDarkMode ? '#0f172a' : '#f8fafc'};
+                padding: 12px; margin-top: 10px; border-radius: 6px;
+                border: 1px solid ${isDarkMode ? '#334155' : '#e2e8f0'};
+                white-space: pre-wrap; font-size: 14px;
+                color: ${isDarkMode ? '#cbd5e1' : '#334155'};
+              }
+
+              .log-list { maxHeight: 150px; overflow-y: auto; font-size: 11px; padding: 0; list-style: none; }
+
+              .market-ticker {
+                background: ${isDarkMode ? '#020617' : '#0f172a'};
+                color: white;
+                padding: 10px 20px;
+                border-radius: 12px;
+                margin-bottom: 25px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+              }
+
+              .live-dot { animation: pulse 2s infinite; }
+
+              @keyframes pulse {
+                0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+                70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+                100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+              }
+            `}</style>
     </div>
   );
 }
