@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///Users/ashvanijaiswal/Documents/code_repo/projectsToWork/stockMarketWithAi/frontend/styles/globals.css"],"sourcesContent":["/* Global styles for the Next.js app (minimal for MVP) */\n:root {\n  --bg: #f6f8fb;\n  --card: #ffffff;\n  --text: #0f1724;\n  --muted: #6b7280;\n}\n\nhtml, body, #__next {\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  font-family: Inter, ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial;\n  background: var(--bg);\n  color: var(--text);\n}\n\n.container {\n  max-width: 900px;\n  margin: 24px auto;\n  padding: 0 16px;\n}\n\nheader h1 {\n  margin: 0 0 12px 0;\n  font-size: 20px;\n}\n\n.card {\n  background: var(--card);\n  padding: 12px;\n  margin-bottom: 12px;\n  border-radius: 6px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.06);\n}\n\nbutton {\n  cursor: pointer;\n}\n\n"],"names":[],"mappings":"AACA;;;;;;;AAOA;;;;;;;;;AASA;;;;;;AAMA;;;;;AAKA;;;;;;;;AAQA"}}]
-}

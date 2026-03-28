@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
+const getRiskInfo = (pe) => {
+  const val = parseFloat(pe);
+  if (!val || isNaN(val)) return { label: 'Unknown Risk', color: '#94a3b8' };
+  if (val < 15) return { label: 'Low Risk (Value)', color: '#10b981' };
+  if (val < 35) return { label: 'Medium Risk', color: '#f59e0b' };
+  return { label: 'High Risk (Growth)', color: '#ef4444' };
+};
+
 export default function Home() {
-  // market selection: null -> show chooser, 'US' or 'IN' -> show screener
   const [market, setMarket] = useState(null);
   const [tickers, setTickers] = useState('');
   const [minCagr, setMinCagr] = useState(8);
@@ -15,21 +22,23 @@ export default function Home() {
   const [chatQuery, setChatQuery] = useState('');
   const [chatResponse, setChatResponse] = useState('');
   const [isChatting, setIsChatting] = useState(false);
+  const [topStocks, setTopStocks] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedStockDetails, setSelectedStockDetails] = useState(null);
   const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
 
-  // default watchlists per market
   const defaults = {
     US: 'AAPL,MSFT,GOOGL',
     IN: 'RELIANCE.NS,TCS.NS,INFY.NS'
   };
 
-  function chooseMarket(m) {
+  async function chooseMarket(m) {
     setMarket(m);
     setTickers(defaults[m] || '');
-    // reset previous results
     setResults([]);
     setSelectedChart(null);
     setRecommendation(null);
+    setTopStocks([]);
   }
 
   function backToMarket() {
@@ -38,72 +47,91 @@ export default function Home() {
     setResults([]);
     setSelectedChart(null);
     setRecommendation(null);
+    setTopStocks([]);
   }
 
   async function runScreener(e) {
     e.preventDefault();
     setLoading(true);
     setResults([]);
-    setSelectedChart(null);
-    setRecommendation(null);
 
-    const payload = {
-      tickers: tickers.split(',').map(t => t.trim().toUpperCase()).filter(Boolean),
-      min_cagr_pct: Number(minCagr),
-      years: Number(years)
-    };
+    // 1. Auto-Suffix logic
+    const originalTickers = tickers.split(',').map(t => t.trim().toUpperCase()).filter(Boolean);
+    const processedTickers = originalTickers.map(t => {
+      if (market === 'IN') return t.includes('.') ? t : `${t}.NS`;
+      return t;
+    });
 
     try {
       const res = await fetch(`${apiBase}/screener`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          tickers: processedTickers,
+          min_cagr_pct: Number(minCagr),
+          years: Number(years)
+        })
       });
-
-      if (!res.ok) {
-        const text = await res.text();
-        console.error('Screener error', res.status, text);
-        alert(`Screener error: ${res.status} - ${text}`);
-        setLoading(false);
-        return;
-      }
-
       const data = await res.json();
       setResults(data.matches || []);
+
+      // 2. SMART FEEDBACK: If no matches found, alert the user specifically about the market
+      if (data.matches && data.matches.length === 0) {
+          const errorMsg = market === 'IN'
+              ? "No matches found. Reminder: You are in the INDIA market. Only NSE stocks (e.g. TCS, RELIANCE) are valid here."
+              : "No matches found. Please check your US ticker symbols (e.g. AAPL, TSLA).";
+          alert(errorMsg);
+      }
+
     } catch (err) {
       console.error(err);
-      alert('Error calling screener. Is the backend running at ' + apiBase + '? See console for details.');
+      alert("Connection error. Is the backend running?");
     } finally {
       setLoading(false);
     }
   }
 
-  // UPDATED: Now expects a raw JSON data array instead of an image
+  async function fetchTrending(m) {
+    try {
+      const res = await fetch(`${apiBase}/top-trending/${m}`);
+      const data = await res.json();
+      setTopStocks(data.stocks || []);
+    } catch (err) {
+      console.error("Fetch failed", err);
+    }
+  }
+
+  async function handleStockClick(ticker) {
+    setIsModalOpen(true);
+    setSelectedStockDetails({ loading: true, ticker });
+    try {
+      const res = await fetch(`${apiBase}/stock-summary/${ticker}`);
+      const data = await res.json();
+      setSelectedStockDetails(data);
+    } catch (err) {
+      setSelectedStockDetails({ error: 'Could not load stock data', ticker });
+    }
+  }
+
   async function showChart(ticker) {
     setSelectedChart({ loading: true });
     try {
       const res = await fetch(`${apiBase}/chart/${ticker}?period=${years}y`);
       const data = await res.json();
-
       if (data.data) {
         setSelectedChart({ ticker, data: data.data });
-        // track view
-        await fetch(`${apiBase}/track`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user_id: 'anon', event_type: 'view_chart', payload: { ticker, market } })
-        });
-      } else {
-        setSelectedChart({ error: data.error || 'No chart data' });
+        // Smooth scroll to chart after a tiny delay so the element exists
+        setTimeout(() => {
+          document.getElementById('chart-view')?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
       }
-    } catch (err) {
-      console.error(err);
-      setSelectedChart({ error: 'failed to fetch' });
-    }
+    } catch (err) { console.error(err); }
   }
 
-  async function askRecommend(ticker) {
-    setRecommendation({ loading: true });
+async function askRecommend(ticker) {
+    // 1. Set loading AND the ticker name immediately so the UI knows which stock is being analyzed
+    setRecommendation({ loading: true, ticker: ticker });
+
     try {
       const res = await fetch(`${apiBase}/recommend`, {
         method: 'POST',
@@ -111,17 +139,35 @@ export default function Home() {
         body: JSON.stringify({ ticker })
       });
       const data = await res.json();
-      setRecommendation(data);
-      // track event
-      await fetch(`${apiBase}/track`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: 'anon', event_type: 'ask_recommend', payload: { ticker, result: data, market } })
-      });
+
+      // 2. Spread the data but keep the ticker name
+      setRecommendation({ ...data, ticker: ticker });
+
+      // 3. Smooth scroll to recommendation section
+      setTimeout(() => {
+        document.getElementById('recommendation-section')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+
     } catch (err) {
       console.error(err);
-      setRecommendation({ error: 'failed' });
+      setRecommendation({ error: 'failed', ticker: ticker });
     }
+  }
+
+  async function askAgent(e) {
+    e.preventDefault();
+    if (!chatQuery.trim()) return;
+    setIsChatting(true);
+    setChatResponse('');
+    try {
+      const res = await fetch(`${apiBase}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: chatQuery })
+      });
+      const data = await res.json();
+      setChatResponse(data.response);
+    } catch (err) { setChatResponse('AI Analyst offline.'); } finally { setIsChatting(false); }
   }
 
   async function loadActivityLog() {
@@ -129,62 +175,24 @@ export default function Home() {
       const res = await fetch(`${apiBase}/events?limit=10`);
       const data = await res.json();
       setActivityLog(data.events || []);
-    } catch (err) {
-      console.error(err);
-      alert('Failed to load events.');
-    }
+    } catch (err) { console.error(err); }
   }
 
-  async function askAgent(e) {
-      e.preventDefault();
-      if (!chatQuery.trim()) return;
-
-      setIsChatting(true);
-      setChatResponse(''); // Clear old response
-
-      try {
-        const res = await fetch(`${apiBase}/chat`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: chatQuery })
-        });
-
-        if (!res.ok) throw new Error('Network response was not ok');
-
-        const data = await res.json();
-        setChatResponse(data.response);
-      } catch (err) {
-        console.error(err);
-        setChatResponse('Error: Could not connect to the AI Agent.');
-      } finally {
-        setIsChatting(false);
-      }
-    }
-
-  // If no market selected show chooser
   if (!market) {
     return (
       <div className="container">
-        <header>
-          <h1>Stock Screener MVP</h1>
-        </header>
+        <header><h1>Stock Screener MVP</h1></header>
         <section className="card">
-          <h2>Select Market / Country</h2>
-          <p>Please choose which market you want to screen:</p>
+          <h2>Select Market</h2>
           <div style={{ display: 'flex', gap: 12 }}>
             <button onClick={() => chooseMarket('US')}>US Market</button>
             <button onClick={() => chooseMarket('IN')}>India Market</button>
           </div>
         </section>
-
-        <footer>
-          <small>Backend assumed at {apiBase}</small>
-        </footer>
-
         <style jsx>{`
           .container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
-          .card { background: #fff; padding: 12px; margin-bottom: 12px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-          button { padding: 8px 12px; border-radius: 4px; border: none; background: #0b5fff; color: #fff; cursor: pointer }
+          .card { background: #fff; padding: 20px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+          button { padding: 10px 20px; border-radius: 6px; border: none; background: #0b5fff; color: #fff; cursor: pointer; font-weight: bold; }
         `}</style>
       </div>
     );
@@ -192,151 +200,229 @@ export default function Home() {
 
   return (
     <div className="container">
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1 style={{ margin: 0 }}>Stock Screener ({market})</h1>
+        <button onClick={backToMarket} style={{ background: '#e2e8f0', color: '#475569' }}>Change Market</button>
+      </header>
 
-    <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <h1 style={{ margin: 0 }}>Stock Screener MVP ({market === 'US' ? 'US' : 'India'})</h1>
-            <button onClick={backToMarket} style={{ background: '#e2e8f0', color: '#475569', fontSize: '13px', fontWeight: '600', padding: '6px 12px' }}>
-              Change Market
-            </button>
-          </header>
-
-
-      <section className="card">
-          <form onSubmit={runScreener}>
-            <label>Tickers (comma separated)</label>
-            <input value={tickers} onChange={e => setTickers(e.target.value)} />
-
-            <label>Min CAGR %</label>
-            <input type="number" value={minCagr} onChange={e => setMinCagr(e.target.value)} />
-
-            <label>Years</label>
-            <input type="number" value={years} onChange={e => setYears(e.target.value)} />
-
-            <button type="submit" disabled={loading}>{loading ? 'Running...' : 'Run Screener'}</button>
-          </form>
-      </section>
-
-      <section className="card">
-        <h2>Results</h2>
-        {results.length === 0 && <p>No matches yet.</p>}
-        <ul>
-          {results.map(r => (
-            <li key={r.ticker} className="result">
-              <div>
-                <strong>{r.ticker}</strong>
-                <div>cagr: {r.cagr_pct}%</div>
-              </div>
-              <div className="actions">
-                <button onClick={() => showChart(r.ticker)}>Chart</button>
-                <button onClick={() => askRecommend(r.ticker)}>Recommend</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* UPDATED: Interactive Recharts block instead of img tag */}
-      <section className="card">
-        <h2>Chart</h2>
-        {selectedChart == null && <p>No chart selected.</p>}
-        {selectedChart && selectedChart.loading && <p>Loading chart...</p>}
-        {selectedChart && selectedChart.error && <p>Error: {selectedChart.error}</p>}
-        {selectedChart && selectedChart.data && (
-          <div style={{ width: '100%', height: 400 }}>
-            <h3>{selectedChart.ticker}</h3>
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={selectedChart.data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <Line type="monotone" dataKey="price" stroke="#0b5fff" strokeWidth={2} dot={false} />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" opacity={0.5} />
-                <XAxis dataKey="date" tick={{ fontSize: 12 }} minTickGap={30} />
-                <YAxis domain={['auto', 'auto']} tick={{ fontSize: 12 }} />
-                <Tooltip
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
-                  formatter={(value) => [`$${value}`, 'Price']}
-                  labelStyle={{ fontWeight: 'bold', color: '#333' }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+      {/* TRENDING */}
+      <section className="card" style={{ border: '2px solid #0b5fff' }}>
+        <h2>Market Insights ({market})</h2>
+        {topStocks.length === 0 ? (
+          <button onClick={() => fetchTrending(market)} style={{ background: '#f59e0b' }}>🔥 Show Trending Stocks</button>
+        ) : (
+          <div className="grid-list">
+            {topStocks.map(ticker => (
+              <button
+                    key={ticker}
+                    className="stock-pill"
+                    onClick={() => handleStockClick(ticker)} // Sends full ticker (RELIANCE.NS) to backend
+                    style={{
+                      background: '#0b5fff',
+                      color: 'white',
+                      borderRadius: '20px',
+                      padding: '8px 16px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {/* DISPLAY LOGIC: Show 'RELIANCE' instead of 'RELIANCE.NS' */}
+                    {ticker.replace('.NS', '').replace('.BO', '')}
+                  </button>
+                  ))}
+            <button onClick={() => setTopStocks([])} style={{ background: 'none', color: '#666' }}>(Hide)</button>
           </div>
         )}
       </section>
 
+      {/* SCREENER */}
       <section className="card">
-        <h2>Recommendation</h2>
-        {recommendation == null && <p>No recommendation requested.</p>}
-        {recommendation && recommendation.loading && <p>Thinking...</p>}
-        {recommendation && recommendation.error && <p>Error: {recommendation.error}</p>}
-        {recommendation && recommendation.action && (
-          <div>
-            <div><strong>{recommendation.ticker}</strong></div>
-            <div>Action: {recommendation.action}</div>
-            <div>Reason: {recommendation.reason}</div>
-            <div>Latest: {recommendation.latest}</div>
+        <form onSubmit={runScreener}>
+          <label>Tickers</label>
+          <input value={tickers} onChange={e => setTickers(e.target.value)} />
+          <div style={{display:'flex', gap:'10px'}}>
+             <div style={{flex:1}}><label>Min CAGR %</label><input type="number" value={minCagr} onChange={e => setMinCagr(e.target.value)} style={{width:'100%'}}/></div>
+             <div style={{flex:1}}><label>Years</label><input type="number" value={years} onChange={e => setYears(e.target.value)} style={{width:'100%'}}/></div>
           </div>
-        )}
+          <button type="submit" disabled={loading} style={{marginTop:'10px'}}>{loading ? 'Running...' : 'Run Screener'}</button>
+        </form>
       </section>
 
-      <footer>
-          <section className="card" style={{ border: '2px solid #e0e7ff' }}>
-              <h2>Ask the AI Analyst</h2>
-              <p style={{ fontSize: '13px', color: '#666', marginTop: 0 }}>
-                Chat with our CrewAI Agent. It can analyze technical indicators for any ticker you ask about!
-              </p>
-
-              <form onSubmit={askAgent} style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                <input
-                  style={{ flex: 1, padding: '10px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '14px' }}
-                  value={chatQuery}
-                  onChange={e => setChatQuery(e.target.value)}
-                  placeholder="e.g., Should I buy AAPL? What about RELIANCE.NS?"
-                />
-                <button type="submit" disabled={isChatting} style={{ background: isChatting ? '#94a3b8' : '#10b981', padding: '0 20px', fontWeight: 'bold' }}>
-                  {isChatting ? 'Thinking...' : 'Ask AI'}
-                </button>
-              </form>
-
-              {chatResponse && (
-                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
-                  <h4 style={{ margin: '0 0 8px 0', color: '#0f172a' }}>AI Analyst Response:</h4>
-                  <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', color: '#334155', fontSize: '14px' }}>
-                    {chatResponse}
-                  </div>
-                </div>
-              )}
-            </section>
+      {/* RESULTS */}
+      {results.length > 0 && (
         <section className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2>Admin Activity Log</h2>
-            <button onClick={loadActivityLog} style={{ background: '#333', color: '#fff', padding: '6px 12px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Refresh Log</button>
-          </div>
-
-          {activityLog.length === 0 && <p>Click refresh to see database events.</p>}
-
-          <ul style={{ maxHeight: '250px', overflowY: 'auto', fontSize: '13px', padding: 0 }}>
-            {activityLog.map(ev => (
-              <li key={ev.id} style={{ padding: '8px 0', borderBottom: '1px solid #eee', listStyle: 'none' }}>
-                <div><strong>Event:</strong> {ev.event_type} | <strong>User:</strong> {ev.user_id}</div>
-                <div style={{ color: '#666', marginTop: '4px', wordBreak: 'break-all' }}>
-                  Payload: {JSON.stringify(ev.payload)}
+          <h2>Results</h2>
+          <ul>
+            {results.map(r => (
+              <li key={r.ticker} className="result">
+                <div><strong>{r.ticker}</strong> (CAGR: {r.cagr_pct}%)</div>
+                <div className="actions">
+                  <button onClick={() => showChart(r.ticker)}>Chart</button>
+                  <button onClick={() => askRecommend(r.ticker)} style={{background:'#10b981'}}>AI Advice</button>
                 </div>
               </li>
             ))}
           </ul>
         </section>
-        <small>Backend assumed at {apiBase}</small>
+      )}
+
+      {/* CHART VIEW */}
+      {selectedChart && (
+        <section className="card" id="chart-view">
+            <h2>{selectedChart.ticker} Performance</h2>
+            <div style={{ width: '100%', height: 350 }}>
+                <ResponsiveContainer>
+                    <LineChart data={selectedChart.data}>
+                        <Line type="monotone" dataKey="price" stroke="#0b5fff" strokeWidth={2} dot={false} />
+                        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" opacity={0.5} />
+                        <XAxis dataKey="date" hide />
+                        <YAxis domain={['auto', 'auto']} />
+                        <Tooltip />
+                    </LineChart>
+                </ResponsiveContainer>
+            </div>
+        </section>
+      )}
+
+      {/* RECOMMENDATION */}
+      {recommendation && !recommendation.loading && (
+        <section className="card" id="recommendation-section" style={{
+            borderTop: `6px solid ${getRiskInfo(selectedStockDetails?.pe).color}`,
+            transition: 'all 0.3s ease'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+            <h2 style={{ margin: 0 }}>AI Recommendation</h2>
+
+            {/* THE DYNAMIC RISK BADGE */}
+            <div style={{
+              backgroundColor: getRiskInfo(selectedStockDetails?.pe).color,
+              color: 'white',
+              padding: '6px 14px',
+              borderRadius: '20px',
+              fontSize: '11px',
+              fontWeight: '900',
+              letterSpacing: '0.5px',
+              textTransform: 'uppercase'
+            }}>
+              {getRiskInfo(selectedStockDetails?.pe).label}
+            </div>
+          </div>
+
+          <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+            <p style={{ margin: '0 0 10px 0' }}>
+              <strong>Ticker:</strong> {recommendation.ticker.replace('.NS', '')}
+              <span style={{ color: '#94a3b8', fontSize: '12px', marginLeft: '5px' }}>
+                  ({market === 'IN' ? 'NSE India' : 'US Market'})
+              </span>
+            </p>
+
+            <p style={{ margin: '0 0 15px 0' }}>
+              <strong>Action:</strong>
+              <span style={{
+                marginLeft: '10px',
+                color: recommendation.action === 'BUY' ? '#10b981' : '#ef4444',
+                fontSize: '22px',
+                fontWeight: '900'
+              }}>
+                {recommendation.action}
+              </span>
+            </p>
+
+            <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '10px' }}>
+              <p style={{ lineHeight: '1.6', color: '#334155', margin: 0 }}>
+                  <strong>Analyst Note:</strong> {recommendation.reason}
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* FOOTER */}
+      <footer>
+        <section className="card" style={{ border: '2px solid #e0e7ff' }}>
+          <h2>Ask the AI Analyst</h2>
+          <form onSubmit={askAgent} style={{ display: 'flex', gap: '8px' }}>
+            <input style={{ flex: 1 }} value={chatQuery} onChange={e => setChatQuery(e.target.value)} placeholder="Ask about any stock..." />
+            <button type="submit" disabled={isChatting}>{isChatting ? 'Thinking...' : 'Ask AI'}</button>
+          </form>
+          {chatResponse && <div className="chat-box">{chatResponse}</div>}
+        </section>
+
+        <section className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems:'center' }}>
+            <h2 style={{margin:0}}>Activity Log</h2>
+            <button onClick={loadActivityLog} style={{ background: '#333' }}>Refresh</button>
+          </div>
+          <ul className="log-list">
+            {activityLog.map(ev => (
+              <li key={ev.id}><strong>{ev.event_type}</strong>: {JSON.stringify(ev.payload)}</li>
+            ))}
+          </ul>
+        </section>
       </footer>
 
+      {/* MODAL (MODIFIED) */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setIsModalOpen(false)}>×</button>
+            {selectedStockDetails?.loading ? (
+              <p>Loading {selectedStockDetails.ticker}...</p>
+            ) : (
+              <>
+                <h2>{selectedStockDetails?.ticker} Overview</h2>
+                <div className="stats-grid">
+                  <div className="stat-item"><span>Price</span><strong>${selectedStockDetails?.price || 'N/A'}</strong></div>
+                  <div className="stat-item"><span>P/E</span><strong>{selectedStockDetails?.pe || 'N/A'}</strong></div>
+                  <div className="stat-item"><span>Growth</span><strong>{selectedStockDetails?.revenueGrowth ? (selectedStockDetails.revenueGrowth * 100).toFixed(1) + '%' : 'N/A'}</strong></div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                  <button
+                    style={{ flex: 1, background: '#0b5fff' }}
+                    onClick={() => {
+                      showChart(selectedStockDetails.ticker);
+                      setIsModalOpen(false);
+                    }}
+                  >
+                    📈 View Chart
+                  </button>
+
+                  <button
+                    style={{ flex: 1, background: '#10b981' }}
+                    onClick={() => {
+                      // THIS IS THE FIX: Pass the ticker and close the modal
+                      askRecommend(selectedStockDetails.ticker);
+                      setIsModalOpen(false);
+                    }}
+                  >
+                    🤖 Get Advice
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       <style jsx>{`
-        .container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
-        header { margin-bottom: 16px }
-        .card { background: #fff; padding: 12px; margin-bottom: 12px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-        form { display: grid; grid-template-columns: 1fr 160px; gap: 8px; align-items: center }
-        label { grid-column: 1 / -1; font-size: 12px; color: #666 }
-        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px }
-        button { padding: 8px 12px; border-radius: 4px; border: none; background: #0b5fff; color: #fff; cursor: pointer }
-        ul { list-style: none; padding: 0 }
-        .result { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0 }
-        .actions button { margin-left: 8px }
+        .container { max-width: 900px; margin: 24px auto; padding: 0 16px; font-family: sans-serif; }
+        .card { background: #fff; padding: 16px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        form { display: grid; gap: 8px; }
+        input { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 10px 16px; border-radius: 6px; border: none; background: #0b5fff; color: #fff; cursor: pointer; font-weight: bold; }
+        .grid-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .stock-pill { background: #0b5fff; color: white; border-radius: 20px; padding: 6px 14px; font-size: 13px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 400px; position: relative; }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; border: none; background: none; cursor: pointer; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .stat-item { background: #f8fafc; padding: 10px; border-radius: 6px; }
+        .stat-item span { display: block; font-size: 11px; color: #64748b; text-transform: uppercase; }
+        .result { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; align-items: center; }
+        .chat-box { background: #f8fafc; padding: 12px; margin-top: 10px; border-radius: 6px; border: 1px solid #e2e8f0; white-space: pre-wrap; font-size: 14px; }
+        .log-list { maxHeight: 150px; overflow-y: auto; font-size: 11px; padding: 0; list-style: none; }
       `}</style>
     </div>
   );

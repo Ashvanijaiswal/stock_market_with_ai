@@ -8,6 +8,9 @@ from visualizer import get_chart_data
 from strategist import recommend_simple
 from tracker import track, list_events
 from yf_client import YahooFinanceClient
+import yfinance as yf_lib
+import json
+import os
 
 app = FastAPI(title="Stock Screener MVP")
 # https://stock-market-with-ai.onrender.com/
@@ -15,12 +18,13 @@ app = FastAPI(title="Stock Screener MVP")
 
 origins = [
     "http://localhost:3000",
-    "https://stock-market-with-ai.vercel.app", # Your new Vercel URL
+    "http://127.0.0.1:3000",
+    "https://stock-market-with-ai.vercel.app",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"], # For LOCAL TESTING, change this to ["*"] temporarily
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -91,6 +95,48 @@ def chat_with_agent(req: ChatRequest):
         return {"response": answer}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/stock-summary/{ticker}")
+def get_stock_summary(ticker: str):
+    try:
+        # Use yf_lib (the real library) instead of your custom 'yf' object
+        tk = yf_lib.Ticker(ticker)
+        info = tk.info
+
+        # Adding a print here so you can see it working in your terminal
+        print(f"Fetching data for: {ticker}")
+
+        return {
+            "ticker": ticker,
+            "price": info.get("currentPrice") or info.get("regularMarketPrice"),
+            "pe": info.get("forwardPE"),
+            "eps": info.get("trailingEps"),
+            "marketCap": info.get("marketCap"),
+            "revenueGrowth": info.get("revenueGrowth"),
+            "profitMargins": info.get("profitMargins"),
+            "dividendYield": info.get("dividendYield", 0)
+        }
+    except Exception as e:
+        print(f"Summary Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/top-trending/{market}")
+def get_trending_stocks(market: str):
+    try:
+        # This points EXACTLY to the folder where main.py is located
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(base_dir, "trending_stocks.json")
+
+        print(f"DEBUG: Looking for file at: {file_path}") # CHECK YOUR TERMINAL FOR THIS
+
+        with open(file_path, "r") as f:
+            data = json.load(f)
+
+        symbols = data.get(market.upper(), [])
+        return {"stocks": symbols}
+    except Exception as e:
+        print(f"ERROR: {str(e)}")
+        return {"stocks": []}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
