@@ -72,8 +72,12 @@ def track_event(ev: TrackEvent):
     return {"status": "ok"}
 
 @app.get("/events")
-def events(limit: int = 50):
-    return {"events": list_events(limit)}
+def events(market: str = None, limit: int = 50):
+    all_events = list_events(limit)
+    if market:
+        # Filter events where the 'market' in the payload matches the request
+        return {"events": [e for e in all_events if e['payload'].get('market') == market.upper()]}
+    return {"events": all_events}
 
 # New: inspect endpoint to fetch consolidated yfinance data for debugging/inspection
 @app.get('/inspect/{symbol}')

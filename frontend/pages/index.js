@@ -93,13 +93,36 @@ export default function Home() {
       const data = await res.json();
       setResults(data.matches || []);
 
-      // 2. SMART FEEDBACK: If no matches found, alert the user specifically about the market
+      // --- NEW: TRACK THE EVENT IN DATABASE ---
+      try {
+        await fetch(`${apiBase}/track`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: "local_user",
+            event_type: "run_screener",
+            payload: {
+              tickers: processedTickers.join(','),
+              market: market,
+              match_count: data.matches?.length || 0
+            }
+          })
+        });
+      } catch (trackErr) {
+        console.error("Failed to track event:", trackErr);
+      }
+      // ---------------------------------------
+
+      // 2. SMART FEEDBACK
       if (data.matches && data.matches.length === 0) {
           const errorMsg = market === 'IN'
               ? "No matches found. Reminder: You are in the INDIA market. Only NSE stocks (e.g. TCS, RELIANCE) are valid here."
               : "No matches found. Please check your US ticker symbols (e.g. AAPL, TSLA).";
           alert(errorMsg);
       }
+
+      // 3. Refresh the log to show the new 'run_screener' event
+      loadActivityLog();
 
     } catch (err) {
       console.error(err);
@@ -188,13 +211,29 @@ async function askRecommend(ticker) {
     } catch (err) { setChatResponse('AI Analyst offline.'); } finally { setIsChatting(false); }
   }
 
-  async function loadActivityLog() {
-    try {
-      const res = await fetch(`${apiBase}/events?limit=10`);
-      const data = await res.json();
-      setActivityLog(data.events || []);
-    } catch (err) { console.error(err); }
+async function loadActivityLog() {
+  // 1. Check if market exists
+  if (!market) return;
+
+  try {
+    const res = await fetch(`${apiBase}/events?market=${market}&limit=10`);
+    const data = await res.json();
+
+    // 2. Log the data to see if backend is responding
+    console.log("Activity Log Data:", data);
+
+    // 3. Set the log (Ensure you are using setActivityLog)
+    setActivityLog(data.events || []);
+  } catch (err) {
+    console.error("Failed to load activity log:", err);
   }
+}
+  // Add this useEffect to refresh the log whenever you switch markets
+  useEffect(() => {
+    if (market) {
+      loadActivityLog();
+    }
+  }, [market]);
 
 if (!market) {
     return (
@@ -403,6 +442,7 @@ if (!market) {
       )}
 
       {/* RECOMMENDATION */}
+      {/* RECOMMENDATION SECTION */}
       {recommendation && !recommendation.loading && (
         <section className="card" id="recommendation-section" style={{
             borderTop: `6px solid ${getRiskInfo(selectedStockDetails?.pe).color}`,
@@ -411,7 +451,6 @@ if (!market) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
             <h2 style={{ margin: 0 }}>AI Recommendation</h2>
 
-            {/* THE DYNAMIC RISK BADGE */}
             <div style={{
               backgroundColor: getRiskInfo(selectedStockDetails?.pe).color,
               color: 'white',
@@ -419,23 +458,28 @@ if (!market) {
               borderRadius: '20px',
               fontSize: '11px',
               fontWeight: '900',
-              letterSpacing: '0.5px',
               textTransform: 'uppercase'
             }}>
               {getRiskInfo(selectedStockDetails?.pe).label}
             </div>
           </div>
 
-          <div style={{ background: '#f8fafc', padding: '15px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-            <p style={{ margin: '0 0 10px 0' }}>
-              <strong>Ticker:</strong> {recommendation.ticker.replace('.NS', '')}
+          {/* The Container for the details - BACKGROUND FIX HERE */}
+          <div style={{
+            background: isDarkMode ? '#0f172a' : '#f8fafc', // Dark blue in dark mode, light gray in light mode
+            padding: '15px',
+            borderRadius: '8px',
+            border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`
+          }}>
+            <p style={{ margin: '0 0 10px 0', color: isDarkMode ? '#f1f5f9' : '#1e293b' }}>
+              <strong style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>Ticker:</strong> {recommendation.ticker.replace('.NS', '')}
               <span style={{ color: '#94a3b8', fontSize: '12px', marginLeft: '5px' }}>
                   ({market === 'IN' ? 'NSE India' : 'US Market'})
               </span>
             </p>
 
-            <p style={{ margin: '0 0 15px 0' }}>
-              <strong>Action:</strong>
+            <p style={{ margin: '0 0 15px 0', color: isDarkMode ? '#f1f5f9' : '#1e293b' }}>
+              <strong style={{ color: isDarkMode ? '#94a3b8' : '#64748b' }}>Action:</strong>
               <span style={{
                 marginLeft: '10px',
                 color: recommendation.action === 'BUY' ? '#10b981' : '#ef4444',
@@ -446,9 +490,9 @@ if (!market) {
               </span>
             </p>
 
-            <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '10px' }}>
-              <p style={{ lineHeight: '1.6', color: '#334155', margin: 0 }}>
-                  <strong>Analyst Note:</strong> {recommendation.reason}
+            <div style={{ borderTop: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`, paddingTop: '10px' }}>
+              <p style={{ lineHeight: '1.6', color: isDarkMode ? '#cbd5e1' : '#334155', margin: 0 }}>
+                  <strong style={{ color: isDarkMode ? '#94a3b8' : '#1e293b' }}>Analyst Note:</strong> {recommendation.reason}
               </p>
             </div>
           </div>
@@ -467,19 +511,64 @@ if (!market) {
         </section>
 
         <section className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems:'center' }}>
-            <h2 style={{margin:0}}>Activity Log</h2>
-            <button onClick={loadActivityLog} style={{ background: '#333' }}>Refresh</button>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+            <h2 style={{ margin: 0 }}>Activity Log</h2>
+            {/* Simplified button - no extra z-index needed if we use simple nesting */}
+            <button
+              type="button"
+              className="refresh-btn" // Added class
+              onClick={() => {
+                console.log("Refresh Clicked!");
+                loadActivityLog();
+              }}
+            >
+              🔄 Refresh
+            </button>
           </div>
-          <ul className="log-list">
-            {activityLog.map(ev => (
-              <li key={ev.id}><strong>{ev.event_type}</strong>: {JSON.stringify(ev.payload)}</li>
-            ))}
+
+          <ul className="log-list" style={{ listStyle: 'none', padding: 0 }}>
+            {activityLog && activityLog.length > 0 ? (
+              activityLog.map((ev, index) => {
+                // Helper to make the payload look nice
+                const getActionText = (type, payload) => {
+                  if (type === 'run_screener') return `Screened tickers: ${payload.tickers || 'N/A'}`;
+                  if (type === 'view_chart') return `Viewed chart for ${payload.ticker}`;
+                  if (type === 'ai_advice') return `Requested AI analysis for ${payload.ticker}`;
+                  return JSON.stringify(payload); // Fallback
+                };
+
+                return (
+                  <li key={index} style={{
+                    padding: '10px 0',
+                    borderBottom: `1px solid ${isDarkMode ? '#334155' : '#eee'}`,
+                    fontSize: '13px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <strong style={{ color: '#0b5fff', textTransform: 'uppercase', fontSize: '11px' }}>
+                        {ev.event_type.replace('_', ' ')}
+                      </strong>
+                      <span style={{ color: '#64748b', fontSize: '10px' }}>{market} Market</span>
+                    </div>
+                    <span style={{ color: isDarkMode ? '#cbd5e1' : '#444' }}>
+                      {getActionText(ev.event_type, ev.payload)}
+                    </span>
+                  </li>
+                );
+              })
+            ) : (
+              <li style={{ color: '#666', padding: '20px 0', textAlign: 'center' }}>
+                No activity logged yet for the {market} market. Try running a search!
+              </li>
+            )}
           </ul>
         </section>
       </footer>
 
-      {/* MODAL (MODIFIED) */}
+
+      {/* MODAL (MODIFIED FOR DARK MODE) */}
       {isModalOpen && (
         <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -488,32 +577,36 @@ if (!market) {
               <p>Loading {selectedStockDetails.ticker}...</p>
             ) : (
               <>
-                <h2>{selectedStockDetails?.ticker} Overview</h2>
+                <h2 style={{ color: isDarkMode ? '#f8fafc' : '#0f172a' }}>
+                  {selectedStockDetails?.ticker} Overview
+                </h2>
                 <div className="stats-grid">
-                  <div className="stat-item"><span>Price</span><strong>${selectedStockDetails?.price || 'N/A'}</strong></div>
-                  <div className="stat-item"><span>P/E</span><strong>{selectedStockDetails?.pe || 'N/A'}</strong></div>
-                  <div className="stat-item"><span>Growth</span><strong>{selectedStockDetails?.revenueGrowth ? (selectedStockDetails.revenueGrowth * 100).toFixed(1) + '%' : 'N/A'}</strong></div>
+                  <div className="stat-item">
+                    <span>Price</span>
+                    {/* Added dynamic color to strong tag */}
+                    <strong style={{ color: isDarkMode ? '#fff' : '#000' }}>
+                      ${selectedStockDetails?.price || 'N/A'}
+                    </strong>
+                  </div>
+                  <div className="stat-item">
+                    <span>P/E</span>
+                    <strong style={{ color: isDarkMode ? '#fff' : '#000' }}>
+                      {selectedStockDetails?.pe || 'N/A'}
+                    </strong>
+                  </div>
+                  <div className="stat-item">
+                    <span>Growth</span>
+                    <strong style={{ color: isDarkMode ? '#fff' : '#000' }}>
+                      {selectedStockDetails?.revenueGrowth ? (selectedStockDetails.revenueGrowth * 100).toFixed(1) + '%' : 'N/A'}
+                    </strong>
+                  </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-                  <button
-                    style={{ flex: 1, background: '#0b5fff' }}
-                    onClick={() => {
-                      showChart(selectedStockDetails.ticker);
-                      setIsModalOpen(false);
-                    }}
-                  >
+                  <button style={{ flex: 1, background: '#0b5fff' }} onClick={() => { showChart(selectedStockDetails.ticker); setIsModalOpen(false); }}>
                     📈 View Chart
                   </button>
-
-                  <button
-                    style={{ flex: 1, background: '#10b981' }}
-                    onClick={() => {
-                      // THIS IS THE FIX: Pass the ticker and close the modal
-                      askRecommend(selectedStockDetails.ticker);
-                      setIsModalOpen(false);
-                    }}
-                  >
+                  <button style={{ flex: 1, background: '#10b981' }} onClick={() => { askRecommend(selectedStockDetails.ticker); setIsModalOpen(false); }}>
                     🤖 Get Advice
                   </button>
                 </div>
@@ -646,6 +739,35 @@ if (!market) {
                 gap: 15px;
                 box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
               }
+
+              .refresh-btn {
+                  background: #0b5fff; /* Your Primary Blue */
+                  color: #fff;
+                  padding: 8px 16px;
+                  border-radius: 6px;
+                  cursor: pointer;
+                  border: none;
+                  font-weight: bold;
+                  transition: all 0.2s ease;
+                  display: flex;
+                  align-items: center;
+                  gap: 6px;
+                  box-shadow: 0 2px 4px rgba(11, 95, 255, 0.2);
+                }
+
+                /* Hover State: Brightens slightly and adds a shadow */
+                .refresh-btn:hover {
+                  background: #2575ff;
+                  transform: translateY(-1px);
+                  box-shadow: 0 4px 12px rgba(11, 95, 255, 0.3);
+                }
+
+                /* Active State: The "Pressed" look */
+                .refresh-btn:active {
+                  transform: translateY(1px);
+                  filter: brightness(0.9);
+                  box-shadow: none;
+                }
 
               .live-dot { animation: pulse 2s infinite; }
 

@@ -593,11 +593,34 @@ function Home() {
             });
             const data = await res.json();
             setResults(data.matches || []);
-            // 2. SMART FEEDBACK: If no matches found, alert the user specifically about the market
+            // --- NEW: TRACK THE EVENT IN DATABASE ---
+            try {
+                await fetch(`${apiBase}/track`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: "local_user",
+                        event_type: "run_screener",
+                        payload: {
+                            tickers: processedTickers.join(','),
+                            market: market,
+                            match_count: data.matches?.length || 0
+                        }
+                    })
+                });
+            } catch (trackErr) {
+                console.error("Failed to track event:", trackErr);
+            }
+            // ---------------------------------------
+            // 2. SMART FEEDBACK
             if (data.matches && data.matches.length === 0) {
                 const errorMsg = market === 'IN' ? "No matches found. Reminder: You are in the INDIA market. Only NSE stocks (e.g. TCS, RELIANCE) are valid here." : "No matches found. Please check your US ticker symbols (e.g. AAPL, TSLA).";
                 alert(errorMsg);
             }
+            // 3. Refresh the log to show the new 'run_screener' event
+            loadActivityLog();
         } catch (err) {
             console.error(err);
             alert("Connection error. Is the backend running?");
@@ -714,14 +737,29 @@ function Home() {
         }
     }
     async function loadActivityLog() {
+        // 1. Check if market exists
+        if (!market) return;
         try {
-            const res = await fetch(`${apiBase}/events?limit=10`);
+            const res = await fetch(`${apiBase}/events?market=${market}&limit=10`);
             const data = await res.json();
+            // 2. Log the data to see if backend is responding
+            console.log("Activity Log Data:", data);
+            // 3. Set the log (Ensure you are using setActivityLog)
             setActivityLog(data.events || []);
         } catch (err) {
-            console.error(err);
+            console.error("Failed to load activity log:", err);
         }
     }
+    // Add this useEffect to refresh the log whenever you switch markets
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Home.useEffect": ()=>{
+            if (market) {
+                loadActivityLog();
+            }
+        }
+    }["Home.useEffect"], [
+        market
+    ]);
     if (!market) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
@@ -753,12 +791,12 @@ function Home() {
                             children: "Stock Screener MVP"
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 213,
+                            lineNumber: 252,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 212,
+                        lineNumber: 251,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -775,7 +813,7 @@ function Home() {
                                 children: "Select Market"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 219,
+                                lineNumber: 258,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -795,7 +833,7 @@ function Home() {
                                         children: "🇺🇸 US Market"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 225,
+                                        lineNumber: 264,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -808,7 +846,7 @@ function Home() {
                                         children: "🇮🇳 India Market"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 232,
+                                        lineNumber: 271,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
@@ -819,7 +857,7 @@ function Home() {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 239,
+                                        lineNumber: 278,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -836,37 +874,37 @@ function Home() {
                                         children: isDarkMode ? '☀️ Switch to Light Mode' : '🌙 Switch to Dark Mode'
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 242,
+                                        lineNumber: 281,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 223,
+                                lineNumber: 262,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 218,
+                        lineNumber: 257,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 211,
+                lineNumber: 250,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/frontend/pages/index.js",
-            lineNumber: 201,
+            lineNumber: 240,
             columnNumber: 7
         }, this);
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
             [
-                "fed03b579e2a01ac",
+                "2d61b444a67c0314",
                 [
                     isDarkMode ? '#0f172a' : '#f1f5f9',
                     isDarkMode ? '#1e293b' : '#fff',
@@ -895,7 +933,7 @@ function Home() {
             marketIndex && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                     [
-                        "fed03b579e2a01ac",
+                        "2d61b444a67c0314",
                         [
                             isDarkMode ? '#0f172a' : '#f1f5f9',
                             isDarkMode ? '#1e293b' : '#fff',
@@ -924,7 +962,7 @@ function Home() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -955,13 +993,13 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 268,
+                        lineNumber: 307,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -989,7 +1027,7 @@ function Home() {
                         children: marketIndex.price?.toLocaleString() || '---'
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 269,
+                        lineNumber: 308,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1000,7 +1038,7 @@ function Home() {
                         },
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -1031,13 +1069,13 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 272,
+                        lineNumber: 311,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -1072,7 +1110,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 276,
+                        lineNumber: 315,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1088,7 +1126,7 @@ function Home() {
                         },
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -1123,7 +1161,7 @@ function Home() {
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -1150,7 +1188,7 @@ function Home() {
                                 ]) + " " + ((marketIndex.status === 'OPEN' ? 'live-dot' : '') || "")
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 290,
+                                lineNumber: 329,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1161,7 +1199,7 @@ function Home() {
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -1192,19 +1230,19 @@ function Home() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 295,
+                                lineNumber: 334,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 280,
+                        lineNumber: 319,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 267,
+                lineNumber: 306,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
@@ -1216,7 +1254,7 @@ function Home() {
                 },
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                     [
-                        "fed03b579e2a01ac",
+                        "2d61b444a67c0314",
                         [
                             isDarkMode ? '#0f172a' : '#f1f5f9',
                             isDarkMode ? '#1e293b' : '#fff',
@@ -1248,7 +1286,7 @@ function Home() {
                         },
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -1280,7 +1318,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 303,
+                        lineNumber: 342,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1290,7 +1328,7 @@ function Home() {
                         },
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -1325,7 +1363,7 @@ function Home() {
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -1353,7 +1391,7 @@ function Home() {
                                 children: isDarkMode ? '☀️ Light' : '🌙 Dark'
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 306,
+                                lineNumber: 345,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1364,7 +1402,7 @@ function Home() {
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -1392,19 +1430,19 @@ function Home() {
                                 children: "Change Market"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 312,
+                                lineNumber: 351,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 304,
+                        lineNumber: 343,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 302,
+                lineNumber: 341,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1413,7 +1451,7 @@ function Home() {
                 },
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                     [
-                        "fed03b579e2a01ac",
+                        "2d61b444a67c0314",
                         [
                             isDarkMode ? '#0f172a' : '#f1f5f9',
                             isDarkMode ? '#1e293b' : '#fff',
@@ -1442,7 +1480,7 @@ function Home() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -1474,7 +1512,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 318,
+                        lineNumber: 357,
                         columnNumber: 9
                     }, this),
                     topStocks.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1484,7 +1522,7 @@ function Home() {
                         },
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -1512,12 +1550,12 @@ function Home() {
                         children: "🔥 Show Trending Stocks"
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 320,
+                        lineNumber: 359,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -1556,7 +1594,7 @@ function Home() {
                                     },
                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                         [
-                                            "fed03b579e2a01ac",
+                                            "2d61b444a67c0314",
                                             [
                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -1584,7 +1622,7 @@ function Home() {
                                     children: ticker.replace('.NS', '').replace('.BO', '')
                                 }, ticker, false, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 324,
+                                    lineNumber: 363,
                                     columnNumber: 15
                                 }, this)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1595,7 +1633,7 @@ function Home() {
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -1623,25 +1661,25 @@ function Home() {
                                 children: "(Hide)"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 342,
+                                lineNumber: 381,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 322,
+                        lineNumber: 361,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 317,
+                lineNumber: 356,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                     [
-                        "fed03b579e2a01ac",
+                        "2d61b444a67c0314",
                         [
                             isDarkMode ? '#0f172a' : '#f1f5f9',
                             isDarkMode ? '#1e293b' : '#fff',
@@ -1670,7 +1708,7 @@ function Home() {
                     onSubmit: runScreener,
                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                         [
-                            "fed03b579e2a01ac",
+                            "2d61b444a67c0314",
                             [
                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                 isDarkMode ? '#1e293b' : '#fff',
@@ -1699,7 +1737,7 @@ function Home() {
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                 [
-                                    "fed03b579e2a01ac",
+                                    "2d61b444a67c0314",
                                     [
                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                         isDarkMode ? '#1e293b' : '#fff',
@@ -1727,7 +1765,7 @@ function Home() {
                             children: "Tickers"
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 350,
+                            lineNumber: 389,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1735,7 +1773,7 @@ function Home() {
                             onChange: (e)=>setTickers(e.target.value),
                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                 [
-                                    "fed03b579e2a01ac",
+                                    "2d61b444a67c0314",
                                     [
                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                         isDarkMode ? '#1e293b' : '#fff',
@@ -1762,7 +1800,7 @@ function Home() {
                             ])
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 351,
+                            lineNumber: 390,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1772,7 +1810,7 @@ function Home() {
                             },
                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                 [
-                                    "fed03b579e2a01ac",
+                                    "2d61b444a67c0314",
                                     [
                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                         isDarkMode ? '#1e293b' : '#fff',
@@ -1804,7 +1842,7 @@ function Home() {
                                     },
                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                         [
-                                            "fed03b579e2a01ac",
+                                            "2d61b444a67c0314",
                                             [
                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -1833,7 +1871,7 @@ function Home() {
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                 [
-                                                    "fed03b579e2a01ac",
+                                                    "2d61b444a67c0314",
                                                     [
                                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                                         isDarkMode ? '#1e293b' : '#fff',
@@ -1861,7 +1899,7 @@ function Home() {
                                             children: "Min CAGR %"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 353,
+                                            lineNumber: 392,
                                             columnNumber: 36
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1873,7 +1911,7 @@ function Home() {
                                             },
                                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                 [
-                                                    "fed03b579e2a01ac",
+                                                    "2d61b444a67c0314",
                                                     [
                                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                                         isDarkMode ? '#1e293b' : '#fff',
@@ -1900,13 +1938,13 @@ function Home() {
                                             ])
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 353,
+                                            lineNumber: 392,
                                             columnNumber: 61
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 353,
+                                    lineNumber: 392,
                                     columnNumber: 14
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1915,7 +1953,7 @@ function Home() {
                                     },
                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                         [
-                                            "fed03b579e2a01ac",
+                                            "2d61b444a67c0314",
                                             [
                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -1944,7 +1982,7 @@ function Home() {
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                 [
-                                                    "fed03b579e2a01ac",
+                                                    "2d61b444a67c0314",
                                                     [
                                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                                         isDarkMode ? '#1e293b' : '#fff',
@@ -1972,7 +2010,7 @@ function Home() {
                                             children: "Years"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 354,
+                                            lineNumber: 393,
                                             columnNumber: 36
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1984,7 +2022,7 @@ function Home() {
                                             },
                                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                 [
-                                                    "fed03b579e2a01ac",
+                                                    "2d61b444a67c0314",
                                                     [
                                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                                         isDarkMode ? '#1e293b' : '#fff',
@@ -2011,19 +2049,19 @@ function Home() {
                                             ])
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 354,
+                                            lineNumber: 393,
                                             columnNumber: 56
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 354,
+                                    lineNumber: 393,
                                     columnNumber: 14
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 352,
+                            lineNumber: 391,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2034,7 +2072,7 @@ function Home() {
                             },
                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                 [
-                                    "fed03b579e2a01ac",
+                                    "2d61b444a67c0314",
                                     [
                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                         isDarkMode ? '#1e293b' : '#fff',
@@ -2062,24 +2100,24 @@ function Home() {
                             children: loading ? 'Running...' : 'Run Screener'
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 356,
+                            lineNumber: 395,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/pages/index.js",
-                    lineNumber: 349,
+                    lineNumber: 388,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 348,
+                lineNumber: 387,
                 columnNumber: 7
             }, this),
             results.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                     [
-                        "fed03b579e2a01ac",
+                        "2d61b444a67c0314",
                         [
                             isDarkMode ? '#0f172a' : '#f1f5f9',
                             isDarkMode ? '#1e293b' : '#fff',
@@ -2108,7 +2146,7 @@ function Home() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2136,13 +2174,13 @@ function Home() {
                         children: "Results"
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 363,
+                        lineNumber: 402,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2170,7 +2208,7 @@ function Home() {
                         children: results.map((r)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -2199,7 +2237,7 @@ function Home() {
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2228,7 +2266,7 @@ function Home() {
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
                                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                     [
-                                                        "fed03b579e2a01ac",
+                                                        "2d61b444a67c0314",
                                                         [
                                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                                             isDarkMode ? '#1e293b' : '#fff',
@@ -2256,7 +2294,7 @@ function Home() {
                                                 children: r.ticker
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 367,
+                                                lineNumber: 406,
                                                 columnNumber: 22
                                             }, this),
                                             " (CAGR: ",
@@ -2265,13 +2303,13 @@ function Home() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 367,
+                                        lineNumber: 406,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2301,7 +2339,7 @@ function Home() {
                                                 onClick: ()=>showChart(r.ticker),
                                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                     [
-                                                        "fed03b579e2a01ac",
+                                                        "2d61b444a67c0314",
                                                         [
                                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                                             isDarkMode ? '#1e293b' : '#fff',
@@ -2329,7 +2367,7 @@ function Home() {
                                                 children: "Chart"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 369,
+                                                lineNumber: 408,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2339,7 +2377,7 @@ function Home() {
                                                 },
                                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                     [
-                                                        "fed03b579e2a01ac",
+                                                        "2d61b444a67c0314",
                                                         [
                                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                                             isDarkMode ? '#1e293b' : '#fff',
@@ -2367,37 +2405,37 @@ function Home() {
                                                 children: "AI Advice"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 370,
+                                                lineNumber: 409,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 368,
+                                        lineNumber: 407,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, r.ticker, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 366,
+                                lineNumber: 405,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 364,
+                        lineNumber: 403,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 362,
+                lineNumber: 401,
                 columnNumber: 9
             }, this),
             selectedChart && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 id: "chart-view",
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                     [
-                        "fed03b579e2a01ac",
+                        "2d61b444a67c0314",
                         [
                             isDarkMode ? '#0f172a' : '#f1f5f9',
                             isDarkMode ? '#1e293b' : '#fff',
@@ -2426,7 +2464,7 @@ function Home() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2457,7 +2495,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 381,
+                        lineNumber: 420,
                         columnNumber: 13
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2467,7 +2505,7 @@ function Home() {
                         },
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2504,7 +2542,7 @@ function Home() {
                                         dot: false
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 385,
+                                        lineNumber: 424,
                                         columnNumber: 23
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$CartesianGrid$2e$js__$5b$client$5d$__$28$ecmascript$29$__["CartesianGrid"], {
@@ -2513,7 +2551,7 @@ function Home() {
                                         opacity: 0.5
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 386,
+                                        lineNumber: 425,
                                         columnNumber: 23
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$XAxis$2e$js__$5b$client$5d$__$28$ecmascript$29$__["XAxis"], {
@@ -2521,7 +2559,7 @@ function Home() {
                                         hide: true
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 387,
+                                        lineNumber: 426,
                                         columnNumber: 23
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$YAxis$2e$js__$5b$client$5d$__$28$ecmascript$29$__["YAxis"], {
@@ -2534,7 +2572,7 @@ function Home() {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 388,
+                                        lineNumber: 427,
                                         columnNumber: 23
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Tooltip"], {
@@ -2545,29 +2583,29 @@ function Home() {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 392,
+                                        lineNumber: 431,
                                         columnNumber: 23
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 384,
+                                lineNumber: 423,
                                 columnNumber: 21
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 383,
+                            lineNumber: 422,
                             columnNumber: 17
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 382,
+                        lineNumber: 421,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 380,
+                lineNumber: 419,
                 columnNumber: 9
             }, this),
             recommendation && !recommendation.loading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -2578,7 +2616,7 @@ function Home() {
                 },
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                     [
-                        "fed03b579e2a01ac",
+                        "2d61b444a67c0314",
                         [
                             isDarkMode ? '#0f172a' : '#f1f5f9',
                             isDarkMode ? '#1e293b' : '#fff',
@@ -2613,7 +2651,7 @@ function Home() {
                         },
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2645,7 +2683,7 @@ function Home() {
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -2673,7 +2711,7 @@ function Home() {
                                 children: "AI Recommendation"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 412,
+                                lineNumber: 452,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2684,12 +2722,11 @@ function Home() {
                                     borderRadius: '20px',
                                     fontSize: '11px',
                                     fontWeight: '900',
-                                    letterSpacing: '0.5px',
                                     textTransform: 'uppercase'
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -2717,25 +2754,25 @@ function Home() {
                                 children: getRiskInfo(selectedStockDetails?.pe).label
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 415,
+                                lineNumber: 454,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 411,
+                        lineNumber: 451,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
-                            background: '#f8fafc',
+                            background: isDarkMode ? '#0f172a' : '#f8fafc',
                             padding: '15px',
                             borderRadius: '8px',
-                            border: '1px solid #e2e8f0'
+                            border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`
                         },
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2763,11 +2800,12 @@ function Home() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 style: {
-                                    margin: '0 0 10px 0'
+                                    margin: '0 0 10px 0',
+                                    color: isDarkMode ? '#f1f5f9' : '#1e293b'
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -2794,9 +2832,12 @@ function Home() {
                                 ]),
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                        style: {
+                                            color: isDarkMode ? '#94a3b8' : '#64748b'
+                                        },
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2824,7 +2865,7 @@ function Home() {
                                         children: "Ticker:"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 431,
+                                        lineNumber: 475,
                                         columnNumber: 15
                                     }, this),
                                     " ",
@@ -2837,7 +2878,7 @@ function Home() {
                                         },
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2869,22 +2910,23 @@ function Home() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 432,
+                                        lineNumber: 476,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 430,
+                                lineNumber: 474,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 style: {
-                                    margin: '0 0 15px 0'
+                                    margin: '0 0 15px 0',
+                                    color: isDarkMode ? '#f1f5f9' : '#1e293b'
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -2911,9 +2953,12 @@ function Home() {
                                 ]),
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                        style: {
+                                            color: isDarkMode ? '#94a3b8' : '#64748b'
+                                        },
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2941,7 +2986,7 @@ function Home() {
                                         children: "Action:"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 438,
+                                        lineNumber: 482,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2953,7 +2998,7 @@ function Home() {
                                         },
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -2981,23 +3026,23 @@ function Home() {
                                         children: recommendation.action
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 439,
+                                        lineNumber: 483,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 437,
+                                lineNumber: 481,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 style: {
-                                    borderTop: '1px solid #e2e8f0',
+                                    borderTop: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`,
                                     paddingTop: '10px'
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -3025,12 +3070,12 @@ function Home() {
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     style: {
                                         lineHeight: '1.6',
-                                        color: '#334155',
+                                        color: isDarkMode ? '#cbd5e1' : '#334155',
                                         margin: 0
                                     },
                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                         [
-                                            "fed03b579e2a01ac",
+                                            "2d61b444a67c0314",
                                             [
                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -3057,9 +3102,12 @@ function Home() {
                                     ]),
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                            style: {
+                                                color: isDarkMode ? '#94a3b8' : '#1e293b'
+                                            },
                                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                 [
-                                                    "fed03b579e2a01ac",
+                                                    "2d61b444a67c0314",
                                                     [
                                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                                         isDarkMode ? '#1e293b' : '#fff',
@@ -3087,7 +3135,7 @@ function Home() {
                                             children: "Analyst Note:"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 451,
+                                            lineNumber: 495,
                                             columnNumber: 19
                                         }, this),
                                         " ",
@@ -3095,30 +3143,30 @@ function Home() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 450,
+                                    lineNumber: 494,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 449,
+                                lineNumber: 493,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 429,
+                        lineNumber: 468,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 407,
+                lineNumber: 447,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                     [
-                        "fed03b579e2a01ac",
+                        "2d61b444a67c0314",
                         [
                             isDarkMode ? '#0f172a' : '#f1f5f9',
                             isDarkMode ? '#1e293b' : '#fff',
@@ -3150,7 +3198,7 @@ function Home() {
                         },
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -3179,7 +3227,7 @@ function Home() {
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -3207,7 +3255,7 @@ function Home() {
                                 children: "Ask the AI Analyst"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 461,
+                                lineNumber: 505,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -3218,7 +3266,7 @@ function Home() {
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -3253,7 +3301,7 @@ function Home() {
                                         placeholder: "Ask about any stock...",
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -3280,7 +3328,7 @@ function Home() {
                                         ])
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 463,
+                                        lineNumber: 507,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3288,7 +3336,7 @@ function Home() {
                                         disabled: isChatting,
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -3316,19 +3364,19 @@ function Home() {
                                         children: isChatting ? 'Thinking...' : 'Ask AI'
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 464,
+                                        lineNumber: 508,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 462,
+                                lineNumber: 506,
                                 columnNumber: 11
                             }, this),
                             chatResponse && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -3356,19 +3404,19 @@ function Home() {
                                 children: chatResponse
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 466,
+                                lineNumber: 510,
                                 columnNumber: 28
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 460,
+                        lineNumber: 504,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                             [
-                                "fed03b579e2a01ac",
+                                "2d61b444a67c0314",
                                 [
                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                     isDarkMode ? '#1e293b' : '#fff',
@@ -3398,11 +3446,12 @@ function Home() {
                                 style: {
                                     display: 'flex',
                                     justifyContent: 'space-between',
-                                    alignItems: 'center'
+                                    alignItems: 'center',
+                                    marginBottom: '15px'
                                 },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -3434,7 +3483,7 @@ function Home() {
                                         },
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -3462,17 +3511,18 @@ function Home() {
                                         children: "Activity Log"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 471,
+                                        lineNumber: 515,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        onClick: loadActivityLog,
-                                        style: {
-                                            background: '#333'
+                                        type: "button",
+                                        onClick: ()=>{
+                                            console.log("Refresh Clicked!");
+                                            loadActivityLog();
                                         },
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -3496,23 +3546,27 @@ function Home() {
                                                     isDarkMode ? '#020617' : '#0f172a'
                                                 ]
                                             ]
-                                        ]),
-                                        children: "Refresh"
+                                        ]) + " " + "refresh-btn",
+                                        children: "🔄 Refresh"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 472,
+                                        lineNumber: 517,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 470,
+                                lineNumber: 514,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                style: {
+                                    listStyle: 'none',
+                                    padding: 0
+                                },
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                     [
-                                        "fed03b579e2a01ac",
+                                        "2d61b444a67c0314",
                                         [
                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                             isDarkMode ? '#1e293b' : '#fff',
@@ -3537,10 +3591,26 @@ function Home() {
                                         ]
                                     ]
                                 ]) + " " + "log-list",
-                                children: activityLog.map((ev)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                children: activityLog && activityLog.length > 0 ? activityLog.map((ev, index)=>{
+                                    // Helper to make the payload look nice
+                                    const getActionText = (type, payload)=>{
+                                        if (type === 'run_screener') return `Screened tickers: ${payload.tickers || 'N/A'}`;
+                                        if (type === 'view_chart') return `Viewed chart for ${payload.ticker}`;
+                                        if (type === 'ai_advice') return `Requested AI analysis for ${payload.ticker}`;
+                                        return JSON.stringify(payload); // Fallback
+                                    };
+                                    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                        style: {
+                                            padding: '10px 0',
+                                            borderBottom: `1px solid ${isDarkMode ? '#334155' : '#eee'}`,
+                                            fontSize: '13px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: '4px'
+                                        },
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
-                                                "fed03b579e2a01ac",
+                                                "2d61b444a67c0314",
                                                 [
                                                     isDarkMode ? '#0f172a' : '#f1f5f9',
                                                     isDarkMode ? '#1e293b' : '#fff',
@@ -3566,10 +3636,14 @@ function Home() {
                                             ]
                                         ]),
                                         children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                style: {
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between'
+                                                },
                                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                     [
-                                                        "fed03b579e2a01ac",
+                                                        "2d61b444a67c0314",
                                                         [
                                                             isDarkMode ? '#0f172a' : '#f1f5f9',
                                                             isDarkMode ? '#1e293b' : '#fff',
@@ -3594,42 +3668,201 @@ function Home() {
                                                         ]
                                                     ]
                                                 ]),
-                                                children: ev.event_type
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                        style: {
+                                                            color: '#0b5fff',
+                                                            textTransform: 'uppercase',
+                                                            fontSize: '11px'
+                                                        },
+                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
+                                                            [
+                                                                "2d61b444a67c0314",
+                                                                [
+                                                                    isDarkMode ? '#0f172a' : '#f1f5f9',
+                                                                    isDarkMode ? '#1e293b' : '#fff',
+                                                                    isDarkMode ? '#f1f5f9' : '#1e293b',
+                                                                    isDarkMode ? '#334155' : 'transparent',
+                                                                    isDarkMode ? '#f8fafc' : '#0f172a',
+                                                                    isDarkMode ? '#94a3b8' : '#666',
+                                                                    isDarkMode ? '#475569' : '#ddd',
+                                                                    isDarkMode ? '#0f172a' : '#fff',
+                                                                    isDarkMode ? '#fff' : '#000',
+                                                                    isDarkMode ? '#1e293b' : 'white',
+                                                                    isDarkMode ? '#f1f5f9' : '#1e293b',
+                                                                    isDarkMode ? '#334155' : 'transparent',
+                                                                    isDarkMode ? '#94a3b8' : '#666',
+                                                                    isDarkMode ? '#0f172a' : '#f8fafc',
+                                                                    isDarkMode ? '#64748b' : '#64748b',
+                                                                    isDarkMode ? '#334155' : '#eee',
+                                                                    isDarkMode ? '#0f172a' : '#f8fafc',
+                                                                    isDarkMode ? '#334155' : '#e2e8f0',
+                                                                    isDarkMode ? '#cbd5e1' : '#334155',
+                                                                    isDarkMode ? '#020617' : '#0f172a'
+                                                                ]
+                                                            ]
+                                                        ]),
+                                                        children: ev.event_type.replace('_', ' ')
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/frontend/pages/index.js",
+                                                        lineNumber: 550,
+                                                        columnNumber: 23
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        style: {
+                                                            color: '#64748b',
+                                                            fontSize: '10px'
+                                                        },
+                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
+                                                            [
+                                                                "2d61b444a67c0314",
+                                                                [
+                                                                    isDarkMode ? '#0f172a' : '#f1f5f9',
+                                                                    isDarkMode ? '#1e293b' : '#fff',
+                                                                    isDarkMode ? '#f1f5f9' : '#1e293b',
+                                                                    isDarkMode ? '#334155' : 'transparent',
+                                                                    isDarkMode ? '#f8fafc' : '#0f172a',
+                                                                    isDarkMode ? '#94a3b8' : '#666',
+                                                                    isDarkMode ? '#475569' : '#ddd',
+                                                                    isDarkMode ? '#0f172a' : '#fff',
+                                                                    isDarkMode ? '#fff' : '#000',
+                                                                    isDarkMode ? '#1e293b' : 'white',
+                                                                    isDarkMode ? '#f1f5f9' : '#1e293b',
+                                                                    isDarkMode ? '#334155' : 'transparent',
+                                                                    isDarkMode ? '#94a3b8' : '#666',
+                                                                    isDarkMode ? '#0f172a' : '#f8fafc',
+                                                                    isDarkMode ? '#64748b' : '#64748b',
+                                                                    isDarkMode ? '#334155' : '#eee',
+                                                                    isDarkMode ? '#0f172a' : '#f8fafc',
+                                                                    isDarkMode ? '#334155' : '#e2e8f0',
+                                                                    isDarkMode ? '#cbd5e1' : '#334155',
+                                                                    isDarkMode ? '#020617' : '#0f172a'
+                                                                ]
+                                                            ]
+                                                        ]),
+                                                        children: [
+                                                            market,
+                                                            " Market"
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/frontend/pages/index.js",
+                                                        lineNumber: 553,
+                                                        columnNumber: 23
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/frontend/pages/index.js",
+                                                lineNumber: 549,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                style: {
+                                                    color: isDarkMode ? '#cbd5e1' : '#444'
+                                                },
+                                                className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
+                                                    [
+                                                        "2d61b444a67c0314",
+                                                        [
+                                                            isDarkMode ? '#0f172a' : '#f1f5f9',
+                                                            isDarkMode ? '#1e293b' : '#fff',
+                                                            isDarkMode ? '#f1f5f9' : '#1e293b',
+                                                            isDarkMode ? '#334155' : 'transparent',
+                                                            isDarkMode ? '#f8fafc' : '#0f172a',
+                                                            isDarkMode ? '#94a3b8' : '#666',
+                                                            isDarkMode ? '#475569' : '#ddd',
+                                                            isDarkMode ? '#0f172a' : '#fff',
+                                                            isDarkMode ? '#fff' : '#000',
+                                                            isDarkMode ? '#1e293b' : 'white',
+                                                            isDarkMode ? '#f1f5f9' : '#1e293b',
+                                                            isDarkMode ? '#334155' : 'transparent',
+                                                            isDarkMode ? '#94a3b8' : '#666',
+                                                            isDarkMode ? '#0f172a' : '#f8fafc',
+                                                            isDarkMode ? '#64748b' : '#64748b',
+                                                            isDarkMode ? '#334155' : '#eee',
+                                                            isDarkMode ? '#0f172a' : '#f8fafc',
+                                                            isDarkMode ? '#334155' : '#e2e8f0',
+                                                            isDarkMode ? '#cbd5e1' : '#334155',
+                                                            isDarkMode ? '#020617' : '#0f172a'
+                                                        ]
+                                                    ]
+                                                ]),
+                                                children: getActionText(ev.event_type, ev.payload)
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 476,
-                                                columnNumber: 31
-                                            }, this),
-                                            ": ",
-                                            JSON.stringify(ev.payload)
+                                                lineNumber: 555,
+                                                columnNumber: 21
+                                            }, this)
                                         ]
-                                    }, ev.id, true, {
+                                    }, index, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 476,
-                                        columnNumber: 15
-                                    }, this))
+                                        lineNumber: 541,
+                                        columnNumber: 19
+                                    }, this);
+                                }) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                    style: {
+                                        color: '#666',
+                                        padding: '20px 0',
+                                        textAlign: 'center'
+                                    },
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
+                                        [
+                                            "2d61b444a67c0314",
+                                            [
+                                                isDarkMode ? '#0f172a' : '#f1f5f9',
+                                                isDarkMode ? '#1e293b' : '#fff',
+                                                isDarkMode ? '#f1f5f9' : '#1e293b',
+                                                isDarkMode ? '#334155' : 'transparent',
+                                                isDarkMode ? '#f8fafc' : '#0f172a',
+                                                isDarkMode ? '#94a3b8' : '#666',
+                                                isDarkMode ? '#475569' : '#ddd',
+                                                isDarkMode ? '#0f172a' : '#fff',
+                                                isDarkMode ? '#fff' : '#000',
+                                                isDarkMode ? '#1e293b' : 'white',
+                                                isDarkMode ? '#f1f5f9' : '#1e293b',
+                                                isDarkMode ? '#334155' : 'transparent',
+                                                isDarkMode ? '#94a3b8' : '#666',
+                                                isDarkMode ? '#0f172a' : '#f8fafc',
+                                                isDarkMode ? '#64748b' : '#64748b',
+                                                isDarkMode ? '#334155' : '#eee',
+                                                isDarkMode ? '#0f172a' : '#f8fafc',
+                                                isDarkMode ? '#334155' : '#e2e8f0',
+                                                isDarkMode ? '#cbd5e1' : '#334155',
+                                                isDarkMode ? '#020617' : '#0f172a'
+                                            ]
+                                        ]
+                                    ]),
+                                    children: [
+                                        "No activity logged yet for the ",
+                                        market,
+                                        " market. Try running a search!"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/frontend/pages/index.js",
+                                    lineNumber: 562,
+                                    columnNumber: 15
+                                }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 474,
+                                lineNumber: 529,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 469,
+                        lineNumber: 513,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 459,
+                lineNumber: 503,
                 columnNumber: 7
             }, this),
             isModalOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 onClick: ()=>setIsModalOpen(false),
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                     [
-                        "fed03b579e2a01ac",
+                        "2d61b444a67c0314",
                         [
                             isDarkMode ? '#0f172a' : '#f1f5f9',
                             isDarkMode ? '#1e293b' : '#fff',
@@ -3658,7 +3891,7 @@ function Home() {
                     onClick: (e)=>e.stopPropagation(),
                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                         [
-                            "fed03b579e2a01ac",
+                            "2d61b444a67c0314",
                             [
                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                 isDarkMode ? '#1e293b' : '#fff',
@@ -3688,7 +3921,7 @@ function Home() {
                             onClick: ()=>setIsModalOpen(false),
                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                 [
-                                    "fed03b579e2a01ac",
+                                    "2d61b444a67c0314",
                                     [
                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                         isDarkMode ? '#1e293b' : '#fff',
@@ -3716,13 +3949,13 @@ function Home() {
                             children: "×"
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 486,
+                            lineNumber: 575,
                             columnNumber: 13
                         }, this),
                         selectedStockDetails?.loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                 [
-                                    "fed03b579e2a01ac",
+                                    "2d61b444a67c0314",
                                     [
                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                         isDarkMode ? '#1e293b' : '#fff',
@@ -3754,14 +3987,17 @@ function Home() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 488,
+                            lineNumber: 577,
                             columnNumber: 15
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Fragment"], {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                    style: {
+                                        color: isDarkMode ? '#f8fafc' : '#0f172a'
+                                    },
                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                         [
-                                            "fed03b579e2a01ac",
+                                            "2d61b444a67c0314",
                                             [
                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -3792,13 +4028,13 @@ function Home() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 491,
+                                    lineNumber: 580,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                         [
-                                            "fed03b579e2a01ac",
+                                            "2d61b444a67c0314",
                                             [
                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -3827,7 +4063,7 @@ function Home() {
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                 [
-                                                    "fed03b579e2a01ac",
+                                                    "2d61b444a67c0314",
                                                     [
                                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                                         isDarkMode ? '#1e293b' : '#fff',
@@ -3856,7 +4092,7 @@ function Home() {
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                         [
-                                                            "fed03b579e2a01ac",
+                                                            "2d61b444a67c0314",
                                                             [
                                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -3884,13 +4120,16 @@ function Home() {
                                                     children: "Price"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 493,
-                                                    columnNumber: 46
+                                                    lineNumber: 585,
+                                                    columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                    style: {
+                                                        color: isDarkMode ? '#fff' : '#000'
+                                                    },
                                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                         [
-                                                            "fed03b579e2a01ac",
+                                                            "2d61b444a67c0314",
                                                             [
                                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -3921,19 +4160,19 @@ function Home() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 493,
-                                                    columnNumber: 64
+                                                    lineNumber: 587,
+                                                    columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 493,
+                                            lineNumber: 584,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                 [
-                                                    "fed03b579e2a01ac",
+                                                    "2d61b444a67c0314",
                                                     [
                                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                                         isDarkMode ? '#1e293b' : '#fff',
@@ -3962,7 +4201,7 @@ function Home() {
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                         [
-                                                            "fed03b579e2a01ac",
+                                                            "2d61b444a67c0314",
                                                             [
                                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -3990,13 +4229,16 @@ function Home() {
                                                     children: "P/E"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 494,
-                                                    columnNumber: 46
+                                                    lineNumber: 592,
+                                                    columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                    style: {
+                                                        color: isDarkMode ? '#fff' : '#000'
+                                                    },
                                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                         [
-                                                            "fed03b579e2a01ac",
+                                                            "2d61b444a67c0314",
                                                             [
                                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -4024,19 +4266,19 @@ function Home() {
                                                     children: selectedStockDetails?.pe || 'N/A'
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 494,
-                                                    columnNumber: 62
+                                                    lineNumber: 593,
+                                                    columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 494,
+                                            lineNumber: 591,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                 [
-                                                    "fed03b579e2a01ac",
+                                                    "2d61b444a67c0314",
                                                     [
                                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                                         isDarkMode ? '#1e293b' : '#fff',
@@ -4065,7 +4307,7 @@ function Home() {
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                         [
-                                                            "fed03b579e2a01ac",
+                                                            "2d61b444a67c0314",
                                                             [
                                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -4093,13 +4335,16 @@ function Home() {
                                                     children: "Growth"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 495,
-                                                    columnNumber: 46
+                                                    lineNumber: 598,
+                                                    columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                    style: {
+                                                        color: isDarkMode ? '#fff' : '#000'
+                                                    },
                                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                         [
-                                                            "fed03b579e2a01ac",
+                                                            "2d61b444a67c0314",
                                                             [
                                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -4127,19 +4372,19 @@ function Home() {
                                                     children: selectedStockDetails?.revenueGrowth ? (selectedStockDetails.revenueGrowth * 100).toFixed(1) + '%' : 'N/A'
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 495,
-                                                    columnNumber: 65
+                                                    lineNumber: 599,
+                                                    columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 495,
+                                            lineNumber: 597,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 492,
+                                    lineNumber: 583,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4150,7 +4395,7 @@ function Home() {
                                     },
                                     className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                         [
-                                            "fed03b579e2a01ac",
+                                            "2d61b444a67c0314",
                                             [
                                                 isDarkMode ? '#0f172a' : '#f1f5f9',
                                                 isDarkMode ? '#1e293b' : '#fff',
@@ -4187,7 +4432,7 @@ function Home() {
                                             },
                                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                 [
-                                                    "fed03b579e2a01ac",
+                                                    "2d61b444a67c0314",
                                                     [
                                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                                         isDarkMode ? '#1e293b' : '#fff',
@@ -4215,7 +4460,7 @@ function Home() {
                                             children: "📈 View Chart"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 499,
+                                            lineNumber: 606,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4224,13 +4469,12 @@ function Home() {
                                                 background: '#10b981'
                                             },
                                             onClick: ()=>{
-                                                // THIS IS THE FIX: Pass the ticker and close the modal
                                                 askRecommend(selectedStockDetails.ticker);
                                                 setIsModalOpen(false);
                                             },
                                             className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                                 [
-                                                    "fed03b579e2a01ac",
+                                                    "2d61b444a67c0314",
                                                     [
                                                         isDarkMode ? '#0f172a' : '#f1f5f9',
                                                         isDarkMode ? '#1e293b' : '#fff',
@@ -4258,13 +4502,13 @@ function Home() {
                                             children: "🤖 Get Advice"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 509,
+                                            lineNumber: 609,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 498,
+                                    lineNumber: 605,
                                     columnNumber: 17
                                 }, this)
                             ]
@@ -4272,16 +4516,16 @@ function Home() {
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/pages/index.js",
-                    lineNumber: 485,
+                    lineNumber: 574,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 484,
+                lineNumber: 573,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {
-                id: "fed03b579e2a01ac",
+                id: "2d61b444a67c0314",
                 dynamic: [
                     isDarkMode ? '#0f172a' : '#f1f5f9',
                     isDarkMode ? '#1e293b' : '#fff',
@@ -4304,16 +4548,16 @@ function Home() {
                     isDarkMode ? '#cbd5e1' : '#334155',
                     isDarkMode ? '#020617' : '#0f172a'
                 ],
-                children: `body{background-color:${isDarkMode ? '#0f172a' : '#f1f5f9'};margin:0;transition:background-color .3s}.container.__jsx-style-dynamic-selector{max-width:900px;margin:24px auto;padding:0 16px;font-family:sans-serif}.card.__jsx-style-dynamic-selector{background:${isDarkMode ? '#1e293b' : '#fff'};color:${isDarkMode ? '#f1f5f9' : '#1e293b'};border:1px solid ${isDarkMode ? '#334155' : 'transparent'};border-radius:8px;margin-bottom:12px;padding:16px;box-shadow:0 1px 3px #0000001a}h1.__jsx-style-dynamic-selector,h2.__jsx-style-dynamic-selector{color:${isDarkMode ? '#f8fafc' : '#0f172a'}}label.__jsx-style-dynamic-selector{color:${isDarkMode ? '#94a3b8' : '#666'}}form.__jsx-style-dynamic-selector{gap:8px;display:grid}input.__jsx-style-dynamic-selector{border:1px solid ${isDarkMode ? '#475569' : '#ddd'};background:${isDarkMode ? '#0f172a' : '#fff'};color:${isDarkMode ? '#fff' : '#000'};border-radius:4px;padding:10px}button.__jsx-style-dynamic-selector{color:#fff;cursor:pointer;background:#0b5fff;border:none;border-radius:6px;padding:10px 16px;font-weight:700}.grid-list.__jsx-style-dynamic-selector{flex-wrap:wrap;gap:8px;display:flex}.stock-pill.__jsx-style-dynamic-selector{color:#fff;background:#0b5fff;border-radius:20px;padding:6px 14px;font-size:13px}.modal-overlay.__jsx-style-dynamic-selector{z-index:1000;background:#000c;justify-content:center;align-items:center;width:100%;height:100%;display:flex;position:fixed;top:0;left:0}.modal-content.__jsx-style-dynamic-selector{background:${isDarkMode ? '#1e293b' : 'white'};color:${isDarkMode ? '#f1f5f9' : '#1e293b'};border:1px solid ${isDarkMode ? '#334155' : 'transparent'};border-radius:12px;width:90%;max-width:400px;padding:25px;position:relative}.close-btn.__jsx-style-dynamic-selector{cursor:pointer;color:${isDarkMode ? '#94a3b8' : '#666'};background:0 0;border:none;font-size:24px;position:absolute;top:10px;right:15px}.stats-grid.__jsx-style-dynamic-selector{grid-template-columns:1fr 1fr;gap:10px;margin-top:15px;display:grid}.stat-item.__jsx-style-dynamic-selector{background:${isDarkMode ? '#0f172a' : '#f8fafc'};border-radius:6px;padding:10px}.stat-item.__jsx-style-dynamic-selector span.__jsx-style-dynamic-selector{color:${isDarkMode ? '#64748b' : '#64748b'};text-transform:uppercase;font-size:11px;display:block}.result.__jsx-style-dynamic-selector{border-bottom:1px solid ${isDarkMode ? '#334155' : '#eee'};justify-content:space-between;align-items:center;padding:10px 0;display:flex}.chat-box.__jsx-style-dynamic-selector{background:${isDarkMode ? '#0f172a' : '#f8fafc'};border:1px solid ${isDarkMode ? '#334155' : '#e2e8f0'};white-space:pre-wrap;color:${isDarkMode ? '#cbd5e1' : '#334155'};border-radius:6px;margin-top:10px;padding:12px;font-size:14px}.log-list.__jsx-style-dynamic-selector{maxHeight:150px;padding:0;font-size:11px;list-style:none;overflow-y:auto}.market-ticker.__jsx-style-dynamic-selector{background:${isDarkMode ? '#020617' : '#0f172a'};color:#fff;border-radius:12px;align-items:center;gap:15px;margin-bottom:25px;padding:10px 20px;display:flex;box-shadow:0 4px 6px -1px #0000001a}.live-dot.__jsx-style-dynamic-selector{animation:2s infinite pulse}@keyframes pulse{0%{transform:scale(.95);box-shadow:0 0 #10b981b3}70%{transform:scale(1);box-shadow:0 0 0 6px #10b98100}to{transform:scale(.95);box-shadow:0 0 #10b98100}}`
+                children: `body{background-color:${isDarkMode ? '#0f172a' : '#f1f5f9'};margin:0;transition:background-color .3s}.container.__jsx-style-dynamic-selector{max-width:900px;margin:24px auto;padding:0 16px;font-family:sans-serif}.card.__jsx-style-dynamic-selector{background:${isDarkMode ? '#1e293b' : '#fff'};color:${isDarkMode ? '#f1f5f9' : '#1e293b'};border:1px solid ${isDarkMode ? '#334155' : 'transparent'};border-radius:8px;margin-bottom:12px;padding:16px;box-shadow:0 1px 3px #0000001a}h1.__jsx-style-dynamic-selector,h2.__jsx-style-dynamic-selector{color:${isDarkMode ? '#f8fafc' : '#0f172a'}}label.__jsx-style-dynamic-selector{color:${isDarkMode ? '#94a3b8' : '#666'}}form.__jsx-style-dynamic-selector{gap:8px;display:grid}input.__jsx-style-dynamic-selector{border:1px solid ${isDarkMode ? '#475569' : '#ddd'};background:${isDarkMode ? '#0f172a' : '#fff'};color:${isDarkMode ? '#fff' : '#000'};border-radius:4px;padding:10px}button.__jsx-style-dynamic-selector{color:#fff;cursor:pointer;background:#0b5fff;border:none;border-radius:6px;padding:10px 16px;font-weight:700}.grid-list.__jsx-style-dynamic-selector{flex-wrap:wrap;gap:8px;display:flex}.stock-pill.__jsx-style-dynamic-selector{color:#fff;background:#0b5fff;border-radius:20px;padding:6px 14px;font-size:13px}.modal-overlay.__jsx-style-dynamic-selector{z-index:1000;background:#000c;justify-content:center;align-items:center;width:100%;height:100%;display:flex;position:fixed;top:0;left:0}.modal-content.__jsx-style-dynamic-selector{background:${isDarkMode ? '#1e293b' : 'white'};color:${isDarkMode ? '#f1f5f9' : '#1e293b'};border:1px solid ${isDarkMode ? '#334155' : 'transparent'};border-radius:12px;width:90%;max-width:400px;padding:25px;position:relative}.close-btn.__jsx-style-dynamic-selector{cursor:pointer;color:${isDarkMode ? '#94a3b8' : '#666'};background:0 0;border:none;font-size:24px;position:absolute;top:10px;right:15px}.stats-grid.__jsx-style-dynamic-selector{grid-template-columns:1fr 1fr;gap:10px;margin-top:15px;display:grid}.stat-item.__jsx-style-dynamic-selector{background:${isDarkMode ? '#0f172a' : '#f8fafc'};border-radius:6px;padding:10px}.stat-item.__jsx-style-dynamic-selector span.__jsx-style-dynamic-selector{color:${isDarkMode ? '#64748b' : '#64748b'};text-transform:uppercase;font-size:11px;display:block}.result.__jsx-style-dynamic-selector{border-bottom:1px solid ${isDarkMode ? '#334155' : '#eee'};justify-content:space-between;align-items:center;padding:10px 0;display:flex}.chat-box.__jsx-style-dynamic-selector{background:${isDarkMode ? '#0f172a' : '#f8fafc'};border:1px solid ${isDarkMode ? '#334155' : '#e2e8f0'};white-space:pre-wrap;color:${isDarkMode ? '#cbd5e1' : '#334155'};border-radius:6px;margin-top:10px;padding:12px;font-size:14px}.log-list.__jsx-style-dynamic-selector{maxHeight:150px;padding:0;font-size:11px;list-style:none;overflow-y:auto}.market-ticker.__jsx-style-dynamic-selector{background:${isDarkMode ? '#020617' : '#0f172a'};color:#fff;border-radius:12px;align-items:center;gap:15px;margin-bottom:25px;padding:10px 20px;display:flex;box-shadow:0 4px 6px -1px #0000001a}.refresh-btn.__jsx-style-dynamic-selector{color:#fff;cursor:pointer;background:#0b5fff;border:none;border-radius:6px;align-items:center;gap:6px;padding:8px 16px;font-weight:700;transition:all .2s;display:flex;box-shadow:0 2px 4px #0b5fff33}.refresh-btn.__jsx-style-dynamic-selector:hover{background:#2575ff;transform:translateY(-1px);box-shadow:0 4px 12px #0b5fff4d}.refresh-btn.__jsx-style-dynamic-selector:active{filter:brightness(.9);box-shadow:none;transform:translateY(1px)}.live-dot.__jsx-style-dynamic-selector{animation:2s infinite pulse}@keyframes pulse{0%{transform:scale(.95);box-shadow:0 0 #10b981b3}70%{transform:scale(1);box-shadow:0 0 0 6px #10b98100}to{transform:scale(.95);box-shadow:0 0 #10b98100}}`
             }, void 0, false, void 0, this)
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/pages/index.js",
-        lineNumber: 264,
+        lineNumber: 303,
         columnNumber: 5
     }, this);
 }
-_s(Home, "1gs3Np6MworXgHGvBkb2m6aGHzA=");
+_s(Home, "QE/1PAk33gqGl9fo7iy+NDbzgS0=");
 _c = Home;
 var _c;
 __turbopack_context__.k.register(_c, "Home");
