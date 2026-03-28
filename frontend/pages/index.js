@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const getRiskInfo = (pe) => {
@@ -25,12 +25,28 @@ export default function Home() {
   const [topStocks, setTopStocks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStockDetails, setSelectedStockDetails] = useState(null);
+  const [marketIndex, setMarketIndex] = useState(null);
   const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
 
   const defaults = {
     US: 'AAPL,MSFT,GOOGL',
     IN: 'RELIANCE.NS,TCS.NS,INFY.NS'
   };
+
+  useEffect(() => {
+    if (market) {
+      const fetchIndex = async () => {
+        try {
+          const res = await fetch(`${apiBase}/market-index?market=${market}`);
+          const data = await res.json();
+          setMarketIndex(data);
+        } catch (err) { console.error("Index fetch failed", err); }
+      };
+      fetchIndex();
+      const interval = setInterval(fetchIndex, 60000); // Refresh every minute
+      return () => clearInterval(interval);
+    }
+  }, [market]);
 
   async function chooseMarket(m) {
     setMarket(m);
@@ -200,6 +216,43 @@ async function askRecommend(ticker) {
 
   return (
     <div className="container">
+
+    {marketIndex && (
+      <div className="market-ticker">
+        <span className="ticker-label">{marketIndex.symbol}:</span>
+        <span className="ticker-price">{marketIndex.price?.toLocaleString() || '---'}</span>
+
+        {/* NEW TIMESTAMP */}
+        <span style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>
+          Updated: {marketIndex.timestamp}
+        </span>
+
+        <span className={`ticker-change ${marketIndex.change >= 0 ? 'up' : 'down'}`}>
+          {marketIndex.change >= 0 ? '▲' : '▼'} {Math.abs(marketIndex.change || 0)} ({Math.abs(marketIndex.change_pct || 0)}%)
+        </span>
+
+        <div style={{
+          marginLeft: 'auto',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: marketIndex.status === 'OPEN' ? '#064e3b' : '#450a0a',
+          padding: '4px 12px',
+          borderRadius: '20px',
+          border: `1px solid ${marketIndex.status === 'OPEN' ? '#10b981' : '#f87171'}`
+        }}>
+          <span className={marketIndex.status === 'OPEN' ? 'live-dot' : ''}
+                style={{
+                  backgroundColor: marketIndex.status === 'OPEN' ? '#10b981' : '#f87171',
+                  width: '8px', height: '8px', borderRadius: '50%'
+                }}></span>
+          <span style={{ fontSize: '11px', fontWeight: '900', color: marketIndex.status === 'OPEN' ? '#10b981' : '#f87171' }}>
+            MARKET {marketIndex.status}
+          </span>
+        </div>
+      </div>
+    )}
+
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h1 style={{ margin: 0 }}>Stock Screener ({market})</h1>
         <button onClick={backToMarket} style={{ background: '#e2e8f0', color: '#475569' }}>Change Market</button>
@@ -423,6 +476,27 @@ async function askRecommend(ticker) {
         .result { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; align-items: center; }
         .chat-box { background: #f8fafc; padding: 12px; margin-top: 10px; border-radius: 6px; border: 1px solid #e2e8f0; white-space: pre-wrap; font-size: 14px; }
         .log-list { maxHeight: 150px; overflow-y: auto; font-size: 11px; padding: 0; list-style: none; }
+        .market-ticker {
+          background: #020617; /* Very dark blue/black for contrast */
+          color: white;
+          padding: 10px 20px;
+          border-radius: 12px;
+          margin-bottom: 25px;
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .live-dot {
+          animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+          0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+          70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+          100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
       `}</style>
     </div>
   );

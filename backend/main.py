@@ -138,5 +138,55 @@ def get_trending_stocks(market: str):
         print(f"ERROR: {str(e)}")
         return {"stocks": []}
 
+from datetime import datetime
+import pytz
+
+@app.get("/market-index")
+def get_market_index(market: str):
+    symbol = "^NSEI" if market == "IN" else "^GSPC"
+    try:
+        ticker = yf_lib.Ticker(symbol)
+        data = ticker.history(period="1d")
+
+        # Market Status Logic
+        is_open = False
+        now = datetime.now(pytz.utc)
+        timestamp = now.strftime("%I:%M:%S %p")
+
+        if market == "IN":
+            # India: Mon-Fri, 9:15 AM - 3:30 PM IST
+            tz = pytz.timezone('Asia/Kolkata')
+            local_time = now.astimezone(tz)
+            if local_time.weekday() < 5:  # Mon-Fri
+                start = local_time.replace(hour=9, minute=15, second=0)
+                end = local_time.replace(hour=15, minute=30, second=0)
+                is_open = start <= local_time <= end
+        else:
+            # US: Mon-Fri, 9:30 AM - 4:00 PM EST
+            tz = pytz.timezone('US/Eastern')
+            local_time = now.astimezone(tz)
+            if local_time.weekday() < 5:
+                start = local_time.replace(hour=9, minute=30, second=0)
+                end = local_time.replace(hour=16, minute=0, second=0)
+                is_open = start <= local_time <= end
+
+        if not data.empty:
+            price = data['Close'].iloc[-1]
+            prev_price = data['Open'].iloc[-1]
+            change = price - prev_price
+            change_pct = (change / prev_price) * 100
+
+            return {
+                        "price": round(float(price), 2),
+                        "change": round(float(change), 2),
+                        "change_pct": round(float(change_pct), 2),
+                        "symbol": "NIFTY 50" if market == "IN" else "S&P 500",
+                        "status": "OPEN" if is_open else "CLOSED",
+                        "timestamp": timestamp  # <-- ADD THIS
+                        }
+        return {"error": "No data"}
+    except Exception as e:
+        return {"error": str(e)}
+
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

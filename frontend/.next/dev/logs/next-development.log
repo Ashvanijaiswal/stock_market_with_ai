@@ -1027,3 +1027,196 @@ await isn't allowed in non-async function
        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
        height and width.
 [13:43:16.291] Server  LOG     ✓ Compiled in 7ms
+[13:50:21.756] Server  LOG     ✓ Compiled in 32ms
+[13:50:56.300] Server  LOG     ✓ Compiled in 21ms
+[13:50:57.137] Browser ERROR   %o
+
+%s
+
+%s
+ {} The above error occurred in the <Home> component. React will try to recreate this component tree from scratch using the error boundary you provided, PagesDevOverlayErrorBoundary.
+[13:51:48.383] Server  LOG     ✓ Compiled in 26ms
+[13:51:49.138] Browser ERROR   %o
+
+%s
+
+%s
+ {} The above error occurred in the <Home> component. React will try to recreate this component tree from scratch using the error boundary you provided, PagesDevOverlayErrorBoundary.
+[13:51:50.565] Server  ERROR   ReferenceError: useEffect is not defined
+[13:51:50.570] Server  ERROR   ⨯ ReferenceError: useEffect is not defined
+[13:51:50.574] Server  ERROR   ⨯ ReferenceError: useEffect is not defined
+[13:51:50.663] Browser ERROR   uncaughtError: ReferenceError: useEffect is not defined
+[13:53:01.383] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[13:53:01.423] Server  ERROR   ReferenceError: useEffect is not defined
+[13:53:01.426] Server  ERROR   ⨯ ReferenceError: useEffect is not defined
+[13:53:01.428] Server  ERROR   ⨯ ReferenceError: useEffect is not defined
+[13:53:01.428] Server  LOG     ✓ Compiled in 9ms
+[13:53:01.496] Browser ERROR   uncaughtError: ReferenceError: useEffect is not defined
+[13:55:54.592] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[13:55:54.597] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[13:55:54.698] Browser ERROR   uncaughtError: Error: ./frontend/pages/index.js:3:8
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |        ^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `React` is defined multiple times
+
+
+[13:55:55.137] Browser ERROR   ./frontend/pages/index.js:3:8
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |        ^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `React` is defined multiple times
+[13:55:55.137] Browser ERROR   ./frontend/pages/index.js:3:17
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |                 ^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `useState` is defined multiple times
+[13:55:55.137] Browser ERROR   ./frontend/pages/index.js:3:8
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |        ^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `React` is defined multiple times
+[13:55:55.137] Browser ERROR   ./frontend/pages/index.js:3:17
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |                 ^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `useState` is defined multiple times
+[13:56:22.814] Server  LOG     ✓ Compiled in 11ms
+[13:56:23.136] Browser ERROR   ./frontend/pages/index.js:3:8
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |        ^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `React` is defined multiple times
+[13:56:23.136] Browser ERROR   ./frontend/pages/index.js:3:17
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |                 ^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `useState` is defined multiple times
+[13:56:52.027] Browser ERROR   uncaughtError: Error: ./frontend/pages/index.js:3:8
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |        ^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `React` is defined multiple times
+
+
+[13:56:52.165] Browser ERROR   ./frontend/pages/index.js:3:8
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |        ^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `React` is defined multiple times
+[13:56:52.165] Browser ERROR   ./frontend/pages/index.js:3:17
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |                 ^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `useState` is defined multiple times
+[13:56:52.165] Browser ERROR   ./frontend/pages/index.js:3:8
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |        ^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `React` is defined multiple times
+[13:56:52.165] Browser ERROR   ./frontend/pages/index.js:3:17
+Ecmascript file had an error
+  1 | import React, { useState } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import React, { useState, useEffect } from 'react';
+    |                 ^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+the name `useState` is defined multiple times
+[13:59:07.739] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[13:59:07.793] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[13:59:11.824] Browser ERROR   %o
+
+%s
+
+%s
+ {} The above error occurred in the <Home> component. React will try to recreate this component tree from scratch using the error boundary you provided, PagesDevOverlayErrorBoundary.
+[13:59:33.323] Browser ERROR   %o
+
+%s
+
+%s
+ {} The above error occurred in the <Home> component. React will try to recreate this component tree from scratch using the error boundary you provided, PagesDevOverlayErrorBoundary.
+[14:06:43.617] Server  LOG     ✓ Compiled in 21ms
+[14:18:35.739] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[14:21:34.558] Server  LOG     ✓ Compiled in 15ms
+[14:23:05.167] Server  LOG     ✓ Compiled in 7ms
+[14:24:38.136] Server  LOG     ✓ Compiled in 8ms
+[14:25:07.058] Server  LOG     ✓ Compiled in 9ms
+[14:26:10.535] Server  LOG     ✓ Compiled in 8ms
+[14:39:36.353] Server  LOG     ✓ Compiled in 13ms
+[14:39:49.307] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.

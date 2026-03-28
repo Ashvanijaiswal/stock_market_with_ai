@@ -67,11 +67,30 @@ function Home() {
     const [topStocks, setTopStocks] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])([]);
     const [isModalOpen, setIsModalOpen] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(false);
     const [selectedStockDetails, setSelectedStockDetails] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(null);
+    const [marketIndex, setMarketIndex] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(null);
     const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
     const defaults = {
         US: 'AAPL,MSFT,GOOGL',
         IN: 'RELIANCE.NS,TCS.NS,INFY.NS'
     };
+    (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
+        if (market) {
+            const fetchIndex = async ()=>{
+                try {
+                    const res = await fetch(`${apiBase}/market-index?market=${market}`);
+                    const data = await res.json();
+                    setMarketIndex(data);
+                } catch (err) {
+                    console.error("Index fetch failed", err);
+                }
+            };
+            fetchIndex();
+            const interval = setInterval(fetchIndex, 60000); // Refresh every minute
+            return ()=>clearInterval(interval);
+        }
+    }, [
+        market
+    ]);
     async function chooseMarket(m) {
         setMarket(m);
         setTickers(defaults[m] || '');
@@ -252,12 +271,12 @@ function Home() {
                         children: "Stock Screener MVP"
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 184,
+                        lineNumber: 200,
                         columnNumber: 17
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/frontend/pages/index.js",
-                    lineNumber: 184,
+                    lineNumber: 200,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
@@ -268,7 +287,7 @@ function Home() {
                             children: "Select Market"
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 186,
+                            lineNumber: 202,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -284,7 +303,7 @@ function Home() {
                                     children: "US Market"
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 188,
+                                    lineNumber: 204,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -293,19 +312,19 @@ function Home() {
                                     children: "India Market"
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 189,
+                                    lineNumber: 205,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 187,
+                            lineNumber: 203,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/pages/index.js",
-                    lineNumber: 185,
+                    lineNumber: 201,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$externals$5d2f$styled$2d$jsx$2f$style$2e$js__$5b$external$5d$__$28$styled$2d$jsx$2f$style$2e$js$2c$__cjs$29$__["default"], {
@@ -315,13 +334,120 @@ function Home() {
             ]
         }, void 0, true, {
             fileName: "[project]/frontend/pages/index.js",
-            lineNumber: 183,
+            lineNumber: 199,
             columnNumber: 7
         }, this);
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
-        className: "jsx-11cb42fa162da83a" + " " + "container",
+        className: "jsx-1f890cb61a21a8f6" + " " + "container",
         children: [
+            marketIndex && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                className: "jsx-1f890cb61a21a8f6" + " " + "market-ticker",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
+                        className: "jsx-1f890cb61a21a8f6" + " " + "ticker-label",
+                        children: [
+                            marketIndex.symbol,
+                            ":"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/frontend/pages/index.js",
+                        lineNumber: 222,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
+                        className: "jsx-1f890cb61a21a8f6" + " " + "ticker-price",
+                        children: marketIndex.price?.toLocaleString() || '---'
+                    }, void 0, false, {
+                        fileName: "[project]/frontend/pages/index.js",
+                        lineNumber: 223,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
+                        style: {
+                            fontSize: '10px',
+                            color: '#64748b',
+                            marginTop: '2px'
+                        },
+                        className: "jsx-1f890cb61a21a8f6",
+                        children: [
+                            "Updated: ",
+                            marketIndex.timestamp
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/frontend/pages/index.js",
+                        lineNumber: 226,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
+                        className: "jsx-1f890cb61a21a8f6" + " " + `ticker-change ${marketIndex.change >= 0 ? 'up' : 'down'}`,
+                        children: [
+                            marketIndex.change >= 0 ? '▲' : '▼',
+                            " ",
+                            Math.abs(marketIndex.change || 0),
+                            " (",
+                            Math.abs(marketIndex.change_pct || 0),
+                            "%)"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/frontend/pages/index.js",
+                        lineNumber: 230,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                        style: {
+                            marginLeft: 'auto',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            background: marketIndex.status === 'OPEN' ? '#064e3b' : '#450a0a',
+                            padding: '4px 12px',
+                            borderRadius: '20px',
+                            border: `1px solid ${marketIndex.status === 'OPEN' ? '#10b981' : '#f87171'}`
+                        },
+                        className: "jsx-1f890cb61a21a8f6",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
+                                style: {
+                                    backgroundColor: marketIndex.status === 'OPEN' ? '#10b981' : '#f87171',
+                                    width: '8px',
+                                    height: '8px',
+                                    borderRadius: '50%'
+                                },
+                                className: "jsx-1f890cb61a21a8f6" + " " + ((marketIndex.status === 'OPEN' ? 'live-dot' : '') || "")
+                            }, void 0, false, {
+                                fileName: "[project]/frontend/pages/index.js",
+                                lineNumber: 244,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
+                                style: {
+                                    fontSize: '11px',
+                                    fontWeight: '900',
+                                    color: marketIndex.status === 'OPEN' ? '#10b981' : '#f87171'
+                                },
+                                className: "jsx-1f890cb61a21a8f6",
+                                children: [
+                                    "MARKET ",
+                                    marketIndex.status
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/frontend/pages/index.js",
+                                lineNumber: 249,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/frontend/pages/index.js",
+                        lineNumber: 234,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/frontend/pages/index.js",
+                lineNumber: 221,
+                columnNumber: 7
+            }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("header", {
                 style: {
                     display: 'flex',
@@ -329,13 +455,13 @@ function Home() {
                     alignItems: 'center',
                     marginBottom: '20px'
                 },
-                className: "jsx-11cb42fa162da83a",
+                className: "jsx-1f890cb61a21a8f6",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h1", {
                         style: {
                             margin: 0
                         },
-                        className: "jsx-11cb42fa162da83a",
+                        className: "jsx-1f890cb61a21a8f6",
                         children: [
                             "Stock Screener (",
                             market,
@@ -343,7 +469,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 204,
+                        lineNumber: 257,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -352,27 +478,27 @@ function Home() {
                             background: '#e2e8f0',
                             color: '#475569'
                         },
-                        className: "jsx-11cb42fa162da83a",
+                        className: "jsx-1f890cb61a21a8f6",
                         children: "Change Market"
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 205,
+                        lineNumber: 258,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 203,
+                lineNumber: 256,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
                 style: {
                     border: '2px solid #0b5fff'
                 },
-                className: "jsx-11cb42fa162da83a" + " " + "card",
+                className: "jsx-1f890cb61a21a8f6" + " " + "card",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
-                        className: "jsx-11cb42fa162da83a",
+                        className: "jsx-1f890cb61a21a8f6",
                         children: [
                             "Market Insights (",
                             market,
@@ -380,7 +506,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 210,
+                        lineNumber: 263,
                         columnNumber: 9
                     }, this),
                     topStocks.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -388,14 +514,14 @@ function Home() {
                         style: {
                             background: '#f59e0b'
                         },
-                        className: "jsx-11cb42fa162da83a",
+                        className: "jsx-1f890cb61a21a8f6",
                         children: "🔥 Show Trending Stocks"
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 212,
+                        lineNumber: 265,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
-                        className: "jsx-11cb42fa162da83a" + " " + "grid-list",
+                        className: "jsx-1f890cb61a21a8f6" + " " + "grid-list",
                         children: [
                             topStocks.map((ticker)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
                                     onClick: ()=>handleStockClick(ticker),
@@ -408,11 +534,11 @@ function Home() {
                                         cursor: 'pointer',
                                         fontWeight: 'bold'
                                     },
-                                    className: "jsx-11cb42fa162da83a" + " " + "stock-pill",
+                                    className: "jsx-1f890cb61a21a8f6" + " " + "stock-pill",
                                     children: ticker.replace('.NS', '').replace('.BO', '')
                                 }, ticker, false, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 216,
+                                    lineNumber: 269,
                                     columnNumber: 15
                                 }, this)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -421,46 +547,46 @@ function Home() {
                                     background: 'none',
                                     color: '#666'
                                 },
-                                className: "jsx-11cb42fa162da83a",
+                                className: "jsx-1f890cb61a21a8f6",
                                 children: "(Hide)"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 234,
+                                lineNumber: 287,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 214,
+                        lineNumber: 267,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 209,
+                lineNumber: 262,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
-                className: "jsx-11cb42fa162da83a" + " " + "card",
+                className: "jsx-1f890cb61a21a8f6" + " " + "card",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("form", {
                     onSubmit: runScreener,
-                    className: "jsx-11cb42fa162da83a",
+                    className: "jsx-1f890cb61a21a8f6",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("label", {
-                            className: "jsx-11cb42fa162da83a",
+                            className: "jsx-1f890cb61a21a8f6",
                             children: "Tickers"
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 242,
+                            lineNumber: 295,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("input", {
                             value: tickers,
                             onChange: (e)=>setTickers(e.target.value),
-                            className: "jsx-11cb42fa162da83a"
+                            className: "jsx-1f890cb61a21a8f6"
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 243,
+                            lineNumber: 296,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -468,20 +594,20 @@ function Home() {
                                 display: 'flex',
                                 gap: '10px'
                             },
-                            className: "jsx-11cb42fa162da83a",
+                            className: "jsx-1f890cb61a21a8f6",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
                                     style: {
                                         flex: 1
                                     },
-                                    className: "jsx-11cb42fa162da83a",
+                                    className: "jsx-1f890cb61a21a8f6",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("label", {
-                                            className: "jsx-11cb42fa162da83a",
+                                            className: "jsx-1f890cb61a21a8f6",
                                             children: "Min CAGR %"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 245,
+                                            lineNumber: 298,
                                             columnNumber: 36
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("input", {
@@ -491,30 +617,30 @@ function Home() {
                                             style: {
                                                 width: '100%'
                                             },
-                                            className: "jsx-11cb42fa162da83a"
+                                            className: "jsx-1f890cb61a21a8f6"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 245,
+                                            lineNumber: 298,
                                             columnNumber: 61
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 245,
+                                    lineNumber: 298,
                                     columnNumber: 14
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
                                     style: {
                                         flex: 1
                                     },
-                                    className: "jsx-11cb42fa162da83a",
+                                    className: "jsx-1f890cb61a21a8f6",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("label", {
-                                            className: "jsx-11cb42fa162da83a",
+                                            className: "jsx-1f890cb61a21a8f6",
                                             children: "Years"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 246,
+                                            lineNumber: 299,
                                             columnNumber: 36
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("input", {
@@ -524,22 +650,22 @@ function Home() {
                                             style: {
                                                 width: '100%'
                                             },
-                                            className: "jsx-11cb42fa162da83a"
+                                            className: "jsx-1f890cb61a21a8f6"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 246,
+                                            lineNumber: 299,
                                             columnNumber: 56
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 246,
+                                    lineNumber: 299,
                                     columnNumber: 14
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 244,
+                            lineNumber: 297,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -548,49 +674,49 @@ function Home() {
                             style: {
                                 marginTop: '10px'
                             },
-                            className: "jsx-11cb42fa162da83a",
+                            className: "jsx-1f890cb61a21a8f6",
                             children: loading ? 'Running...' : 'Run Screener'
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 248,
+                            lineNumber: 301,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/pages/index.js",
-                    lineNumber: 241,
+                    lineNumber: 294,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 240,
+                lineNumber: 293,
                 columnNumber: 7
             }, this),
             results.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
-                className: "jsx-11cb42fa162da83a" + " " + "card",
+                className: "jsx-1f890cb61a21a8f6" + " " + "card",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
-                        className: "jsx-11cb42fa162da83a",
+                        className: "jsx-1f890cb61a21a8f6",
                         children: "Results"
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 255,
+                        lineNumber: 308,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("ul", {
-                        className: "jsx-11cb42fa162da83a",
+                        className: "jsx-1f890cb61a21a8f6",
                         children: results.map((r)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
-                                className: "jsx-11cb42fa162da83a" + " " + "result",
+                                className: "jsx-1f890cb61a21a8f6" + " " + "result",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
-                                        className: "jsx-11cb42fa162da83a",
+                                        className: "jsx-1f890cb61a21a8f6",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("strong", {
-                                                className: "jsx-11cb42fa162da83a",
+                                                className: "jsx-1f890cb61a21a8f6",
                                                 children: r.ticker
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 259,
+                                                lineNumber: 312,
                                                 columnNumber: 22
                                             }, this),
                                             " (CAGR: ",
@@ -599,19 +725,19 @@ function Home() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 259,
+                                        lineNumber: 312,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
-                                        className: "jsx-11cb42fa162da83a" + " " + "actions",
+                                        className: "jsx-1f890cb61a21a8f6" + " " + "actions",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
                                                 onClick: ()=>showChart(r.ticker),
-                                                className: "jsx-11cb42fa162da83a",
+                                                className: "jsx-1f890cb61a21a8f6",
                                                 children: "Chart"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 261,
+                                                lineNumber: 314,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -619,49 +745,49 @@ function Home() {
                                                 style: {
                                                     background: '#10b981'
                                                 },
-                                                className: "jsx-11cb42fa162da83a",
+                                                className: "jsx-1f890cb61a21a8f6",
                                                 children: "AI Advice"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 262,
+                                                lineNumber: 315,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 260,
+                                        lineNumber: 313,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, r.ticker, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 258,
+                                lineNumber: 311,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 256,
+                        lineNumber: 309,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 254,
+                lineNumber: 307,
                 columnNumber: 9
             }, this),
             selectedChart && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
                 id: "chart-view",
-                className: "jsx-11cb42fa162da83a" + " " + "card",
+                className: "jsx-1f890cb61a21a8f6" + " " + "card",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
-                        className: "jsx-11cb42fa162da83a",
+                        className: "jsx-1f890cb61a21a8f6",
                         children: [
                             selectedChart.ticker,
                             " Performance"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 273,
+                        lineNumber: 326,
                         columnNumber: 13
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -669,7 +795,7 @@ function Home() {
                             width: '100%',
                             height: 350
                         },
-                        className: "jsx-11cb42fa162da83a",
+                        className: "jsx-1f890cb61a21a8f6",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$ResponsiveContainer$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["ResponsiveContainer"], {
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$chart$2f$LineChart$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["LineChart"], {
                                 data: selectedChart.data,
@@ -682,7 +808,7 @@ function Home() {
                                         dot: false
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 277,
+                                        lineNumber: 330,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$CartesianGrid$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["CartesianGrid"], {
@@ -691,7 +817,7 @@ function Home() {
                                         opacity: 0.5
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 278,
+                                        lineNumber: 331,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$XAxis$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["XAxis"], {
@@ -699,7 +825,7 @@ function Home() {
                                         hide: true
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 279,
+                                        lineNumber: 332,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$YAxis$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["YAxis"], {
@@ -709,34 +835,34 @@ function Home() {
                                         ]
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 280,
+                                        lineNumber: 333,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$ssr$5d$__$28$ecmascript$29$__["Tooltip"], {}, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 281,
+                                        lineNumber: 334,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 276,
+                                lineNumber: 329,
                                 columnNumber: 21
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 275,
+                            lineNumber: 328,
                             columnNumber: 17
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 274,
+                        lineNumber: 327,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 272,
+                lineNumber: 325,
                 columnNumber: 9
             }, this),
             recommendation && !recommendation.loading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
@@ -745,7 +871,7 @@ function Home() {
                     borderTop: `6px solid ${getRiskInfo(selectedStockDetails?.pe).color}`,
                     transition: 'all 0.3s ease'
                 },
-                className: "jsx-11cb42fa162da83a" + " " + "card",
+                className: "jsx-1f890cb61a21a8f6" + " " + "card",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
                         style: {
@@ -754,17 +880,17 @@ function Home() {
                             alignItems: 'center',
                             marginBottom: '15px'
                         },
-                        className: "jsx-11cb42fa162da83a",
+                        className: "jsx-1f890cb61a21a8f6",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
                                 style: {
                                     margin: 0
                                 },
-                                className: "jsx-11cb42fa162da83a",
+                                className: "jsx-1f890cb61a21a8f6",
                                 children: "AI Recommendation"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 295,
+                                lineNumber: 348,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -778,17 +904,17 @@ function Home() {
                                     letterSpacing: '0.5px',
                                     textTransform: 'uppercase'
                                 },
-                                className: "jsx-11cb42fa162da83a",
+                                className: "jsx-1f890cb61a21a8f6",
                                 children: getRiskInfo(selectedStockDetails?.pe).label
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 298,
+                                lineNumber: 351,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 294,
+                        lineNumber: 347,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -798,20 +924,20 @@ function Home() {
                             borderRadius: '8px',
                             border: '1px solid #e2e8f0'
                         },
-                        className: "jsx-11cb42fa162da83a",
+                        className: "jsx-1f890cb61a21a8f6",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
                                 style: {
                                     margin: '0 0 10px 0'
                                 },
-                                className: "jsx-11cb42fa162da83a",
+                                className: "jsx-1f890cb61a21a8f6",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("strong", {
-                                        className: "jsx-11cb42fa162da83a",
+                                        className: "jsx-1f890cb61a21a8f6",
                                         children: "Ticker:"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 314,
+                                        lineNumber: 367,
                                         columnNumber: 15
                                     }, this),
                                     " ",
@@ -822,7 +948,7 @@ function Home() {
                                             fontSize: '12px',
                                             marginLeft: '5px'
                                         },
-                                        className: "jsx-11cb42fa162da83a",
+                                        className: "jsx-1f890cb61a21a8f6",
                                         children: [
                                             "(",
                                             market === 'IN' ? 'NSE India' : 'US Market',
@@ -830,27 +956,27 @@ function Home() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 315,
+                                        lineNumber: 368,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 313,
+                                lineNumber: 366,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
                                 style: {
                                     margin: '0 0 15px 0'
                                 },
-                                className: "jsx-11cb42fa162da83a",
+                                className: "jsx-1f890cb61a21a8f6",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("strong", {
-                                        className: "jsx-11cb42fa162da83a",
+                                        className: "jsx-1f890cb61a21a8f6",
                                         children: "Action:"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 321,
+                                        lineNumber: 374,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
@@ -860,17 +986,17 @@ function Home() {
                                             fontSize: '22px',
                                             fontWeight: '900'
                                         },
-                                        className: "jsx-11cb42fa162da83a",
+                                        className: "jsx-1f890cb61a21a8f6",
                                         children: recommendation.action
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 322,
+                                        lineNumber: 375,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 320,
+                                lineNumber: 373,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -878,21 +1004,21 @@ function Home() {
                                     borderTop: '1px solid #e2e8f0',
                                     paddingTop: '10px'
                                 },
-                                className: "jsx-11cb42fa162da83a",
+                                className: "jsx-1f890cb61a21a8f6",
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
                                     style: {
                                         lineHeight: '1.6',
                                         color: '#334155',
                                         margin: 0
                                     },
-                                    className: "jsx-11cb42fa162da83a",
+                                    className: "jsx-1f890cb61a21a8f6",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("strong", {
-                                            className: "jsx-11cb42fa162da83a",
+                                            className: "jsx-1f890cb61a21a8f6",
                                             children: "Analyst Note:"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 334,
+                                            lineNumber: 387,
                                             columnNumber: 19
                                         }, this),
                                         " ",
@@ -900,41 +1026,41 @@ function Home() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 333,
+                                    lineNumber: 386,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 332,
+                                lineNumber: 385,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 312,
+                        lineNumber: 365,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 290,
+                lineNumber: 343,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("footer", {
-                className: "jsx-11cb42fa162da83a",
+                className: "jsx-1f890cb61a21a8f6",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
                         style: {
                             border: '2px solid #e0e7ff'
                         },
-                        className: "jsx-11cb42fa162da83a" + " " + "card",
+                        className: "jsx-1f890cb61a21a8f6" + " " + "card",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
-                                className: "jsx-11cb42fa162da83a",
+                                className: "jsx-1f890cb61a21a8f6",
                                 children: "Ask the AI Analyst"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 344,
+                                lineNumber: 397,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("form", {
@@ -943,7 +1069,7 @@ function Home() {
                                     display: 'flex',
                                     gap: '8px'
                                 },
-                                className: "jsx-11cb42fa162da83a",
+                                className: "jsx-1f890cb61a21a8f6",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("input", {
                                         style: {
@@ -952,44 +1078,44 @@ function Home() {
                                         value: chatQuery,
                                         onChange: (e)=>setChatQuery(e.target.value),
                                         placeholder: "Ask about any stock...",
-                                        className: "jsx-11cb42fa162da83a"
+                                        className: "jsx-1f890cb61a21a8f6"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 346,
+                                        lineNumber: 399,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
                                         type: "submit",
                                         disabled: isChatting,
-                                        className: "jsx-11cb42fa162da83a",
+                                        className: "jsx-1f890cb61a21a8f6",
                                         children: isChatting ? 'Thinking...' : 'Ask AI'
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 347,
+                                        lineNumber: 400,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 345,
+                                lineNumber: 398,
                                 columnNumber: 11
                             }, this),
                             chatResponse && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
-                                className: "jsx-11cb42fa162da83a" + " " + "chat-box",
+                                className: "jsx-1f890cb61a21a8f6" + " " + "chat-box",
                                 children: chatResponse
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 349,
+                                lineNumber: 402,
                                 columnNumber: 28
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 343,
+                        lineNumber: 396,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("section", {
-                        className: "jsx-11cb42fa162da83a" + " " + "card",
+                        className: "jsx-1f890cb61a21a8f6" + " " + "card",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
                                 style: {
@@ -997,17 +1123,17 @@ function Home() {
                                     justifyContent: 'space-between',
                                     alignItems: 'center'
                                 },
-                                className: "jsx-11cb42fa162da83a",
+                                className: "jsx-1f890cb61a21a8f6",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
                                         style: {
                                             margin: 0
                                         },
-                                        className: "jsx-11cb42fa162da83a",
+                                        className: "jsx-1f890cb61a21a8f6",
                                         children: "Activity Log"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 354,
+                                        lineNumber: 407,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -1015,30 +1141,30 @@ function Home() {
                                         style: {
                                             background: '#333'
                                         },
-                                        className: "jsx-11cb42fa162da83a",
+                                        className: "jsx-1f890cb61a21a8f6",
                                         children: "Refresh"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 355,
+                                        lineNumber: 408,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 353,
+                                lineNumber: 406,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("ul", {
-                                className: "jsx-11cb42fa162da83a" + " " + "log-list",
+                                className: "jsx-1f890cb61a21a8f6" + " " + "log-list",
                                 children: activityLog.map((ev)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("li", {
-                                        className: "jsx-11cb42fa162da83a",
+                                        className: "jsx-1f890cb61a21a8f6",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("strong", {
-                                                className: "jsx-11cb42fa162da83a",
+                                                className: "jsx-1f890cb61a21a8f6",
                                                 children: ev.event_type
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 359,
+                                                lineNumber: 412,
                                                 columnNumber: 31
                                             }, this),
                                             ": ",
@@ -1046,44 +1172,44 @@ function Home() {
                                         ]
                                     }, ev.id, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 359,
+                                        lineNumber: 412,
                                         columnNumber: 15
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 357,
+                                lineNumber: 410,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 352,
+                        lineNumber: 405,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 342,
+                lineNumber: 395,
                 columnNumber: 7
             }, this),
             isModalOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
                 onClick: ()=>setIsModalOpen(false),
-                className: "jsx-11cb42fa162da83a" + " " + "modal-overlay",
+                className: "jsx-1f890cb61a21a8f6" + " " + "modal-overlay",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
                     onClick: (e)=>e.stopPropagation(),
-                    className: "jsx-11cb42fa162da83a" + " " + "modal-content",
+                    className: "jsx-1f890cb61a21a8f6" + " " + "modal-content",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
                             onClick: ()=>setIsModalOpen(false),
-                            className: "jsx-11cb42fa162da83a" + " " + "close-btn",
+                            className: "jsx-1f890cb61a21a8f6" + " " + "close-btn",
                             children: "×"
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 369,
+                            lineNumber: 422,
                             columnNumber: 13
                         }, this),
                         selectedStockDetails?.loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
-                            className: "jsx-11cb42fa162da83a",
+                            className: "jsx-1f890cb61a21a8f6",
                             children: [
                                 "Loading ",
                                 selectedStockDetails.ticker,
@@ -1091,106 +1217,106 @@ function Home() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 371,
+                            lineNumber: 424,
                             columnNumber: 15
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["Fragment"], {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("h2", {
-                                    className: "jsx-11cb42fa162da83a",
+                                    className: "jsx-1f890cb61a21a8f6",
                                     children: [
                                         selectedStockDetails?.ticker,
                                         " Overview"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 374,
+                                    lineNumber: 427,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
-                                    className: "jsx-11cb42fa162da83a" + " " + "stats-grid",
+                                    className: "jsx-1f890cb61a21a8f6" + " " + "stats-grid",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
-                                            className: "jsx-11cb42fa162da83a" + " " + "stat-item",
+                                            className: "jsx-1f890cb61a21a8f6" + " " + "stat-item",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
-                                                    className: "jsx-11cb42fa162da83a",
+                                                    className: "jsx-1f890cb61a21a8f6",
                                                     children: "Price"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 376,
+                                                    lineNumber: 429,
                                                     columnNumber: 46
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("strong", {
-                                                    className: "jsx-11cb42fa162da83a",
+                                                    className: "jsx-1f890cb61a21a8f6",
                                                     children: [
                                                         "$",
                                                         selectedStockDetails?.price || 'N/A'
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 376,
+                                                    lineNumber: 429,
                                                     columnNumber: 64
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 376,
+                                            lineNumber: 429,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
-                                            className: "jsx-11cb42fa162da83a" + " " + "stat-item",
+                                            className: "jsx-1f890cb61a21a8f6" + " " + "stat-item",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
-                                                    className: "jsx-11cb42fa162da83a",
+                                                    className: "jsx-1f890cb61a21a8f6",
                                                     children: "P/E"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 377,
+                                                    lineNumber: 430,
                                                     columnNumber: 46
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("strong", {
-                                                    className: "jsx-11cb42fa162da83a",
+                                                    className: "jsx-1f890cb61a21a8f6",
                                                     children: selectedStockDetails?.pe || 'N/A'
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 377,
+                                                    lineNumber: 430,
                                                     columnNumber: 62
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 377,
+                                            lineNumber: 430,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
-                                            className: "jsx-11cb42fa162da83a" + " " + "stat-item",
+                                            className: "jsx-1f890cb61a21a8f6" + " " + "stat-item",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
-                                                    className: "jsx-11cb42fa162da83a",
+                                                    className: "jsx-1f890cb61a21a8f6",
                                                     children: "Growth"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 378,
+                                                    lineNumber: 431,
                                                     columnNumber: 46
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("strong", {
-                                                    className: "jsx-11cb42fa162da83a",
+                                                    className: "jsx-1f890cb61a21a8f6",
                                                     children: selectedStockDetails?.revenueGrowth ? (selectedStockDetails.revenueGrowth * 100).toFixed(1) + '%' : 'N/A'
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 378,
+                                                    lineNumber: 431,
                                                     columnNumber: 65
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 378,
+                                            lineNumber: 431,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 375,
+                                    lineNumber: 428,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -1199,7 +1325,7 @@ function Home() {
                                         gap: '10px',
                                         marginTop: '20px'
                                     },
-                                    className: "jsx-11cb42fa162da83a",
+                                    className: "jsx-1f890cb61a21a8f6",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
                                             style: {
@@ -1210,11 +1336,11 @@ function Home() {
                                                 showChart(selectedStockDetails.ticker);
                                                 setIsModalOpen(false);
                                             },
-                                            className: "jsx-11cb42fa162da83a",
+                                            className: "jsx-1f890cb61a21a8f6",
                                             children: "📈 View Chart"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 382,
+                                            lineNumber: 435,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -1227,17 +1353,17 @@ function Home() {
                                                 askRecommend(selectedStockDetails.ticker);
                                                 setIsModalOpen(false);
                                             },
-                                            className: "jsx-11cb42fa162da83a",
+                                            className: "jsx-1f890cb61a21a8f6",
                                             children: "🤖 Get Advice"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 392,
+                                            lineNumber: 445,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 381,
+                                    lineNumber: 434,
                                     columnNumber: 17
                                 }, this)
                             ]
@@ -1245,22 +1371,22 @@ function Home() {
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/pages/index.js",
-                    lineNumber: 368,
+                    lineNumber: 421,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 367,
+                lineNumber: 420,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$externals$5d2f$styled$2d$jsx$2f$style$2e$js__$5b$external$5d$__$28$styled$2d$jsx$2f$style$2e$js$2c$__cjs$29$__["default"], {
-                id: "11cb42fa162da83a",
-                children: ".container.jsx-11cb42fa162da83a{max-width:900px;margin:24px auto;padding:0 16px;font-family:sans-serif}.card.jsx-11cb42fa162da83a{background:#fff;border-radius:8px;margin-bottom:12px;padding:16px;box-shadow:0 1px 3px #0000001a}form.jsx-11cb42fa162da83a{gap:8px;display:grid}input.jsx-11cb42fa162da83a{border:1px solid #ddd;border-radius:4px;padding:10px}button.jsx-11cb42fa162da83a{color:#fff;cursor:pointer;background:#0b5fff;border:none;border-radius:6px;padding:10px 16px;font-weight:700}.grid-list.jsx-11cb42fa162da83a{flex-wrap:wrap;gap:8px;display:flex}.stock-pill.jsx-11cb42fa162da83a{color:#fff;background:#0b5fff;border-radius:20px;padding:6px 14px;font-size:13px}.modal-overlay.jsx-11cb42fa162da83a{z-index:1000;background:#000000b3;justify-content:center;align-items:center;width:100%;height:100%;display:flex;position:fixed;top:0;left:0}.modal-content.jsx-11cb42fa162da83a{background:#fff;border-radius:12px;width:90%;max-width:400px;padding:25px;position:relative}.close-btn.jsx-11cb42fa162da83a{cursor:pointer;background:0 0;border:none;font-size:24px;position:absolute;top:10px;right:15px}.stats-grid.jsx-11cb42fa162da83a{grid-template-columns:1fr 1fr;gap:10px;margin-top:15px;display:grid}.stat-item.jsx-11cb42fa162da83a{background:#f8fafc;border-radius:6px;padding:10px}.stat-item.jsx-11cb42fa162da83a span.jsx-11cb42fa162da83a{color:#64748b;text-transform:uppercase;font-size:11px;display:block}.result.jsx-11cb42fa162da83a{border-bottom:1px solid #eee;justify-content:space-between;align-items:center;padding:10px 0;display:flex}.chat-box.jsx-11cb42fa162da83a{white-space:pre-wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;margin-top:10px;padding:12px;font-size:14px}.log-list.jsx-11cb42fa162da83a{maxHeight:150px;padding:0;font-size:11px;list-style:none;overflow-y:auto}"
+                id: "1f890cb61a21a8f6",
+                children: ".container.jsx-1f890cb61a21a8f6{max-width:900px;margin:24px auto;padding:0 16px;font-family:sans-serif}.card.jsx-1f890cb61a21a8f6{background:#fff;border-radius:8px;margin-bottom:12px;padding:16px;box-shadow:0 1px 3px #0000001a}form.jsx-1f890cb61a21a8f6{gap:8px;display:grid}input.jsx-1f890cb61a21a8f6{border:1px solid #ddd;border-radius:4px;padding:10px}button.jsx-1f890cb61a21a8f6{color:#fff;cursor:pointer;background:#0b5fff;border:none;border-radius:6px;padding:10px 16px;font-weight:700}.grid-list.jsx-1f890cb61a21a8f6{flex-wrap:wrap;gap:8px;display:flex}.stock-pill.jsx-1f890cb61a21a8f6{color:#fff;background:#0b5fff;border-radius:20px;padding:6px 14px;font-size:13px}.modal-overlay.jsx-1f890cb61a21a8f6{z-index:1000;background:#000000b3;justify-content:center;align-items:center;width:100%;height:100%;display:flex;position:fixed;top:0;left:0}.modal-content.jsx-1f890cb61a21a8f6{background:#fff;border-radius:12px;width:90%;max-width:400px;padding:25px;position:relative}.close-btn.jsx-1f890cb61a21a8f6{cursor:pointer;background:0 0;border:none;font-size:24px;position:absolute;top:10px;right:15px}.stats-grid.jsx-1f890cb61a21a8f6{grid-template-columns:1fr 1fr;gap:10px;margin-top:15px;display:grid}.stat-item.jsx-1f890cb61a21a8f6{background:#f8fafc;border-radius:6px;padding:10px}.stat-item.jsx-1f890cb61a21a8f6 span.jsx-1f890cb61a21a8f6{color:#64748b;text-transform:uppercase;font-size:11px;display:block}.result.jsx-1f890cb61a21a8f6{border-bottom:1px solid #eee;justify-content:space-between;align-items:center;padding:10px 0;display:flex}.chat-box.jsx-1f890cb61a21a8f6{white-space:pre-wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;margin-top:10px;padding:12px;font-size:14px}.log-list.jsx-1f890cb61a21a8f6{maxHeight:150px;padding:0;font-size:11px;list-style:none;overflow-y:auto}.market-ticker.jsx-1f890cb61a21a8f6{color:#fff;background:#020617;border-radius:12px;align-items:center;gap:15px;margin-bottom:25px;padding:10px 20px;display:flex;box-shadow:0 4px 6px -1px #0000001a}.live-dot.jsx-1f890cb61a21a8f6{animation:2s infinite pulse}@keyframes pulse{0%{transform:scale(.95);box-shadow:0 0 #10b981b3}70%{transform:scale(1);box-shadow:0 0 0 6px #10b98100}to{transform:scale(.95);box-shadow:0 0 #10b98100}}"
             }, void 0, false, void 0, this)
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/pages/index.js",
-        lineNumber: 202,
+        lineNumber: 218,
         columnNumber: 5
     }, this);
 }
