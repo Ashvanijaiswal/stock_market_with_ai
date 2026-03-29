@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import Watchlist from '../components/Watchlist';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import StockModal from '../components/StockModal';
 
 const getRiskInfo = (pe) => {
   const val = parseFloat(pe);
@@ -27,13 +31,86 @@ export default function Home() {
   const [selectedStockDetails, setSelectedStockDetails] = useState(null);
   const [marketIndex, setMarketIndex] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
+  const toggleDarkMode = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    localStorage.setItem('theme', newMode ? 'dark' : 'light'); // Save it!
+  };
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.isReady) {
+      const { ticker, market: urlMarket, action } = router.query;
+
+      if (urlMarket) {
+        // 1. Force the market state so the selection screen hides
+        setMarket(urlMarket);
+        setTickers(defaults[urlMarket] || "");
+
+        // 2. Trigger the action (Chart or AI)
+        if (ticker) {
+          // We use a small timeout to let the UI finish rendering the dashboard
+          setTimeout(() => {
+            if (action === 'chart') {
+              showChart(ticker);
+            } else if (action === 'recommend') {
+              askRecommend(ticker);
+            }
+          }, 800);
+        }
+      }
+    }
+  }, [router.isReady, router.query]);
+
+  // Add this to your existing useEffect in index.js to load the theme on start
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') setIsDarkMode(true);
+  }, []);
+
+  const [watchlist, setWatchlist] = useState([]);
   const apiBase = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
 
   const defaults = {
     US: 'AAPL,MSFT,GOOGL',
     IN: 'RELIANCE.NS,TCS.NS,INFY.NS'
   };
+
+  const toggleWatchlist = (ticker) => {
+          // 1. Determine the new state and the status for logging
+          const isRemoving = watchlist.includes(ticker);
+          const status = isRemoving ? "removed_from_watchlist" : "added_to_watchlist";
+
+          let updated;
+          if (isRemoving) {
+            updated = watchlist.filter(t => t !== ticker);
+          } else {
+            updated = [...watchlist, ticker];
+          }
+
+          // 2. Update React State and LocalStorage immediately for instant UI response
+          setWatchlist(updated);
+          localStorage.setItem('stock_watchlist', JSON.stringify(updated));
+
+          // 3. Log the event to your Python backend (Async)
+          fetch(`${apiBase}/track`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              user_id: "local_user",
+              event_type: status,
+              payload: {
+                ticker: ticker,
+                market: market
+              }
+            })
+          })
+          .then(() => {
+            console.log(`Event ${status} tracked successfully`);
+            loadActivityLog(); // Refresh your log to show the new activity
+          })
+          .catch(err => console.error("Tracking failed:", err));
+        };
 
   useEffect(() => {
     if (market) {
@@ -49,6 +126,11 @@ export default function Home() {
       return () => clearInterval(interval);
     }
   }, [market]);
+
+  useEffect(() => {
+      const saved = JSON.parse(localStorage.getItem('stock_watchlist') || '[]');
+      setWatchlist(saved);
+    }, []);
 
   async function chooseMarket(m) {
     setMarket(m);
@@ -340,17 +422,37 @@ if (!market) {
 
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h1 style={{ margin: 0 }}>Stock Screener ({market})</h1>
-        <div style={{ display: 'flex', gap: '10px' }}>
-            {/* DARK MODE TOGGLE */}
-            <button
-              onClick={toggleDarkMode}
-              style={{ background: isDarkMode ? '#fde047' : '#1e293b', color: isDarkMode ? '#000' : '#fff', padding: '6px 12px' }}
-            >
-              {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          {/* 1. Link to Watchlist Page */}
+          <Link href="/watchlist">
+            <button style={{ background: '#0b5fff', color: 'white', padding: '8px 16px', borderRadius: '6px' }}>
+              My Watchlist {watchlist.length > 0 && `(${watchlist.length})`}
             </button>
-            <button onClick={backToMarket} style={{ background: '#e2e8f0', color: '#475569' }}>Change Market</button>
-          </div>
-        </header>
+          </Link>
+
+          {/* 2. ONLY KEEP THIS TOGGLE (The Icon one) */}
+          <button
+            onClick={toggleDarkMode}
+            style={{
+              background: '#0b5fff',
+              color: '#fff',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              fontSize: '18px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
+
+          <button onClick={backToMarket} style={{ background: '#e2e8f0', color: '#475569' }}>
+            Change Market
+          </button>
+        </div>
+      </header>
 
       {/* TRENDING */}
       <section className="card" style={{ border: '2px solid #0b5fff' }}>
@@ -404,7 +506,18 @@ if (!market) {
             {results.map(r => (
               <li key={r.ticker} className="result">
                 <div><strong>{r.ticker}</strong> (CAGR: {r.cagr_pct}%)</div>
-                <div className="actions">
+                <div className="actions" style={{ display: 'flex', gap: '8px' }}>
+                  {/* THE WATCHLIST BUTTON */}
+                  <button
+                    onClick={() => toggleWatchlist(r.ticker)}
+                    style={{
+                      background: watchlist.includes(r.ticker) ? '#64748b' : '#3b82f6',
+                      fontSize: '12px'
+                    }}
+                  >
+                    {watchlist.includes(r.ticker) ? 'Remove' : 'Save'}
+                  </button>
+
                   <button onClick={() => showChart(r.ticker)}>Chart</button>
                   <button onClick={() => askRecommend(r.ticker)} style={{background:'#10b981'}}>AI Advice</button>
                 </div>
@@ -569,52 +682,14 @@ if (!market) {
 
 
       {/* MODAL (MODIFIED FOR DARK MODE) */}
-      {isModalOpen && (
-        <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setIsModalOpen(false)}>×</button>
-            {selectedStockDetails?.loading ? (
-              <p>Loading {selectedStockDetails.ticker}...</p>
-            ) : (
-              <>
-                <h2 style={{ color: isDarkMode ? '#f8fafc' : '#0f172a' }}>
-                  {selectedStockDetails?.ticker} Overview
-                </h2>
-                <div className="stats-grid">
-                  <div className="stat-item">
-                    <span>Price</span>
-                    {/* Added dynamic color to strong tag */}
-                    <strong style={{ color: isDarkMode ? '#fff' : '#000' }}>
-                      ${selectedStockDetails?.price || 'N/A'}
-                    </strong>
-                  </div>
-                  <div className="stat-item">
-                    <span>P/E</span>
-                    <strong style={{ color: isDarkMode ? '#fff' : '#000' }}>
-                      {selectedStockDetails?.pe || 'N/A'}
-                    </strong>
-                  </div>
-                  <div className="stat-item">
-                    <span>Growth</span>
-                    <strong style={{ color: isDarkMode ? '#fff' : '#000' }}>
-                      {selectedStockDetails?.revenueGrowth ? (selectedStockDetails.revenueGrowth * 100).toFixed(1) + '%' : 'N/A'}
-                    </strong>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-                  <button style={{ flex: 1, background: '#0b5fff' }} onClick={() => { showChart(selectedStockDetails.ticker); setIsModalOpen(false); }}>
-                    📈 View Chart
-                  </button>
-                  <button style={{ flex: 1, background: '#10b981' }} onClick={() => { askRecommend(selectedStockDetails.ticker); setIsModalOpen(false); }}>
-                    🤖 Get Advice
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      <StockModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        details={selectedStockDetails}
+        isDarkMode={isDarkMode}
+        onViewChart={(ticker) => { showChart(ticker); setIsModalOpen(false); }}
+        onGetAdvice={(ticker) => { askRecommend(ticker); setIsModalOpen(false); }}
+      />
 
       <style jsx>{`
               /* GLOBAL BODY STYLE */
