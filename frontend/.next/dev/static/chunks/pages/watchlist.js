@@ -1,12 +1,16 @@
 __turbopack_load_page_chunks__("/watchlist", [
-  "static/chunks/9e883_next_dist_compiled_df94997f._.js",
-  "static/chunks/9e883_next_dist_shared_lib_241f9bd7._.js",
-  "static/chunks/9e883_next_dist_client_1ddf93ff._.js",
-  "static/chunks/9e883_next_dist_ffd02251._.js",
-  "static/chunks/9e883_next_c0cc16e1._.js",
-  "static/chunks/9e883_react-dom_3d11c48e._.js",
-  "static/chunks/9e883_c5bc5046._.js",
-  "static/chunks/[root-of-the-server]__7bedc636._.js",
-  "static/chunks/frontend_pages_watchlist_2da965e7._.js",
-  "static/chunks/turbopack-frontend_pages_watchlist_6b52d138._.js"
+  "static/chunks/node_modules_6a788f63._.js",
+  "static/chunks/28a83_next_dist_compiled_898f0bd3._.js",
+  "static/chunks/28a83_next_dist_shared_lib_ab58e5c6._.js",
+  "static/chunks/28a83_next_dist_client_b0272e0c._.js",
+  "static/chunks/28a83_next_dist_ebd330a7._.js",
+  "static/chunks/28a83_next_36a1cd25._.js",
+  "static/chunks/28a83_react-dom_1de8fe70._.js",
+  "static/chunks/node_modules_pako_dist_pako_esm_mjs_ce1ea67d._.js",
+  "static/chunks/node_modules_jspdf_dist_jspdf_es_min_32a1d50f.js",
+  "static/chunks/node_modules_html2canvas_dist_html2canvas_c5f8e195.js",
+  "static/chunks/_9d2de70e._.js",
+  "static/chunks/[root-of-the-server]__a75b5701._.js",
+  "static/chunks/80b94_code_repo_projectsToWork_stockMarketWithAi_frontend_pages_watchlist_2da965e7._.js",
+  "static/chunks/358b3_code_repo_projectsToWork_stockMarketWithAi_frontend_pages_watchlist_cfaf0f88._.js"
 ])

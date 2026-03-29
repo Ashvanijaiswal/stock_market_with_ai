@@ -1,7 +1,14 @@
 import React from 'react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { handleExportPDF } from '../utils/export';
 
 const StockModal = ({ isOpen, onClose, details, isDarkMode, onViewChart, onGetAdvice }) => {
   if (!isOpen) return null;
+
+  const exportPDF = () => {
+    handleExportPDF(details?.ticker, isDarkMode);
+  };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -43,6 +50,41 @@ const StockModal = ({ isOpen, onClose, details, isDarkMode, onViewChart, onGetAd
                 🤖 Get Advice
               </button>
             </div>
+            {/* ADD THIS NEW SECTION BELOW THE BUTTONS */}
+            {details?.recommendation && (
+              <div style={{ marginTop: '20px', borderTop: `1px solid ${isDarkMode ? '#334155' : '#eee'}`, paddingTop: '15px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <h3 style={{ margin: 0, fontSize: '14px', color: isDarkMode ? '#94a3b8' : '#64748b' }}>
+                    AI Analysis Report
+                  </h3>
+                  <button
+                    onClick={exportPDF}
+                    style={{
+                      background: '#0b5fff',
+                      fontSize: '11px',
+                      padding: '5px 12px',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    📥 Export PDF
+                  </button>
+                </div>
+
+                <div id="ai-advice-content" style={{
+                  fontSize: '13px',
+                  lineHeight: '1.6',
+                  color: isDarkMode ? '#cbd5e1' : '#444',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  background: isDarkMode ? '#0f172a' : '#f8fafc',
+                  border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`
+                }}>
+                  {/* Ensure this matches the key where your AI text is stored */}
+                  {details.recommendation}
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

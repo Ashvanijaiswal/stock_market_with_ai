@@ -169,7 +169,7 @@ financial_analyst = Agent(
         fundamental_health_tool,
         insider_trading_tool
     ],  # <--- YOU MUST ADD THIS LINE
-        max_rpm=1,      # <--- LIMITS to 1 request per minute (Prevents 429)
+        max_rpm=10,      # <--- LIMITS to 1 request per minute (Prevents 429)
         max_iter=5,      # <--- LIMITS how many times it can loop
         cache=True,      # <--- USES cache to avoid re-asking Gemini same things
         allow_delegation=False,
@@ -177,34 +177,41 @@ financial_analyst = Agent(
 )
 
 def run_ai_analysis(user_query: str) -> str:
-    analysis_task = Task(
-        description=f"Answer the user's query: '{user_query}'. If they ask about a stock, use ALL FOUR of your tools to analyze it.",
-        expected_output="""A perfectly formatted, highly structured Wall Street investment report.
-        You MUST use the following exact structure with these emojis and headers:
+    try:
 
-        🎯 **Executive Summary**
-        [State clearly whether it is a BUY, SELL, or HOLD, followed by a 2-sentence summary of your final verdict.]
+        analysis_task = Task(
+            description=f"Analyze the ticker in '{user_query}'. Use your available tools to provide a deep dive.",
+            expected_output="""A perfectly formatted, highly structured Wall Street investment report.
+            You MUST use the following exact structure with these emojis and headers:
 
-        📊 **Technical Analysis**
-        [Explain the moving averages and the current price trend.]
+            🎯 **Executive Summary**
+            [State clearly whether it is a BUY, SELL, or HOLD, followed by a 2-sentence summary of your final verdict.]
 
-        🏢 **Fundamental Health**
-        [Break down the P/E ratio, EPS, and revenue growth. Are they overvalued?]
+            📊 **Technical Analysis**
+            [Explain the moving averages and the current price trend.]
 
-        📰 **Recent News & Sentiment**
-        [Summarize the latest headlines. Is the public sentiment fearful or greedy?]
+            🏢 **Fundamental Health**
+            [Break down the P/E ratio, EPS, and revenue growth. Are they overvalued?]
 
-        🕵️‍♂️ **Insider Activity**
-        [What percentage of the company do insiders own? Have the CEO or executives been buying or selling recently?]
-        """,
-        agent=financial_analyst
-    )
+            📰 **Recent News & Sentiment**
+            [Summarize the latest headlines. Is the public sentiment fearful or greedy?]
 
-    crew = Crew(
-        agents=[financial_analyst],
-        tasks=[analysis_task],
-        process=Process.sequential
-    )
+            🕵️‍♂️ **Insider Activity**
+            [What percentage of the company do insiders own? Have the CEO or executives been buying or selling recently?]
+            """,
+            agent=financial_analyst
+        )
 
-    result = crew.kickoff()
-    return str(result)
+        crew = Crew(
+            agents=[financial_analyst],
+            tasks=[analysis_task],
+            process=Process.sequential,
+            verbose=True
+        )
+
+        result = crew.kickoff()
+        return str(result)
+    except Exception as e:
+        if "429" in str(e):
+            return "⚠️ API Quota Exhausted. Please wait 60 seconds and try again."
+        return f"Error: {str(e)}"

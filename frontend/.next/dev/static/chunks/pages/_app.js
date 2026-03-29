@@ -1,12 +1,12 @@
 __turbopack_load_page_chunks__("/_app", [
-  "static/chunks/9e883_next_dist_compiled_7638d890._.js",
-  "static/chunks/9e883_next_dist_shared_lib_5730557d._.js",
-  "static/chunks/9e883_next_dist_client_e93bee36._.js",
-  "static/chunks/9e883_next_dist_ffd02251._.js",
-  "static/chunks/9e883_react-dom_3d11c48e._.js",
-  "static/chunks/9e883_fedfea85._.js",
-  "static/chunks/[root-of-the-server]__b38243ac._.js",
-  "static/chunks/frontend_styles_globals_0b42ea6c.css",
-  "static/chunks/frontend_pages__app_2da965e7._.js",
-  "static/chunks/turbopack-frontend_pages__app_85d491fa._.js"
+  "static/chunks/28a83_next_dist_compiled_d6f7be13._.js",
+  "static/chunks/28a83_next_dist_shared_lib_1d6a2213._.js",
+  "static/chunks/28a83_next_dist_client_129b1b58._.js",
+  "static/chunks/28a83_next_dist_ebd330a7._.js",
+  "static/chunks/28a83_react-dom_1de8fe70._.js",
+  "static/chunks/28a83_1cd8bdbd._.js",
+  "static/chunks/[root-of-the-server]__55f5a324._.js",
+  "static/chunks/80b94_code_repo_projectsToWork_stockMarketWithAi_frontend_styles_globals_ad34ac0b.css",
+  "static/chunks/80b94_code_repo_projectsToWork_stockMarketWithAi_frontend_pages__app_2da965e7._.js",
+  "static/chunks/358b3_code_repo_projectsToWork_stockMarketWithAi_frontend_pages__app_116d8cdf._.js"
 ])
