@@ -4,6 +4,7 @@ import Watchlist from '../components/Watchlist';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import StockModal from '../components/StockModal';
+import { handleExportPDF } from '../utils/export';
 
 const getRiskInfo = (pe) => {
   const val = parseFloat(pe);
@@ -131,6 +132,11 @@ export default function Home() {
       const saved = JSON.parse(localStorage.getItem('stock_watchlist') || '[]');
       setWatchlist(saved);
     }, []);
+
+    const exportChatPDF = () => {
+      // Use 'Analysis' as the ticker name for general chat
+      handleExportPDF('Analysis', isDarkMode);
+    };
 
   async function chooseMarket(m) {
     setMarket(m);
@@ -620,7 +626,49 @@ if (!market) {
             <input style={{ flex: 1 }} value={chatQuery} onChange={e => setChatQuery(e.target.value)} placeholder="Ask about any stock..." />
             <button type="submit" disabled={isChatting}>{isChatting ? 'Thinking...' : 'Ask AI'}</button>
           </form>
-          {chatResponse && <div className="chat-box">{chatResponse}</div>}
+          {/* ... existing code like the input area ... */}
+
+          <div className="chat-section" style={{ marginTop: '30px' }}>
+            {chatResponse && (
+              <div className="chat-card" style={{
+                background: isDarkMode ? '#1e293b' : '#fff',
+                padding: '20px',
+                borderRadius: '12px',
+                position: 'relative',
+                border: `1px solid ${isDarkMode ? '#334155' : '#e2e8f0'}`
+              }}>
+                {/* 1. Header for the Chat Result */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                  <h3 style={{ margin: 0 }}>AI Analyst Response</h3>
+
+                  {/* 2. The Export Button */}
+                  <button
+                    onClick={() => handleExportPDF('Market Analysis', isDarkMode)}
+                    className="export-btn"
+                    style={{
+                      background: '#0b5fff',
+                      color: 'white',
+                      padding: '6px 12px',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    📥 Export PDF
+                  </button>
+                </div>
+
+                {/* 3. The Content (The PDF library looks for this ID) */}
+                <div id="ai-advice-content" style={{
+                  color: isDarkMode ? '#cbd5e1' : '#334',
+                  lineHeight: '1.6',
+                  whiteSpace: 'pre-wrap' // Keeps the AI formatting clean
+                }}>
+                   {chatResponse}
+                </div>
+              </div>
+            )}
+          </div>
         </section>
 
         <section className="card">
