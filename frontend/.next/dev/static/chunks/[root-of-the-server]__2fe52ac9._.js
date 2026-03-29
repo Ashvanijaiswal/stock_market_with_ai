@@ -480,8 +480,14 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$
 var __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$CartesianGrid$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/frontend/node_modules/recharts/es6/cartesian/CartesianGrid.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/frontend/node_modules/recharts/es6/component/Tooltip.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$ResponsiveContainer$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/frontend/node_modules/recharts/es6/component/ResponsiveContainer.js [client] (ecmascript)");
+(()=>{
+    const e = new Error("Cannot find module './components/Watchlist'");
+    e.code = 'MODULE_NOT_FOUND';
+    throw e;
+})();
 ;
 var _s = __turbopack_context__.k.signature();
+;
 ;
 ;
 ;
@@ -524,6 +530,7 @@ function Home() {
     const [marketIndex, setMarketIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isDarkMode, setIsDarkMode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const toggleDarkMode = ()=>setIsDarkMode(!isDarkMode);
+    const [watchlist, setWatchlist] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const apiBase = __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_BASE || 'http://localhost:8000';
     const defaults = {
         US: 'AAPL,MSFT,GOOGL',
@@ -553,6 +560,47 @@ function Home() {
     }["Home.useEffect"], [
         market
     ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Home.useEffect": ()=>{
+            const saved = JSON.parse(localStorage.getItem('stock_watchlist') || '[]');
+            setWatchlist(saved);
+        }
+    }["Home.useEffect"], []);
+    const toggleWatchlist = (ticker)=>{
+        // 1. Determine the new state and the status for logging
+        const isRemoving = watchlist.includes(ticker);
+        const status = isRemoving ? "removed_from_watchlist" : "added_to_watchlist";
+        let updated;
+        if (isRemoving) {
+            updated = watchlist.filter((t)=>t !== ticker);
+        } else {
+            updated = [
+                ...watchlist,
+                ticker
+            ];
+        }
+        // 2. Update React State and LocalStorage immediately for instant UI response
+        setWatchlist(updated);
+        localStorage.setItem('stock_watchlist', JSON.stringify(updated));
+        // 3. Log the event to your Python backend (Async)
+        fetch(`${apiBase}/track`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: "local_user",
+                event_type: status,
+                payload: {
+                    ticker: ticker,
+                    market: market
+                }
+            })
+        }).then(()=>{
+            console.log(`Event ${status} tracked successfully`);
+            loadActivityLog(); // Refresh your log to show the new activity
+        }).catch((err)=>console.error("Tracking failed:", err));
+    };
     async function chooseMarket(m) {
         setMarket(m);
         setTickers(defaults[m] || '');
@@ -791,12 +839,12 @@ function Home() {
                             children: "Stock Screener MVP"
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 252,
+                            lineNumber: 295,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 251,
+                        lineNumber: 294,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -813,7 +861,7 @@ function Home() {
                                 children: "Select Market"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 258,
+                                lineNumber: 301,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -833,7 +881,7 @@ function Home() {
                                         children: "🇺🇸 US Market"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 264,
+                                        lineNumber: 307,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -846,7 +894,7 @@ function Home() {
                                         children: "🇮🇳 India Market"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 271,
+                                        lineNumber: 314,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
@@ -857,7 +905,7 @@ function Home() {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 278,
+                                        lineNumber: 321,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -874,30 +922,30 @@ function Home() {
                                         children: isDarkMode ? '☀️ Switch to Light Mode' : '🌙 Switch to Dark Mode'
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 281,
+                                        lineNumber: 324,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 262,
+                                lineNumber: 305,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 257,
+                        lineNumber: 300,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 250,
+                lineNumber: 293,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/frontend/pages/index.js",
-            lineNumber: 240,
+            lineNumber: 283,
             columnNumber: 7
         }, this);
     }
@@ -993,7 +1041,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 307,
+                        lineNumber: 350,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1027,7 +1075,7 @@ function Home() {
                         children: marketIndex.price?.toLocaleString() || '---'
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 308,
+                        lineNumber: 351,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1069,7 +1117,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 311,
+                        lineNumber: 354,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1110,7 +1158,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 315,
+                        lineNumber: 358,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1188,7 +1236,7 @@ function Home() {
                                 ]) + " " + ((marketIndex.status === 'OPEN' ? 'live-dot' : '') || "")
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 329,
+                                lineNumber: 372,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1230,19 +1278,19 @@ function Home() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 334,
+                                lineNumber: 377,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 319,
+                        lineNumber: 362,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 306,
+                lineNumber: 349,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
@@ -1318,7 +1366,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 342,
+                        lineNumber: 385,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1391,7 +1439,7 @@ function Home() {
                                 children: isDarkMode ? '☀️ Light' : '🌙 Dark'
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 345,
+                                lineNumber: 388,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1430,21 +1478,32 @@ function Home() {
                                 children: "Change Market"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 351,
+                                lineNumber: 394,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 343,
+                        lineNumber: 386,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 341,
+                lineNumber: 384,
                 columnNumber: 7
             }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Watchlist, {
+                watchlist: watchlist,
+                isDarkMode: isDarkMode,
+                onStockClick: handleStockClick,
+                onRemove: toggleWatchlist
+            }, void 0, false, {
+                fileName: "[project]/frontend/pages/index.js",
+                lineNumber: 399,
+                columnNumber: 9
+            }, this),
+            ")",
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 style: {
                     border: '2px solid #0b5fff'
@@ -1512,7 +1571,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 357,
+                        lineNumber: 409,
                         columnNumber: 9
                     }, this),
                     topStocks.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1550,7 +1609,7 @@ function Home() {
                         children: "🔥 Show Trending Stocks"
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 359,
+                        lineNumber: 411,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
@@ -1622,7 +1681,7 @@ function Home() {
                                     children: ticker.replace('.NS', '').replace('.BO', '')
                                 }, ticker, false, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 363,
+                                    lineNumber: 415,
                                     columnNumber: 15
                                 }, this)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1661,19 +1720,19 @@ function Home() {
                                 children: "(Hide)"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 381,
+                                lineNumber: 433,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 361,
+                        lineNumber: 413,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 356,
+                lineNumber: 408,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1765,7 +1824,7 @@ function Home() {
                             children: "Tickers"
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 389,
+                            lineNumber: 441,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1800,7 +1859,7 @@ function Home() {
                             ])
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 390,
+                            lineNumber: 442,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1899,7 +1958,7 @@ function Home() {
                                             children: "Min CAGR %"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 392,
+                                            lineNumber: 444,
                                             columnNumber: 36
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1938,13 +1997,13 @@ function Home() {
                                             ])
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 392,
+                                            lineNumber: 444,
                                             columnNumber: 61
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 392,
+                                    lineNumber: 444,
                                     columnNumber: 14
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2010,7 +2069,7 @@ function Home() {
                                             children: "Years"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 393,
+                                            lineNumber: 445,
                                             columnNumber: 36
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2049,19 +2108,19 @@ function Home() {
                                             ])
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 393,
+                                            lineNumber: 445,
                                             columnNumber: 56
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 393,
+                                    lineNumber: 445,
                                     columnNumber: 14
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 391,
+                            lineNumber: 443,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2100,18 +2159,18 @@ function Home() {
                             children: loading ? 'Running...' : 'Run Screener'
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 395,
+                            lineNumber: 447,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/pages/index.js",
-                    lineNumber: 388,
+                    lineNumber: 440,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 387,
+                lineNumber: 439,
                 columnNumber: 7
             }, this),
             results.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -2174,7 +2233,7 @@ function Home() {
                         children: "Results"
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 402,
+                        lineNumber: 454,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -2294,7 +2353,7 @@ function Home() {
                                                 children: r.ticker
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 406,
+                                                lineNumber: 458,
                                                 columnNumber: 22
                                             }, this),
                                             " (CAGR: ",
@@ -2303,10 +2362,14 @@ function Home() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 406,
+                                        lineNumber: 458,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        style: {
+                                            display: 'flex',
+                                            gap: '8px'
+                                        },
                                         className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
                                             [
                                                 "2d61b444a67c0314",
@@ -2335,6 +2398,45 @@ function Home() {
                                             ]
                                         ]) + " " + "actions",
                                         children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                onClick: ()=>toggleWatchlist(r.ticker),
+                                                style: {
+                                                    background: watchlist.includes(r.ticker) ? '#64748b' : '#3b82f6',
+                                                    fontSize: '12px'
+                                                },
+                                                className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
+                                                    [
+                                                        "2d61b444a67c0314",
+                                                        [
+                                                            isDarkMode ? '#0f172a' : '#f1f5f9',
+                                                            isDarkMode ? '#1e293b' : '#fff',
+                                                            isDarkMode ? '#f1f5f9' : '#1e293b',
+                                                            isDarkMode ? '#334155' : 'transparent',
+                                                            isDarkMode ? '#f8fafc' : '#0f172a',
+                                                            isDarkMode ? '#94a3b8' : '#666',
+                                                            isDarkMode ? '#475569' : '#ddd',
+                                                            isDarkMode ? '#0f172a' : '#fff',
+                                                            isDarkMode ? '#fff' : '#000',
+                                                            isDarkMode ? '#1e293b' : 'white',
+                                                            isDarkMode ? '#f1f5f9' : '#1e293b',
+                                                            isDarkMode ? '#334155' : 'transparent',
+                                                            isDarkMode ? '#94a3b8' : '#666',
+                                                            isDarkMode ? '#0f172a' : '#f8fafc',
+                                                            isDarkMode ? '#64748b' : '#64748b',
+                                                            isDarkMode ? '#334155' : '#eee',
+                                                            isDarkMode ? '#0f172a' : '#f8fafc',
+                                                            isDarkMode ? '#334155' : '#e2e8f0',
+                                                            isDarkMode ? '#cbd5e1' : '#334155',
+                                                            isDarkMode ? '#020617' : '#0f172a'
+                                                        ]
+                                                    ]
+                                                ]),
+                                                children: watchlist.includes(r.ticker) ? 'Remove' : 'Save'
+                                            }, void 0, false, {
+                                                fileName: "[project]/frontend/pages/index.js",
+                                                lineNumber: 461,
+                                                columnNumber: 19
+                                            }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                 onClick: ()=>showChart(r.ticker),
                                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"].dynamic([
@@ -2367,7 +2469,7 @@ function Home() {
                                                 children: "Chart"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 408,
+                                                lineNumber: 471,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2405,30 +2507,30 @@ function Home() {
                                                 children: "AI Advice"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 409,
+                                                lineNumber: 472,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 407,
+                                        lineNumber: 459,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, r.ticker, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 405,
+                                lineNumber: 457,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 403,
+                        lineNumber: 455,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 401,
+                lineNumber: 453,
                 columnNumber: 9
             }, this),
             selectedChart && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -2495,7 +2597,7 @@ function Home() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 420,
+                        lineNumber: 483,
                         columnNumber: 13
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2542,7 +2644,7 @@ function Home() {
                                         dot: false
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 424,
+                                        lineNumber: 487,
                                         columnNumber: 23
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$CartesianGrid$2e$js__$5b$client$5d$__$28$ecmascript$29$__["CartesianGrid"], {
@@ -2551,7 +2653,7 @@ function Home() {
                                         opacity: 0.5
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 425,
+                                        lineNumber: 488,
                                         columnNumber: 23
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$XAxis$2e$js__$5b$client$5d$__$28$ecmascript$29$__["XAxis"], {
@@ -2559,7 +2661,7 @@ function Home() {
                                         hide: true
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 426,
+                                        lineNumber: 489,
                                         columnNumber: 23
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$cartesian$2f$YAxis$2e$js__$5b$client$5d$__$28$ecmascript$29$__["YAxis"], {
@@ -2572,7 +2674,7 @@ function Home() {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 427,
+                                        lineNumber: 490,
                                         columnNumber: 23
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$recharts$2f$es6$2f$component$2f$Tooltip$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Tooltip"], {
@@ -2583,29 +2685,29 @@ function Home() {
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 431,
+                                        lineNumber: 494,
                                         columnNumber: 23
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 423,
+                                lineNumber: 486,
                                 columnNumber: 21
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 422,
+                            lineNumber: 485,
                             columnNumber: 17
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 421,
+                        lineNumber: 484,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 419,
+                lineNumber: 482,
                 columnNumber: 9
             }, this),
             recommendation && !recommendation.loading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -2711,7 +2813,7 @@ function Home() {
                                 children: "AI Recommendation"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 452,
+                                lineNumber: 515,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2754,13 +2856,13 @@ function Home() {
                                 children: getRiskInfo(selectedStockDetails?.pe).label
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 454,
+                                lineNumber: 517,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 451,
+                        lineNumber: 514,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2865,7 +2967,7 @@ function Home() {
                                         children: "Ticker:"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 475,
+                                        lineNumber: 538,
                                         columnNumber: 15
                                     }, this),
                                     " ",
@@ -2910,13 +3012,13 @@ function Home() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 476,
+                                        lineNumber: 539,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 474,
+                                lineNumber: 537,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2986,7 +3088,7 @@ function Home() {
                                         children: "Action:"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 482,
+                                        lineNumber: 545,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3026,13 +3128,13 @@ function Home() {
                                         children: recommendation.action
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 483,
+                                        lineNumber: 546,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 481,
+                                lineNumber: 544,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3135,7 +3237,7 @@ function Home() {
                                             children: "Analyst Note:"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 495,
+                                            lineNumber: 558,
                                             columnNumber: 19
                                         }, this),
                                         " ",
@@ -3143,24 +3245,24 @@ function Home() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 494,
+                                    lineNumber: 557,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 493,
+                                lineNumber: 556,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 468,
+                        lineNumber: 531,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 447,
+                lineNumber: 510,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
@@ -3255,7 +3357,7 @@ function Home() {
                                 children: "Ask the AI Analyst"
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 505,
+                                lineNumber: 568,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -3328,7 +3430,7 @@ function Home() {
                                         ])
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 507,
+                                        lineNumber: 570,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3364,13 +3466,13 @@ function Home() {
                                         children: isChatting ? 'Thinking...' : 'Ask AI'
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 508,
+                                        lineNumber: 571,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 506,
+                                lineNumber: 569,
                                 columnNumber: 11
                             }, this),
                             chatResponse && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3404,13 +3506,13 @@ function Home() {
                                 children: chatResponse
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 510,
+                                lineNumber: 573,
                                 columnNumber: 28
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 504,
+                        lineNumber: 567,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -3511,7 +3613,7 @@ function Home() {
                                         children: "Activity Log"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 515,
+                                        lineNumber: 578,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3550,13 +3652,13 @@ function Home() {
                                         children: "🔄 Refresh"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 517,
+                                        lineNumber: 580,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 514,
+                                lineNumber: 577,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -3705,7 +3807,7 @@ function Home() {
                                                         children: ev.event_type.replace('_', ' ')
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/pages/index.js",
-                                                        lineNumber: 550,
+                                                        lineNumber: 613,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3746,13 +3848,13 @@ function Home() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/frontend/pages/index.js",
-                                                        lineNumber: 553,
+                                                        lineNumber: 616,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 549,
+                                                lineNumber: 612,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -3789,13 +3891,13 @@ function Home() {
                                                 children: getActionText(ev.event_type, ev.payload)
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/pages/index.js",
-                                                lineNumber: 555,
+                                                lineNumber: 618,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, index, true, {
                                         fileName: "[project]/frontend/pages/index.js",
-                                        lineNumber: 541,
+                                        lineNumber: 604,
                                         columnNumber: 19
                                     }, this);
                                 }) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -3838,24 +3940,24 @@ function Home() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 562,
+                                    lineNumber: 625,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/pages/index.js",
-                                lineNumber: 529,
+                                lineNumber: 592,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/pages/index.js",
-                        lineNumber: 513,
+                        lineNumber: 576,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 503,
+                lineNumber: 566,
                 columnNumber: 7
             }, this),
             isModalOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3949,7 +4051,7 @@ function Home() {
                             children: "×"
                         }, void 0, false, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 575,
+                            lineNumber: 638,
                             columnNumber: 13
                         }, this),
                         selectedStockDetails?.loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3987,7 +4089,7 @@ function Home() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/frontend/pages/index.js",
-                            lineNumber: 577,
+                            lineNumber: 640,
                             columnNumber: 15
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["Fragment"], {
                             children: [
@@ -4028,7 +4130,7 @@ function Home() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 580,
+                                    lineNumber: 643,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4120,7 +4222,7 @@ function Home() {
                                                     children: "Price"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 585,
+                                                    lineNumber: 648,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
@@ -4160,13 +4262,13 @@ function Home() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 587,
+                                                    lineNumber: 650,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 584,
+                                            lineNumber: 647,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4229,7 +4331,7 @@ function Home() {
                                                     children: "P/E"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 592,
+                                                    lineNumber: 655,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
@@ -4266,13 +4368,13 @@ function Home() {
                                                     children: selectedStockDetails?.pe || 'N/A'
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 593,
+                                                    lineNumber: 656,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 591,
+                                            lineNumber: 654,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4335,7 +4437,7 @@ function Home() {
                                                     children: "Growth"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 598,
+                                                    lineNumber: 661,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
@@ -4372,19 +4474,19 @@ function Home() {
                                                     children: selectedStockDetails?.revenueGrowth ? (selectedStockDetails.revenueGrowth * 100).toFixed(1) + '%' : 'N/A'
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/pages/index.js",
-                                                    lineNumber: 599,
+                                                    lineNumber: 662,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 597,
+                                            lineNumber: 660,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 583,
+                                    lineNumber: 646,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4460,7 +4562,7 @@ function Home() {
                                             children: "📈 View Chart"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 606,
+                                            lineNumber: 669,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4502,13 +4604,13 @@ function Home() {
                                             children: "🤖 Get Advice"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/pages/index.js",
-                                            lineNumber: 609,
+                                            lineNumber: 672,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/pages/index.js",
-                                    lineNumber: 605,
+                                    lineNumber: 668,
                                     columnNumber: 17
                                 }, this)
                             ]
@@ -4516,12 +4618,12 @@ function Home() {
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/pages/index.js",
-                    lineNumber: 574,
+                    lineNumber: 637,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/frontend/pages/index.js",
-                lineNumber: 573,
+                lineNumber: 636,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {
@@ -4553,11 +4655,11 @@ function Home() {
         ]
     }, void 0, true, {
         fileName: "[project]/frontend/pages/index.js",
-        lineNumber: 303,
+        lineNumber: 346,
         columnNumber: 5
     }, this);
 }
-_s(Home, "QE/1PAk33gqGl9fo7iy+NDbzgS0=");
+_s(Home, "Nu7yjEL+cj+E6G4p+L/BrT8/P9g=");
 _c = Home;
 var _c;
 __turbopack_context__.k.register(_c, "Home");

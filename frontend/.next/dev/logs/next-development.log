@@ -127,3 +127,1178 @@ Expected '</', got '.'
 [00:23:33.247] Browser LOG     Activity Log Data: {"events":[{"event_type":"run_screener","id":80,"payload":{"market":"US","match_count":1,"tickers":"GOOGL"},"ts":"2026-03-28T20:54:47.617724","user_id":"local_user"},{"event_type":"run_screener","id":79,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-28T20:54:16.556952","user_id":"local_user"},{"event_type":"run_screener","id":77,"payload":{"market":"US","match_count":1,"tickers":"MSFT"},"ts":"2026-03-28T20:49:31.312077","user_id":"local_user"}]}
 [00:23:34.353] Browser LOG     Refresh Clicked!
 [00:23:34.353] Browser LOG     Activity Log Data: {"events":[{"event_type":"run_screener","id":80,"payload":{"market":"US","match_count":1,"tickers":"GOOGL"},"ts":"2026-03-28T20:54:47.617724","user_id":"local_user"},{"event_type":"run_screener","id":79,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-28T20:54:16.556952","user_id":"local_user"},{"event_type":"run_screener","id":77,"payload":{"market":"US","match_count":1,"tickers":"MSFT"},"ts":"2026-03-28T20:49:31.312077","user_id":"local_user"}]}
+[10:15:07.524] Server  LOG     ✓ Compiled in 59ms
+[10:15:22.172] Server  LOG     ✓ Compiled in 51ms
+[10:15:29.365] Server  LOG     ✓ Compiled in 54ms
+[10:17:05.272] Server  LOG     ✓ Compiled in 31ms
+[10:17:22.102] Server  LOG     ✓ Compiled in 43ms
+[10:18:33.559] Server  LOG     ✓ Compiled in 32ms
+[10:32:02.244] Server  LOG     ✓ Compiled in 27ms
+[10:52:04.661] Server  LOG     ✓ Compiled in 20ms
+[10:52:05.364] Browser LOG     Refreshing page data due to server-side change
+[10:52:05.364] Browser ERROR   ./frontend/pages/index.js:434:10
+Parsing ecmascript source code failed
+  432 |           </section>
+  433 |         )}
+> 434 |         )}
+      |          ^
+  435 |
+  436 |       {/* TRENDING */}
+  437 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+[10:52:19.867] Browser ERROR   uncaughtError: Error: ./frontend/pages/index.js:434:10
+Parsing ecmascript source code failed
+  432 |           </section>
+  433 |         )}
+> 434 |         )}
+      |          ^
+  435 |
+  436 |       {/* TRENDING */}
+  437 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+
+[10:52:20.015] Browser ERROR   ./frontend/pages/index.js:434:10
+Parsing ecmascript source code failed
+  432 |           </section>
+  433 |         )}
+> 434 |         )}
+      |          ^
+  435 |
+  436 |       {/* TRENDING */}
+  437 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+[10:52:20.015] Browser ERROR   ./frontend/pages/index.js:434:10
+Parsing ecmascript source code failed
+  432 |           </section>
+  433 |         )}
+> 434 |         )}
+      |          ^
+  435 |
+  436 |       {/* TRENDING */}
+  437 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+[10:52:37.760] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[10:52:37.830] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[10:52:40.155] Browser LOG     Activity Log Data: {"events":[{"event_type":"run_screener","id":83,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:41.021089","user_id":"local_user"},{"event_type":"run_screener","id":82,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:40.356033","user_id":"local_user"},{"event_type":"run_screener","id":81,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:38.393686","user_id":"local_user"},{"event_type":"run_screener","id":78,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:53:27.945842","user_id":"local_user"},{"event_type":"run_screener","id":76,"payload":{"market":"IN","match_count":1,"tickers":"LT.NS"},"ts":"2026-03-28T20:49:06.489423","user_id":"local_user"},{"event_type":"run_screener","id":75,"payload":{"market":"IN","match_count":1,"tickers":"ITC.NS"},"ts":"2026-03-28T20:48:40.943640","user_id":"local_user"},{"event_type":"run_screener","id":74,"payload":{"market":"IN","min_cagr_pct":5,"tickers":["TCS.NS"],"years":3},"ts":"2026-03-28T11:59:12.469554","user_id":"anon"}]}
+[10:52:50.444] Browser LOG     Activity Log Data: {"events":[{"event_type":"run_screener","id":84,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:28:34.981667","user_id":"local_user"},{"event_type":"run_screener","id":83,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:41.021089","user_id":"local_user"},{"event_type":"run_screener","id":82,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:40.356033","user_id":"local_user"},{"event_type":"run_screener","id":81,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:38.393686","user_id":"local_user"},{"event_type":"run_screener","id":78,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:53:27.945842","user_id":"local_user"},{"event_type":"run_screener","id":76,"payload":{"market":"IN","match_count":1,"tickers":"LT.NS"},"ts":"2026-03-28T20:49:06.489423","user_id":"local_user"},{"event_type":"run_screener","id":75,"payload":{"market":"IN","match_count":1,"tickers":"ITC.NS"},"ts":"2026-03-28T20:48:40.943640","user_id":"local_user"}]}
+[10:52:55.007] Browser LOG     Event added_to_watchlist tracked successfully
+[10:52:55.007] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":85,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:39.537294","user_id":"local_user"},{"event_type":"run_screener","id":84,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:28:34.981667","user_id":"local_user"},{"event_type":"run_screener","id":83,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:41.021089","user_id":"local_user"},{"event_type":"run_screener","id":82,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:40.356033","user_id":"local_user"},{"event_type":"run_screener","id":81,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:38.393686","user_id":"local_user"},{"event_type":"run_screener","id":78,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:53:27.945842","user_id":"local_user"},{"event_type":"run_screener","id":76,"payload":{"market":"IN","match_count":1,"tickers":"LT.NS"},"ts":"2026-03-28T20:49:06.489423","user_id":"local_user"}]}
+[10:53:05.759] Browser LOG     Event removed_from_watchlist tracked successfully
+[10:53:05.759] Browser LOG     Activity Log Data: {"events":[{"event_type":"removed_from_watchlist","id":86,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:50.287994","user_id":"local_user"},{"event_type":"added_to_watchlist","id":85,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:39.537294","user_id":"local_user"},{"event_type":"run_screener","id":84,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:28:34.981667","user_id":"local_user"},{"event_type":"run_screener","id":83,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:41.021089","user_id":"local_user"},{"event_type":"run_screener","id":82,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:40.356033","user_id":"local_user"},{"event_type":"run_screener","id":81,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:38.393686","user_id":"local_user"},{"event_type":"run_screener","id":78,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:53:27.945842","user_id":"local_user"}]}
+[10:54:35.713] Browser LOG     Activity Log Data: {"events":[{"event_type":"run_screener","id":87,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:30:20.240747","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":86,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:50.287994","user_id":"local_user"},{"event_type":"added_to_watchlist","id":85,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:39.537294","user_id":"local_user"},{"event_type":"run_screener","id":84,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:28:34.981667","user_id":"local_user"},{"event_type":"run_screener","id":83,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:41.021089","user_id":"local_user"},{"event_type":"run_screener","id":82,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:40.356033","user_id":"local_user"},{"event_type":"run_screener","id":81,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:38.393686","user_id":"local_user"},{"event_type":"run_screener","id":78,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:53:27.945842","user_id":"local_user"}]}
+[10:54:37.991] Browser LOG     Event added_to_watchlist tracked successfully
+[10:54:37.991] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":88,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:22.519349","user_id":"local_user"},{"event_type":"run_screener","id":87,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:30:20.240747","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":86,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:50.287994","user_id":"local_user"},{"event_type":"added_to_watchlist","id":85,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:39.537294","user_id":"local_user"},{"event_type":"run_screener","id":84,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:28:34.981667","user_id":"local_user"},{"event_type":"run_screener","id":83,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:41.021089","user_id":"local_user"},{"event_type":"run_screener","id":82,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:40.356033","user_id":"local_user"},{"event_type":"run_screener","id":81,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:38.393686","user_id":"local_user"}]}
+[10:54:42.053] Browser LOG     Event removed_from_watchlist tracked successfully
+[10:54:42.053] Browser LOG     Activity Log Data: {"events":[{"event_type":"removed_from_watchlist","id":89,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:26.584822","user_id":"local_user"},{"event_type":"added_to_watchlist","id":88,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:22.519349","user_id":"local_user"},{"event_type":"run_screener","id":87,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:30:20.240747","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":86,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:50.287994","user_id":"local_user"},{"event_type":"added_to_watchlist","id":85,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:39.537294","user_id":"local_user"},{"event_type":"run_screener","id":84,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:28:34.981667","user_id":"local_user"},{"event_type":"run_screener","id":83,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:41.021089","user_id":"local_user"},{"event_type":"run_screener","id":82,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:40.356033","user_id":"local_user"},{"event_type":"run_screener","id":81,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:38.393686","user_id":"local_user"}]}
+[10:54:45.542] Browser LOG     Event added_to_watchlist tracked successfully
+[10:54:45.542] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":90,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:30.070134","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":89,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:26.584822","user_id":"local_user"},{"event_type":"added_to_watchlist","id":88,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:22.519349","user_id":"local_user"},{"event_type":"run_screener","id":87,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:30:20.240747","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":86,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:50.287994","user_id":"local_user"},{"event_type":"added_to_watchlist","id":85,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:28:39.537294","user_id":"local_user"},{"event_type":"run_screener","id":84,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-29T07:28:34.981667","user_id":"local_user"},{"event_type":"run_screener","id":83,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:41.021089","user_id":"local_user"},{"event_type":"run_screener","id":82,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:40.356033","user_id":"local_user"},{"event_type":"run_screener","id":81,"payload":{"market":"IN","match_count":1,"tickers":"RELIANCE.NS,TCS.NS,INFY.NS"},"ts":"2026-03-28T20:55:38.393686","user_id":"local_user"}]}
+[11:10:18.632] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:10:18.634] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:10:18.637] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:10:18.639] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:10:18.659] Server  LOG     ✓ Compiled in 113ms
+[11:10:19.361] Browser LOG     Refreshing page data due to server-side change
+[11:10:19.361] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:13:44.840] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:13:44.843] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:13:44.846] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:13:44.849] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:13:44.872] Server  LOG     ✓ Compiled in 33ms
+[11:13:45.360] Browser ERROR   ./frontend/pages/index.js:405:10
+Parsing ecmascript source code failed
+  403 |           onRemove={toggleWatchlist}
+  404 |         />
+> 405 |         )}
+      |          ^
+  406 |
+  407 |       {/* TRENDING */}
+  408 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+[11:13:45.361] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:14:02.262] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:02.266] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:02.275] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:02.386] Browser ERROR   uncaughtError: Error: ./frontend/pages/index.js:405:10
+Parsing ecmascript source code failed
+  403 |           onRemove={toggleWatchlist}
+  404 |         />
+> 405 |         )}
+      |          ^
+  406 |
+  407 |       {/* TRENDING */}
+  408 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+
+[11:14:02.532] Browser ERROR   ./frontend/pages/index.js:405:10
+Parsing ecmascript source code failed
+  403 |           onRemove={toggleWatchlist}
+  404 |         />
+> 405 |         )}
+      |          ^
+  406 |
+  407 |       {/* TRENDING */}
+  408 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+[11:14:02.532] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:14:02.532] Browser ERROR   ./frontend/pages/index.js:405:10
+Parsing ecmascript source code failed
+  403 |           onRemove={toggleWatchlist}
+  404 |         />
+> 405 |         )}
+      |          ^
+  406 |
+  407 |       {/* TRENDING */}
+  408 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+[11:14:02.532] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:14:08.187] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[11:14:08.211] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:08.213] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:08.214] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:08.216] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:08.218] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:08.280] Browser ERROR   uncaughtError: Error: ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:08.418] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:14:08.418] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:14:09.887] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:09.893] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:09.898] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:09.903] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:09.907] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:09.996] Browser ERROR   uncaughtError: Error: ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:10.134] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:14:10.134] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:14:17.113] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[11:14:17.137] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:17.141] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:17.144] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:17.146] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:17.151] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:14:17.217] Browser ERROR   uncaughtError: Error: ./frontend/pages/index.js:405:10
+Parsing ecmascript source code failed
+  403 |           onRemove={toggleWatchlist}
+  404 |         />
+> 405 |         )}
+      |          ^
+  406 |
+  407 |       {/* TRENDING */}
+  408 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+
+
+[11:14:17.354] Browser ERROR   ./frontend/pages/index.js:405:10
+Parsing ecmascript source code failed
+  403 |           onRemove={toggleWatchlist}
+  404 |         />
+> 405 |         )}
+      |          ^
+  406 |
+  407 |       {/* TRENDING */}
+  408 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+[11:14:17.354] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:14:17.354] Browser ERROR   ./frontend/pages/index.js:405:10
+Parsing ecmascript source code failed
+  403 |           onRemove={toggleWatchlist}
+  404 |         />
+> 405 |         )}
+      |          ^
+  406 |
+  407 |       {/* TRENDING */}
+  408 |       <section className="card" style={{ border: '2px solid #0b5fff' }}>
+
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+[11:14:17.354] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:15:34.712] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[11:15:34.733] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:15:34.735] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:15:34.737] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:15:34.740] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:15:34.742] Server  ERROR   ⨯ ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:15:34.818] Browser ERROR   uncaughtError: Error: ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[11:15:34.955] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:15:34.955] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:15:45.728] Server  LOG     ✓ Compiled in 122ms
+[11:15:45.831] Browser ERROR   ./frontend/pages/index.js:3:1
+Module not found: Can't resolve './components/Watchlist'
+  1 | import React, { useState, useEffect } from 'react';
+  2 | import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+> 3 | import Watchlist from './components/Watchlist';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | const getRiskInfo = (pe) => {
+  6 |   const val = parseFloat(pe);
+
+https://nextjs.org/docs/messages/module-not-found
+[11:15:47.750] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[11:15:49.455] Browser LOG     Activity Log Data: {"events":[]}
+[11:16:18.673] Server  LOG     ✓ Compiled in 28ms
+[11:16:18.771] Browser LOG     Activity Log Data: {"events":[]}
+[11:16:31.023] Browser LOG     Event removed_from_watchlist tracked successfully
+[11:16:31.023] Browser LOG     Activity Log Data: {"events":[{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:19:01.114] Browser LOG     Activity Log Data: {"events":[{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:19:02.387] Browser LOG     Event added_to_watchlist tracked successfully
+[11:19:02.387] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:19:04.836] Browser LOG     Event added_to_watchlist tracked successfully
+[11:19:04.836] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:19:23.201] Browser LOG     Activity Log Data: {"events":[{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:19:24.337] Browser LOG     Event added_to_watchlist tracked successfully
+[11:19:24.337] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:19:34.396] Browser LOG     Activity Log Data: {"events":[{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:19:36.437] Browser LOG     Event added_to_watchlist tracked successfully
+[11:19:36.437] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:20:16.312] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[11:25:04.545] Server  LOG     ✓ Compiled in 132ms
+[11:25:05.362] Browser LOG     Refreshing page data due to server-side change
+[11:25:05.363] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:30:43.211] Server  LOG     ✓ Compiled in 32ms
+[11:30:43.370] Browser LOG     Refreshing page data due to server-side change
+[11:30:43.370] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:30:47.983] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:30:57.456] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":90,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:30.070134","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":89,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:26.584822","user_id":"local_user"}]}
+[11:31:04.032] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:31:10.481] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:41:39.809] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:43:24.139] Server  LOG     ✓ Compiled in 61ms
+[11:43:24.359] Browser LOG     Refreshing page data due to server-side change
+[11:43:24.359] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:44:13.480] Server  LOG     ✓ Compiled in 35ms
+[11:44:43.723] Server  LOG     ✓ Compiled in 28ms
+[11:45:47.785] Server  LOG     ✓ Compiled in 13ms
+[11:46:08.758] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:46:13.570] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:46:59.744] Server  LOG     ✓ Compiled in 3ms
+[11:47:03.638] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:47:07.374] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:47:38.083] Server  LOG     ✓ Compiled in 95ms
+[11:47:51.636] Server  LOG     ✓ Compiled in 39ms
+[11:47:57.987] Server  LOG     ✓ Compiled in 123ms
+[11:47:58.360] Browser LOG     Refreshing page data due to server-side change
+[11:47:58.360] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:48:15.579] Server  LOG     ✓ Compiled in 58ms
+[11:48:16.361] Browser LOG     Refreshing page data due to server-side change
+[11:48:41.500] Server  LOG     ✓ Compiled in 34ms
+[11:48:42.361] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:48:47.338] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:48:54.888] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[11:53:30.689] Server  LOG     ✓ Compiled in 45ms
+[11:54:04.306] Server  LOG     ✓ Compiled in 29ms
+[11:55:56.745] Server  LOG     ✓ Compiled in 9ms
+[11:56:04.393] Server  LOG     ✓ Compiled in 15ms
+[11:56:47.072] Server  LOG     ✓ Compiled in 9ms
+[11:56:57.262] Server  LOG     ✓ Compiled in 22ms
+[11:57:16.279] Server  LOG     ✓ Compiled in 17ms
+[11:58:54.753] Server  LOG     ✓ Compiled in 7ms
+[11:58:55.363] Browser LOG     Refreshing page data due to server-side change
+[11:58:55.363] Browser ERROR   ./frontend/pages/watchlist.js:78:5
+Parsing ecmascript source code failed
+  76 |       `}</style>
+  77 |     </div>
+> 78 |     {/* MODAL (MODIFIED FOR DARK MODE) */}
+     |     ^
+  79 |           {isModalOpen && (
+  80 |             <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+  81 |               <div className="modal-content" onClick={e => e.stopPropagation()}>
+
+Expected ',', got '{'
+[12:02:22.361] Browser ERROR   ./frontend/pages/watchlist.js:78:5
+Parsing ecmascript source code failed
+  76 |       `}</style>
+  77 |     </div>
+> 78 |     {/* MODAL (MODIFIED FOR DARK MODE) */}
+     |     ^
+  79 |           {isModalOpen && (
+  80 |             <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+  81 |               <div className="modal-content" onClick={e => e.stopPropagation()}>
+
+Expected ',', got '{'
+[12:02:26.360] Browser ERROR   ./frontend/pages/watchlist.js:78:5
+Parsing ecmascript source code failed
+  76 |       `}</style>
+  77 |     </div>
+> 78 |     {/* MODAL (MODIFIED FOR DARK MODE) */}
+     |     ^
+  79 |           {isModalOpen && (
+  80 |             <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+  81 |               <div className="modal-content" onClick={e => e.stopPropagation()}>
+
+Expected ',', got '{'
+[12:02:49.683] Server  LOG     ✓ Compiled in 76ms
+[12:02:50.361] Browser ERROR   ./frontend/pages/watchlist.js:79:5
+Parsing ecmascript source code failed
+  77 |       `}</style>
+  78 |     </div>
+> 79 |     {/* MODAL (MODIFIED FOR DARK MODE) */}
+     |     ^
+  80 |           {isModalOpen && (
+  81 |             <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+  82 |               <div className="modal-content" onClick={e => e.stopPropagation()}>
+
+Expected ',', got '{'
+[12:03:47.394] Server  LOG     ✓ Compiled in 39ms
+[12:03:48.360] Browser ERROR   ./frontend/pages/watchlist.js:80:7
+Parsing ecmascript source code failed
+  78 |     </div>
+  79 |     <StockModal
+> 80 |       isOpen={isModalOpen}
+     |       ^^^^^^
+  81 |       onClose={() => setIsModalOpen(false)}
+  82 |       details={selectedStockDetails}
+  83 |       isDarkMode={isDarkMode}
+
+Expected ',', got 'ident'
+[12:04:52.361] Browser ERROR   ./frontend/pages/watchlist.js:80:7
+Parsing ecmascript source code failed
+  78 |     </div>
+  79 |     <StockModal
+> 80 |       isOpen={isModalOpen}
+     |       ^^^^^^
+  81 |       onClose={() => setIsModalOpen(false)}
+  82 |       details={selectedStockDetails}
+  83 |       isDarkMode={isDarkMode}
+
+Expected ',', got 'ident'
+[12:04:56.335] Browser ERROR   uncaughtError: Error: ./frontend/pages/watchlist.js:80:7
+Parsing ecmascript source code failed
+  78 |     </div>
+  79 |     <StockModal
+> 80 |       isOpen={isModalOpen}
+     |       ^^^^^^
+  81 |       onClose={() => setIsModalOpen(false)}
+  82 |       details={selectedStockDetails}
+  83 |       isDarkMode={isDarkMode}
+
+Expected ',', got 'ident'
+
+
+[12:04:56.474] Browser ERROR   ./frontend/pages/watchlist.js:80:7
+Parsing ecmascript source code failed
+  78 |     </div>
+  79 |     <StockModal
+> 80 |       isOpen={isModalOpen}
+     |       ^^^^^^
+  81 |       onClose={() => setIsModalOpen(false)}
+  82 |       details={selectedStockDetails}
+  83 |       isDarkMode={isDarkMode}
+
+Expected ',', got 'ident'
+[12:04:56.474] Browser ERROR   ./frontend/pages/watchlist.js:80:7
+Parsing ecmascript source code failed
+  78 |     </div>
+  79 |     <StockModal
+> 80 |       isOpen={isModalOpen}
+     |       ^^^^^^
+  81 |       onClose={() => setIsModalOpen(false)}
+  82 |       details={selectedStockDetails}
+  83 |       isDarkMode={isDarkMode}
+
+Expected ',', got 'ident'
+[12:06:35.295] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[12:06:35.350] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[12:06:44.677] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:06:54.364] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:07:06.158] Browser LOG     Refresh Clicked!
+[12:07:06.158] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:07:55.401] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:08:01.452] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:08:09.552] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:08:15.659] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:10:53.233] Server  LOG     ✓ Compiled in 27ms
+[12:10:53.360] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:11:05.036] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:11:11.767] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":90,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:30.070134","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":89,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:26.584822","user_id":"local_user"}]}
+[12:11:29.617] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:15:31.196] Server  LOG     ✓ Compiled in 35ms
+[12:15:31.361] Browser ERROR   ./frontend/pages/watchlist.js:55:9
+Ecmascript file had an error
+  53 |   };
+  54 |
+> 55 |   const askRecommend = (ticker) => {
+     |         ^^^^^^^^^^^^
+  56 |     window.location.href = `/?ticker=${ticker}&action=recommend`;
+  57 |   };
+  58 |
+
+the name `askRecommend` is defined multiple times
+[12:15:31.361] Browser ERROR   ./frontend/pages/watchlist.js:51:9
+Ecmascript file had an error
+  49 |
+  50 |   // Define these so the Modal buttons don't crash the page
+> 51 |   const showChart = (ticker) => {
+     |         ^^^^^^^^^
+  52 |     window.location.href = `/?ticker=${ticker}&action=chart`;
+  53 |   };
+  54 |
+
+the name `showChart` is defined multiple times
+[12:16:08.643] Server  LOG     ✓ Compiled in 22ms
+[12:16:09.360] Browser ERROR   ./frontend/pages/watchlist.js:55:9
+Ecmascript file had an error
+  53 |   };
+  54 |
+> 55 |   const askRecommend = (ticker) => {
+     |         ^^^^^^^^^^^^
+  56 |     window.location.href = `/?ticker=${ticker}&action=recommend`;
+  57 |   };
+  58 |
+
+the name `askRecommend` is defined multiple times
+[12:16:09.360] Browser ERROR   ./frontend/pages/watchlist.js:51:9
+Ecmascript file had an error
+  49 |
+  50 |   // Define these so the Modal buttons don't crash the page
+> 51 |   const showChart = (ticker) => {
+     |         ^^^^^^^^^
+  52 |     window.location.href = `/?ticker=${ticker}&action=chart`;
+  53 |   };
+  54 |
+
+the name `showChart` is defined multiple times
+[12:16:09.360] Browser ERROR   ./frontend/pages/index.js:39:3
+Parsing ecmascript source code failed
+  37 |     localStorage.setItem('theme', newMode ? 'dark' : 'light'); // Save it!
+  38 |   };
+> 39 |   import { useRouter } from 'next/router';
+     |   ^^^^^^
+  40 |
+  41 |   const router = useRouter();
+  42 |
+
+'import', and 'export' cannot be used outside of module code
+[12:17:12.361] Browser ERROR   ./frontend/pages/watchlist.js:55:9
+Ecmascript file had an error
+  53 |   };
+  54 |
+> 55 |   const askRecommend = (ticker) => {
+     |         ^^^^^^^^^^^^
+  56 |     window.location.href = `/?ticker=${ticker}&action=recommend`;
+  57 |   };
+  58 |
+
+the name `askRecommend` is defined multiple times
+[12:17:12.361] Browser ERROR   ./frontend/pages/watchlist.js:51:9
+Ecmascript file had an error
+  49 |
+  50 |   // Define these so the Modal buttons don't crash the page
+> 51 |   const showChart = (ticker) => {
+     |         ^^^^^^^^^
+  52 |     window.location.href = `/?ticker=${ticker}&action=chart`;
+  53 |   };
+  54 |
+
+the name `showChart` is defined multiple times
+[12:17:12.361] Browser ERROR   ./frontend/pages/index.js:39:3
+Parsing ecmascript source code failed
+  37 |     localStorage.setItem('theme', newMode ? 'dark' : 'light'); // Save it!
+  38 |   };
+> 39 |   import { useRouter } from 'next/router';
+     |   ^^^^^^
+  40 |
+  41 |   const router = useRouter();
+  42 |
+
+'import', and 'export' cannot be used outside of module code
+[12:17:37.644] Server  LOG     ✓ Compiled in 12ms
+[12:17:37.746] Browser ERROR   ./frontend/pages/watchlist.js:51:9
+Ecmascript file had an error
+  49 |
+  50 |   // Define these so the Modal buttons don't crash the page
+> 51 |   const showChart = (ticker) => {
+     |         ^^^^^^^^^
+  52 |     window.location.href = `/?ticker=${ticker}&action=chart`;
+  53 |   };
+  54 |
+
+the name `showChart` is defined multiple times
+[12:17:37.746] Browser ERROR   ./frontend/pages/index.js:39:3
+Parsing ecmascript source code failed
+  37 |     localStorage.setItem('theme', newMode ? 'dark' : 'light'); // Save it!
+  38 |   };
+> 39 |   import { useRouter } from 'next/router';
+     |   ^^^^^^
+  40 |
+  41 |   const router = useRouter();
+  42 |
+
+'import', and 'export' cannot be used outside of module code
+[12:17:49.485] Server  LOG     ✓ Compiled in 9ms
+[12:17:49.587] Browser ERROR   ./frontend/pages/index.js:39:3
+Parsing ecmascript source code failed
+  37 |     localStorage.setItem('theme', newMode ? 'dark' : 'light'); // Save it!
+  38 |   };
+> 39 |   import { useRouter } from 'next/router';
+     |   ^^^^^^
+  40 |
+  41 |   const router = useRouter();
+  42 |
+
+'import', and 'export' cannot be used outside of module code
+[12:19:14.379] Browser ERROR   uncaughtError: Error: ./frontend/pages/index.js:39:3
+Parsing ecmascript source code failed
+  37 |     localStorage.setItem('theme', newMode ? 'dark' : 'light'); // Save it!
+  38 |   };
+> 39 |   import { useRouter } from 'next/router';
+     |   ^^^^^^
+  40 |
+  41 |   const router = useRouter();
+  42 |
+
+'import', and 'export' cannot be used outside of module code
+
+
+[12:19:14.519] Browser ERROR   ./frontend/pages/index.js:39:3
+Parsing ecmascript source code failed
+  37 |     localStorage.setItem('theme', newMode ? 'dark' : 'light'); // Save it!
+  38 |   };
+> 39 |   import { useRouter } from 'next/router';
+     |   ^^^^^^
+  40 |
+  41 |   const router = useRouter();
+  42 |
+
+'import', and 'export' cannot be used outside of module code
+[12:19:14.519] Browser ERROR   ./frontend/pages/index.js:39:3
+Parsing ecmascript source code failed
+  37 |     localStorage.setItem('theme', newMode ? 'dark' : 'light'); // Save it!
+  38 |   };
+> 39 |   import { useRouter } from 'next/router';
+     |   ^^^^^^
+  40 |
+  41 |   const router = useRouter();
+  42 |
+
+'import', and 'export' cannot be used outside of module code
+[12:20:56.654] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[12:20:56.727] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[12:21:00.966] Browser ERROR   uncaughtError: ReferenceError: selectMarket is not defined
+[12:25:05.795] Server  LOG     ✓ Compiled in 42ms
+[12:25:08.373] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:27:59.728] Server  LOG     ✓ Compiled in 47ms
+[12:28:00.361] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:28:08.364] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:28:13.883] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:28:14.686] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[12:28:23.849] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:31:01.124] Server  LOG     ✓ Compiled in 34ms
+[12:31:01.361] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:31:10.943] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":90,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:30.070134","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":89,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:26.584822","user_id":"local_user"}]}
+[12:31:16.712] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":90,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:30.070134","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":89,"payload":{"market":"IN","ticker":"TCS.NS"},"ts":"2026-03-29T07:30:26.584822","user_id":"local_user"}]}
+[12:31:22.712] Browser LOG     Activity Log Data: {"events":[{"event_type":"added_to_watchlist","id":98,"payload":{"market":"US","ticker":"AMD"},"ts":"2026-03-29T07:55:20.961176","user_id":"local_user"},{"event_type":"run_screener","id":97,"payload":{"market":"US","match_count":1,"tickers":"AMD"},"ts":"2026-03-29T07:55:18.915657","user_id":"local_user"},{"event_type":"added_to_watchlist","id":96,"payload":{"market":"US","ticker":"META"},"ts":"2026-03-29T07:55:08.862898","user_id":"local_user"},{"event_type":"run_screener","id":95,"payload":{"market":"US","match_count":1,"tickers":"META"},"ts":"2026-03-29T07:55:07.723723","user_id":"local_user"},{"event_type":"added_to_watchlist","id":94,"payload":{"market":"US","ticker":"GOOGL"},"ts":"2026-03-29T07:54:49.362050","user_id":"local_user"},{"event_type":"added_to_watchlist","id":93,"payload":{"market":"US","ticker":"MSFT"},"ts":"2026-03-29T07:54:46.913236","user_id":"local_user"},{"event_type":"run_screener","id":92,"payload":{"market":"US","match_count":2,"tickers":"AAPL,MSFT,GOOGL"},"ts":"2026-03-29T07:54:45.638866","user_id":"local_user"},{"event_type":"removed_from_watchlist","id":91,"payload":{"market":"US","ticker":"TCS.NS"},"ts":"2026-03-29T07:52:15.551703","user_id":"local_user"}]}
+[12:31:23.515] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
